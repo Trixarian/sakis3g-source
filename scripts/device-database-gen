@@ -1,0 +1,182 @@
+#!/bin/bash
+
+if [ -d "dependencies" ]; then
+	BASEDIR=`pwd`
+elif [ -d "../dependencies" ]; then
+	BASEDIR=`dirname \`pwd\``
+else
+	echo "This script should be run from Sakis3G root directory." > /dev/stderr
+	exit
+fi
+
+[ ! -d "${BASEDIR}/dependencies/usb-modeswitch-data/usb_modeswitch.d" ] && echo "Unable to locate Usb-ModeSwitch device database" && exit 2
+
+
+cd "${BASEDIR}/dependencies/usb-modeswitch-data/usb_modeswitch.d"
+
+knowndevices=`ls -1 * | cut -d: -f1,2 | sort | uniq`
+knowndevices=`echo ${knowndevices}`
+
+switcheddevices=""
+
+for i in *
+do
+	unset CheckSuccess
+	unset Configuration
+	unset DefaultProduct
+	unset DefaultVendor
+	unset GCTMode
+	unset HuaweiMode
+	unset Interface
+	unset MessageContent
+	unset ResponseNeeded
+	unset SierraMode
+	unset SonyMode
+	unset TargetClass
+	unset TargetProduct
+	unset TargetProductList
+	unset TargetVendor
+	sed -e "s/ //g" "$i" > /tmp/$$.tmp
+	. /tmp/$$.tmp
+	rm -f "/tmp/$$.tmp"
+	for ven in ${TargetVendor}
+	do
+		if [ -n "${TargetProductList}" ]; then
+			list=`echo ${TargetProductList} | sed -e "s/,/ /g"`
+			for pro in $list
+			do
+				switcheddevices="${switcheddevices} ${ven}:${pro}"
+			done
+			unset list
+		elif [ -n "${TargetProduct}" ]; then
+			switcheddevices="${switcheddevices} ${ven}:${TargetProduct}"
+		fi
+	done
+done
+
+switcheddevices=`echo ${switcheddevices} | sed -e "s/0x//g" | tr " " "\n" | sort | uniq`
+switcheddevices=`echo ${switcheddevices}`
+
+cd "${BASEDIR}"
+
+cat <<andl
+getswitchabledevices() {
+	unset usbswitchabledevices
+	usbswitchabledevices="${knowndevices}"
+	unset usbswitcheddevices
+	usbswitcheddevices="${switcheddevices}"
+}
+
+andl
+
+for i in ${knowndevices}
+do
+	func=`echo $i | sed -e "s/:/_/g"`
+	cat <<andl
+usbswitchconf_${func}() {
+andl
+	files=`ls -1r dependencies/usb-modeswitch-data/usb_modeswitch.d/${i}* | wc -l`
+	files=`echo ${files}`
+	if [ "${files}" -gt "1" ]; then
+		needscsi=`ls -1r dependencies/usb-modeswitch-data/usb_modeswitch.d/${i}:s* 2> /dev/null | wc -l`
+		needscsi=`echo ${needscsi}`
+		if [ "${needscsi}" -gt "0" ]; then
+			cat <<andl
+	usb_scsisysfsattr ${i}
+andl
+		else
+			cat <<andl
+	usb_sysfsattr ${i}
+andl
+		fi
+	cat<<andl
+	if [ "1" = "2" ]; then
+		echo Dummy IF
+andl
+        for file in `ls -1r dependencies/usb-modeswitch-data/usb_modeswitch.d/${i}*`
+        do
+		bn=`basename ${file}`
+		crit=`echo "${bn}" | cut -d: -f3-`
+		crit=`echo ${crit}`
+		if [ "a${crit}" != "a" ]; then
+			field=`echo "${crit}" | cut -d= -f1`
+			value=`echo "${crit}" | cut -d= -f2`
+			if [ "a${value}" = "a" ]; then
+				echo "FIXME: File ${file} does not specify value of criteria." > /dev/stderr
+				value="ERROR OCCURRED"
+			fi
+			len=`echo "${value}" | wc -c`
+			len=`echo ${len}`
+			len=`expr ${len} - 1`
+			len=`echo ${len}`
+			case "${field}" in
+				sVe)
+					cat<<andl
+	elif [ "a${value}" = "a\`echo \${SYSFS_SCSI_Vendor} | \${cutbin} -b1-${len}\`" ]; then
+andl
+					;;
+				sMo)
+					cat<<andl
+	elif [ "a${value}" = "a\`echo \${SYSFS_SCSI_Model} | \${cutbin} -b1-${len}\`" ]; then
+andl
+					;;
+				sRe)
+					cat<<andl
+	elif [ "a${value}" = "a\`echo \${SYSFS_SCSI_Revision} | \${cutbin} -b1-${len}\`" ]; then
+andl
+					;;
+				uMa)
+					cat<<andl
+	elif [ "a${value}" = "a\`echo \${SYSFS_USB_Manufacturer} | \${cutbin} -b1-${len}\`" ]; then
+andl
+					;;
+				uPr)
+					cat<<andl
+	elif [ "a${value}" = "a\`echo \${SYSFS_USB_Product} | \${cutbin} -b1-${len}\`" ]; then
+andl
+					;;
+				uSe)
+					cat<<andl
+	elif [ "a${value}" = "a\`echo \${SYSFS_USB_Serial} | \${cutbin} -b1-${len}\`" ]; then
+andl
+					;;
+				"?")
+					cat<<andl
+	elif [ "a" = "NEVER" ]; then
+		echo ## Ignored entry
+andl
+					;;
+				*)
+					echo "ERROR: Unknown criteria when halding file ${file}. Please FIX ME." > /dev/stderr
+					cat<<andl
+	elif [ "a${value}" = "NEVER" ]; then
+		echo ## Internal Sakis3G Error
+andl
+					;;
+			esac
+		else
+			cat<<andl
+	elif [ "1" = "1" ]; then
+andl
+		fi
+
+		cat<<andl
+		modeswitchconf="`basename ${file}`"
+andl
+	done
+cat <<andl
+	else
+		modeswitchconf=""
+	fi
+andl
+	else
+		cat <<andl
+	modeswitchconf="${i}"
+andl
+	fi
+	cat<<andl
+}
+
+andl
+done
+

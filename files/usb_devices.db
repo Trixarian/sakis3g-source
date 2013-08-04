@@ -1,0 +1,19 @@
+# Sakis3G USB device database
+# Distributed under GNU GPL v2
+#
+# Empty lines and lines starting with "#" are ignored
+#
+# Format is:
+# <Vendor ID>:<Product ID>:<tab>
+# Driver #1<space>Driver #2<space>...<space>Driver #n<tab>
+# Interface<EOL>
+
+# Sony Ericsson MD400
+0fce:d0e1:	cdc_acm	1
+
+# ZTE MF636
+19d2:0031:	option
+
+# General ZTE rule
+19d2::	option
+

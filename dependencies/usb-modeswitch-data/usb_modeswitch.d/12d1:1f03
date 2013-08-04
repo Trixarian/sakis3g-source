@@ -1,0 +1,13 @@
+######################################################## 
+# KDDI (Huawei) HWD12 LTE
+
+DefaultVendor= 0x12d1
+DefaultProduct=0x1f03
+
+TargetVendor=  0x12d1
+TargetProduct= 0x14db
+
+MessageContent="55534243123456780000000000000a11062000000000000100000000000000"
+NoDriverLoading=1
+
+CheckSuccess=20

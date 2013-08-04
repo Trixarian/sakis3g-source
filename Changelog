@@ -1,0 +1,735 @@
+0.2.0e	2013/07/03
+
+    * Modified functionality:
+          o Sakis3g (and compile scripts) now require only bash to be installed
+            to work. Bash does not have to be the default shell.
+    * Fixed the following issues:
+          o Modified Usb-ModeSwitch database to use the old format that they 
+            dropped early in 2012. All devices should work again.
+    * Embedded Usb-ModeSwitch:
+          o Upgraded to version 1.2.6.
+          o Device database upgraded to 2013-06-10 version.
+    * Operators' database:
+          o Added the following networks:
+                + 65502: 8.ta (South Africa).
+
+0.2.0e	2010/07/09
+
+    * New functionality:
+          o French translation is now available for those using a unicode fr_FR
+            locale.
+    * Modified functionality:
+          o Debug output now includes name of function, emitting debug message,
+            as well.
+    * Fixed the following issues:
+          o TRANSLATION variable is now properly taken into account.
+          o BAUD=MAX, BAUD=MIN and BAUD=DEFAULT now work properly.
+          o Disassembling Sakis3G script, back into its contents, should now be
+            possible even for distributions shipping a "tar" version prior to
+            1.20.
+          o Script now queries modem, about network it is registered to, using
+            proper AT-command. This should eliminate cases where querying modem
+            resulted into it unregistering network instead (like Huawei E1820).
+          o Fixed a regression issue, introduced by 0.2.0d, which resulted into
+            user being asked twice about driver to be used. This affected only
+            users of old kernels, or users of new devices (i.e. users who's
+            kernel was not recognizing USB IDs).
+    * Embedded Usb-ModeSwitch:
+          o Upgraded to version 1.1.3.
+          o Device database upgraded to 2010-06-23 version.
+    * Operators' database:
+          o Modified following networks:
+                + 23402: O2 (UK): Added one more APN.
+                + 23410: O2 (UK): Added one more APN.
+                + 23411: O2 (UK): Added one more APN.
+                + 23415: Vodafone (UK): Added "new PAYG" APN.
+          o Added the following networks:
+                + 51001: IndosatM2 (Indonesia).
+                + 51089: 3 (Indonesia).
+                + 52015: ToT (Thailand).
+
+0.2.0d  2010/06/07
+
+    * New functionality:
+          o German translation is now available for those using a unicode en_DE 
+            locale.
+          o Script now offers manual network selection whenever modem fails to 
+            automatically register one.
+          o Configuration variable PREPARE was introduced, allowing custom AT 
+            commands to be sent to modem before any other command is issued.
+          o Configuration variable BAUD was introduced, allowing to explicitly
+            set baud rate "pppd" and/or "wvdial" should use. Consult 
+            documentation for more information.
+          o Switch "--guruplug" was introduced, instructing script to attempt
+            utilizing leds, found on GuruPlug devices, for indicating progress,
+            errors and success.
+    * Modified functionality:
+          o Script does not anymore wait for modem to register a network, 
+            before forcing network specified by FORCE_ISP variable.
+    * Fixed the following issues:
+          o DCOP based versions of "kdialog" now work better (still far from
+            being perfect). Users of such a "kdialog" version, who still face
+            problems, are encouraged to:
+                + Either install and use "zenity" (--zenity switch), or 
+                + Use a text-mode UI through "konsole" (--konsole switch).
+          o "nostorage" switch now works as it should. First attempts to unbind
+            usb_storage from device, before attempting to globally unload
+            module. This should fix cases with:
+                + kernels having usb_storage built-in and not as a module,
+                + users having other usb_storage devices mounted which prevent
+                  module from unloading.
+          o In cases where operator name is extracted by SIM, first byte is
+            properly considered a flag and not part of the name. This should
+            prevent a non-printable character being displayed before operator's
+            name.
+          o Fixed an issue which prevented some cdc_acm driven devices from 
+            working with some kernel versions.
+          o Progress bar should now ascend in a more consistent way.
+          o Text within dialog boxes does not anymore erratically wraps when a 
+            translation for current locale exists, still selected UI does not
+            allow translations.
+          o Script will now display translated text even if "UTF8" sub-string 
+            of locale used, is typed in lowercase.
+          o Fixed an issue which was resulting into both:
+                + Root instances of script being unable to access X display 
+                  from which they were initiated,
+                + File "$HOME/-n" and/or "/root/-n" being created and never 
+                  being deleted.
+    * Icons embedded in script had been on diet.
+    * Changelog file is now human readable (like this: "sakis3g Changelog").
+    * Operators' database:
+          o Modified following networks:
+                + 24004: Sweden 3G: Corrected Tele2 APN.
+                + 24005: Sweden 3G: Corrected Tele2 APN.
+                + 24007: Tele2 (Sweden): APN corrected.
+                + 26803: Optimus (Portugal): Added "Clix" APN.
+
+0.2.0c  2010/05/14
+
+    * Modified functionality:
+          o APN_USER and APN_PASS variables now override corresponding values 
+            loaded from operator database. This would allow using custom APN 
+            username and password for misconfigured APNs.
+    * Fixed the following issues:
+          o Helper now obeys 1st "Exit" request, without a second one required.
+          o Script should now work with older wvdial versions as well.
+    * Operators' database:
+          o Modified following networks:
+                + 23430: T-Mobile (United Kingdom): Added "Virgin" APN.
+                + 23802: Telenor (Denmark): Added "BiBoB" APN.
+          o Added the following networks:
+                + 23402: O2 (United Kingdom)
+                + 23410: O2 (United Kingdom)
+                + 23411: O2 (United Kingdom)
+                + 23415: Vodafone (United Kingdom)
+                + 23420: 3 (United Kingdom)
+                + 23431: Virgin (United Kingdom)
+                + 23432: Virgin (United Kingdom)
+                + 23433: Orange (United Kingdom)
+                + 23434: Orange (United Kingdom)
+                + 23801: TDC (Denmark)
+                + 23806: 3 DK (Denmark)
+                + 23806: OiSTER (Denmark)
+                + 23820: Telia  (Denmark)
+                + 23830: Telia  (Denmark)
+
+0.2.0b  2010/05/04
+
+Fixed the following issues:
+    * Better parsing of lsusb output.
+    * Improved compatibility for shell environments without FUNCNAME 
+      environment variable support.
+    * Removed --keep-tite argument when invoking dialog.
+
+0.2.0a  2010/05/02
+
+Fixed the following issues:
+    * Fixed an issue on systems which provide /proc/bus/usb/devices. Issue had 
+      been preventing devices from being properly parsed.
+    * Fixed an issue prevent script to work with shells not providing FUNCNAME 
+      environment variable.
+    * Fixed an issue where script was incorrectly following wrong HAL storage 
+      polling proccess. Issue had been resulting into script waiting for a
+      useless period of 20 seconds.
+    * Fixed an issue with devices offering more than one storage interfaces 
+      after being switched. Employed solution should be revised in the future.
+    * Script now waits for 20 seconds for tty node to get created by driver.
+    * Usb-ModeSwitch is now always called with the -I argument. This should 
+      prevent Usb-ModeSwitch from getting blocked for some devices.
+    * Renamed "/ChangeLog" file to "/Changelog"
+
+0.2.0 	2010/04/28
+
+Sakis3G script version 0.2.0 is written from scratch and is not derived from 
+0.1.3 (now called legacy) series.
+
+    * Examples, user guides, instructions and documentation for legacy version, 
+      are not applicable to 0.2.0 series.
+    * Modified functionality:
+          o Drastically improved workflow and device selection procedure, 
+            allowing even more USB modems to work with Sakis3G script.
+          o Permanently dropped dependency to sharutils/uudecode. Script now 
+            depends on bunzip2 and tar instead.
+          o 9menu binary is not anymore embedded in script, still can be used 
+            if "--9menu" or "--legacy" switches are specified.
+          o Menu, presented by user interface, now has more options.
+          o Removed "replacedefaultroute" from pppd arguments since several 
+            pppd versions do not recognize it. Script anyway fixes routing
+            table, unless newly introduced "--nofix" switch is set.
+          o You no longer need to provide connection details, again, when using 
+            "reconnect" argument, while connected.
+          o Several command line arguments and variables are now obsolete or 
+            replaced. Consult documentation for more details.
+          o Setting environment variables, before invoking script, is not 
+            anymore encouraged. Instead, they can now be supplied as arguments
+            or within configuration files. Consult documentation for more
+            details.
+          o Employed a workaround for "gksu" versions which do not respect 
+            arguments containing whitespace characters.
+          o Employed a workaround for modems not properly displaying operator's 
+            name. Name is read from operator's database, if an entry exists.
+          o Improved method of acquiring access to a running X session, when 
+            invoked with root privileges.
+          o Kernel module loading/unloading is now safer and cleaner. Script 
+            now attempts to unload module only when it refuses to unbind from
+            device.
+          o Script should now be able to utilize even more USB modems (and not 
+            just option.ko handled ones).
+          o Modems can now be recognized and setup according to the model name 
+            they report, and not by their USB IDs.
+          o Script can now understand whether pppd or wvdial succeeded, or 
+            failed, into getting connected, and success is not determined upon
+            timeouts.
+          o Improved desktop shortcut creation method.
+          o Several, less important, modifications. 
+    * New functionality:
+          o A more sophisticated concept for command line arguments has been 
+            introduced for those wishing to max out possibilities.
+          o Command line arguments, environment variables and user input are 
+            now sanitized before being used. This should reduce risk of a
+            malicious user passing specially crafted values.
+          o Several new configuration variables are now introduced, allowing 
+            better overall control over performed actions.
+          o Connection information is now available, while connection is still 
+            running.
+          o Configurations file(s) are now possible. Consult documentation for 
+            more information.
+          o Script can now discover available/best fitted kernel module(s) for 
+            a USB modem.
+          o Script can now create character device nodes, within /dev 
+            directory, when system did not already.
+          o Script now takes care of not becoming "stalled" when a broken USB 
+            device blocks access to USB bus.
+          o Script now exclusively locks "org.freedesktop.Hal.Device.Storage" 
+            before switching a device, unless "--nohal" switch is set. This 
+            improves stability by reducing simultaneous operations to storage
+            and modem interfaces of a USB device.
+          o Script now utilizes "avoid_reset_quirk" available in recent kernels.
+          o Script now checks for mandatory dependencies being present in PATH, 
+            before proceeding with execution.
+          o Script now instructs pppd to use file /etc/ppp/peers/sakis3g, if 
+            file exists and pppd is used for connection.
+          o Script now offers a UI for selecting and setting up nearby 
+            Bluetooth devices, to be used as modems.
+          o When operator is not found within embedded operators' database, 
+            script attempts to fetch last APN, modem was used with, by querying
+            modem.
+          o Subscribers to virtual operators are now presented their operator's 
+            name instead of network's name. This is possible by reading service
+            provider's name from SIM card, if modem permits it.
+          o Script can now use "zenity", for becoming a "background process" 
+            reachable through an icon in notification area, when "helper"
+            command line argument is used.
+          o It is now possible to keep "secret" a modem from HAL by using 
+            "--nohalinform" switch.
+          o It is now possible to request for storage part of a USB device 
+            being "eliminated", using "--nostorage" switch, which might improve
+            stability on some devices.
+          o It is now possible to construct a binary free version of script, 
+            suitable for all architects. However, binary free version depends
+            on a working Usb-ModeSwitch installation, for setting up switchable
+            USB devices.
+          o It is now possible to disassemble script, back to its ingredients, 
+            by using "disassemble" command line argument.
+          o Script can now switch devices, not found within embedded 
+            Usb-ModeSwitch device database, if appropriate file is found within 
+            /etc/usb_modeswitch.d directory.
+          o Script now embeds man pages, accessible using "man" command line 
+            argument.
+          o Script now allows UTF-8 translations, so that localized versions 
+            appear in the future. A translation is currently available only for
+            Greek language.
+          o Several, less important, newly introduced functionality. 
+    * User interface:
+          o Sakis3G now has its own Tux icon. Icon is used when creating 
+            desktop shortcut, unless an operator logo is available and user
+            selects that one instead.
+          o Script can now use anyone of "kdialog", "zenity", "Xdialog", 
+            "9menu", "whiptail" and "dialog" for displaying user interface.
+                + If none of them is available, script can resemble an 
+                  elementary text-mode user interface through shell builtin
+                  functions, if "--interactive" switch is set. 
+          o Balloon notifications can now appear, when "--balloons" switch is 
+            set, using libnotify.
+          o All options available through user interface, are available as 
+            command line arguments as well. The opposite statement is not true.
+          o Translations are not used when:
+                + using "Xdialog" or "9menu" as user interface.
+                + displaying OSD messages.
+                + Switch "--notranslate" is set. 
+    * Embedded Usb-ModeSwitch:
+          o Upgraded to version 1.1.2alpha.
+          o Device database upgraded to 2010-04-18 version.
+          o It is now possible to compile it for your platform, by using 
+            "recompile" command line argument, or by selecting equivalent UI
+            option.
+          o It is now possible to directly reach embedded Usb-ModeSwitch 
+            binary, by using "usb_modeswitch" command line argument. 
+    * Operators' database:
+          o Entries available in legacy version were migrated to 0.2.0 version.
+          o You can now connect to any operator, even if not found within 
+            operators' database. You just need to know APN details.
+          o It is not anymore possible/required to add operators by modifying 
+            script.
+          o Modified following networks:
+                + 20201: Cosmote (Greece): Included an extra APN.
+                + 20209: Wind (Greece): Added "Q" APN.
+                + 20210: Wind (Greece): Added "Q" APN.
+                + 26202: Vodafone (Germany): Added "1und1" APN.
+                + 26204: Vodafone (Germany): Added "1und1" APN.
+                + 26209: Vodafone (Germany): Added "1und1" APN.
+                + 26801: Vodafone (Portugal): Added "ZON" APN. 
+          o Added the following operators:
+                + 23430: T-Mobile (United Kingdom)
+                + 23802: Telenor (Denmark)
+                + 34001: Orange (French Caraibes) 
+
+================================================================================
+Changes below refer to legacy version and should not be considered applicable 
+to latest Sakis3G script version, except operator information.
+================================================================================
+
+0.1.3g 	2010/02/24
+
+Upgraded to Usb-ModeSwitch device database that was released on 2010/02/03.
+
+0.1.3f 	2010/02/14
+
+Added support for the following 85 networks:
+
+    * 21601: pannon (Hungary)
+    * 21630: T-Mobile (Hungary)
+    * 21670: Vodafone (Hungary)
+    * 21890: BH Mobile (Bosnia & Herzegovina)
+    * 22001: Telenor (Serbia)
+    * 22003: mts (Serbia)
+    * 22005: VIP (Serbia)
+    * 22601: Vodafone (Romania)
+    * 22603: COSMOTE (Romania)
+    * 22610: Orange (Romania)
+    * 22801: Swisscom (Switzerland)
+    * 22802: Sunrise (Switzerland)
+    * 22803: Orange (Switzerland)
+    * 23001: T-Mobile (Czech Republic)
+    * 23002: O2 (Czech Republic)
+    * 23003: Vodafone (Czech Republic)
+    * 23101: Orange (Slovakia)
+    * 23102: T-Mobile (Slovakia)
+    * 23104: T-Mobile (Slovakia)
+    * 24001: Telia (Sweden)
+    * 24002: 3 (Sweden)
+    * 24004: Sweden 3G (Sweden)
+    * 24005: Sweden 3G (Sweden)
+    * 24006: Telenor (Sweden)
+    * 24007: Tele2 (Sweden)
+    * 24008: Telenor (Sweden)
+    * 24201: Telenor (Norway)
+    * 24202: N COM (Norway)
+    * 24204: Network (Norway)
+    * 24205: Network (Norway)
+    * 24403: DNA (Finland)
+    * 24405: Elisa (Finland)
+    * 24421: Saunalahti (Finland)
+    * 24491: Sonera (Finland)
+    * 24701: LMT (Latvia)
+    * 24702: TELE2 (Latvia)
+    * 25001: MTS (Russia)
+    * 25002: Megafon (Russia)
+    * 25003: NCC (Russia)
+    * 25005: ETK (Russia)
+    * 25012: BWC (Russia)
+    * 25016: NTC (Russia)
+    * 25020: Tele2 (Russia)
+    * 25028: Beeline (Russia)
+    * 25035: Motiv (Russia)
+    * 25039: U-tel (Russia)
+    * 25099: Beeline (Russia)
+    * 25501: MTC (Ukraine)
+    * 25502: Beeline (Ukraine)
+    * 25503: Kyivstar (Ukraine)
+    * 25506: Life (Ukraine)
+    * 25507: Utel (Ukraine)
+    * 25701: VELCOM (Belarus)
+    * 25702: MTS (Belarus)
+    * 25703: Life (Belarus)
+    * 25901: Orange (Moldova)
+    * 25902: MOLDCELL (Moldova)
+    * 25904: Eventis (Moldova)
+    * 26001: Plus (Poland)
+    * 26002: ERA (Poland)
+    * 26003: Orange (Poland)
+    * 26006: Play Mobile (Poland)
+    * 27801: VODAFONE (Malta)
+    * 27821: GO Mobile (Malta)
+    * 29340: MOBITEL (Slovenia)
+    * 29341: SI MOBIL (Slovenia)
+    * 29701: ProMonte (Montenegro)
+    * 29702: T-Mobile (Montenegro)
+    * 29703: m:tel (Montenegro)
+    * 33402: TELCEL (Mexico)
+    * 33403: Movistar (Mexico)
+    * 50501: Telstra (Australia)
+    * 50502: Optus (Australia)
+    * 50503: Vodafone (Australia)
+    * 50506: 3 (Australia)
+    * 53000: Telecom (New Zealand)
+    * 53001: Vodafone (New Zealand)
+    * 53005: Telecom (New Zealand)
+    * 60400: Meditel (Morocco)
+    * 60401: IAM (Morocco)
+    * 65501: Voda (South Africa)
+    * 65507: Cell C (South Africa)
+    * 65510: MTN (South Africa)
+    * 71606: Movistar (Peru)
+    * 71610: Claro (Peru) 
+
+0.1.3e 	2010/02/11
+
+Script now utilizes modems that while not advertising their GSM capabilities, 
+they still provide their IMEI number (which indicates GSM functionality).
+0.1.3d 	2010/02/10
+
+    * Updated settings for operators:
+          o 20205: Vodafone (Greece): Added prepay (CU) APN. 
+    * Added support for operators:
+          o 20404: Vodafone (Netherlands)
+          o 20408: KPN (Netherlands)
+          o 20412: Telfort (Netherlands)
+          o 20416: T-Mobile (Netherlands)
+          o 20420: Orange (Netherlands)
+          o 20601: Proximus (Belgium)
+          o 20610: Mobistar (Belgium)
+          o 20620: Base (Belgium)
+          o 27001: LUXGSM (Luxembourg)
+          o 27077: Tango (Luxembourg)
+          o 27099: Orange (Luxembourg) 
+
+0.1.3c 	2010/02/07
+
+    * Added support for operators:
+          o 20801: Orange (France)
+          o 20810: SFR (France)
+          o 20811: SFR (France)
+          o 20820: Bouygtel (France)
+          o 20821: Bouygtel (France)
+          o 21401: Vodafone (Spain)
+          o 21403: Orange (Spain)
+          o 21404: YOIGO (Spain)
+          o 21406: Vodafone (Spain)
+          o 21407: Movistar (Spain)
+          o 21408: Euskaltel (Spain)
+          o 21409: Orange (Spain)
+          o 21416: Telecable (Spain)
+          o 21417: R móbil (Spain)
+          o 21418: Ono (Spain)
+          o 21419: Simyo (Spain)
+          o 28001: Cytamobile Vodafone (Cyprus)
+          o 28010: MTN (Cyprus) 
+    * Fixed following issues:
+          o Now checking if /usr/lib/kde4/libexec/kdesu is available if no 
+            other graphical su is found. This will allow using graphical su
+            on KDE4 systems. 
+
+0.1.3b 	2010/02/05
+
+    * Upgraded to Usb-ModeSwitch device database that was released on 
+      2010/02/03.
+    * Fixed the following issues:
+          o Notification appearing after connecting with "toggle" argument, now 
+            also displays operator name.
+          o Whenever script awaits network logon (usually after supplying PIN), 
+            instead of querying modem every one second for a maximum of 15
+            seconds (15 tries, one second difference), now queries every four
+            seconds for a maximum of 20 seconds (5 tries, 4 seconds difference).
+            This may help some modems.
+          o When Xterm window appears to prompt user for PIN number, all 
+            required information are not read from scratch anymore. This
+            eliminates issues where environment is not passed to child process
+            and accelerates overall operation.
+          o When Xterm window appears to prompt user for PIN number, while 
+            DEBUG variable is SET, user has to press Ctrl+C for window to
+            vanish.
+          o Script does not anymore jump to an existing X session of user that 
+            invoked it, if user invoked it from a tty console.
+          o If called from udevd, now properly captures access to X DISPLAY :0.
+                + Uses xauth to gain access, if not having already, and drops 
+                  access when exiting, if it had not access before.
+                + Only does so, if only one non-root user currently has an X 
+                  session running. 
+          o Some initialization stuff is skipped when invoked with a 
+            "don't-really-do-anything" argument like "help", "status",
+            "version".
+          o Script now makes sure PATH includes /bin, /usr/bin, /sbin and 
+            /usr/sbin before proceeding.
+          o Timestamp information, when running with DEBUG set, now only 
+            displays time information, skipping date part. 
+
+0.1.3 	2010/02/04
+
+This version is an "emergency" release which fixes regression issues introduced 
+by 0.1.2.
+
+    * Improved udev integration.
+    * Added logposition configuration variable which indicates log file that 
+      should be used when running as a udev rule.
+    * A "debug" method now takes care of displaying debug output when DEBUG 
+      variable is set. Displays PID and timestamp along with message. Also
+      reduced script size for 5KB.
+    * Fixed the following issues:
+          o Josua Dietze provided a bug report and a patch for serial device 
+            autodetection procedure which fixes a regression issue, introduced
+            by 0.1.2, preventing many modems from having their correct tty
+            device chosen.
+          o Fixed a regression issue, introduced by 0.1.2, which required a 
+            modem to be connected even when executing with the "help" argument.
+          o When first using script, 9menu interface does not any more appear 
+            as "Unnamed window".
+          o Configuration variable "debug" is now renamed to "DEBUG". This 
+            allows for method "debug" to be defined. 
+
+0.1.2 	2010/02/01
+
+    * Added better serial tty detection. This method will allow more unknown 
+      modems to work.
+    * Added support for user defined modems. To use a user defined modem, 
+      USBMODEM variable must contain USB IDs in "XXXX:XXXX" hex form.
+          o If a specific driver is also required, USBDRIVER variable can be 
+            used and should contain the module required to be loaded.
+          o Examples:
+                + By exporting variables:
+                  $ export USBMODEM=1199:68a3
+                  $ export USBDRIVER=sierra
+                  $ sakis3g connect
+                + Or, in command line:
+                  $ USBMODEM=1199:68a3 \
+                  > USBDRIVER=sierra \
+                  > sakis3g connect
+                + Or, by editting this script and place them below MYVERSION 
+                  variable (especially if using sudo for getting root 
+                  privileges).
+          o When no known/switched modem is found, and USBMODEM variable is not 
+            set, 9menu users are presented a list of currently connected USB
+            devices to choose their modem from. 
+    * An embedded 9menu binary is now included in script.
+      If:
+          o prefer_osd and stick_to_console are NOT set, and
+          o an X DISPLAY IS detected, and
+          o uudecode IS present, then 
+      embedded 9menu binary is utilized. 
+    * Script now works flawlessly on LiveCD images that do not provide writable 
+      home directories.
+    * Added support for the following operators:
+          o 70401: Claro (Guatemala)
+          o 70402: Tigo (Guatemala) 
+    * Added support for the following modems:
+          o 1c9e:f000 GBC PL68 
+    * Fixed the following issues:
+          o Drastically improved workflow to avoid executing same things twice 
+            or more. Overral operation is now faster.
+          o Does not any more randomly pickup a modem when more than one modems 
+            are available. 9menu users are provided a list of modems to choose
+            from. OSD and command line users must provide its name or USB
+            IDs as an extra command line argument. Argument must be long enough
+            to distinguish just one modem.
+                + Example:
+                      # If two ZTE modems are connected, then doing "sakis3g 
+                        connect ZTE" will fail, while "sakis3g connect MF636"
+                        will work (if they are not both of the same model). 
+          o Supported modems are not any more detected twice as both their 
+            official name and as their SWITCHED equivalent.
+          o If more than one modems are connected, does not any more silently 
+            proceed with second one, if first one failed to connect for
+            whatever reason.
+          o Moved several parts, of autogenerated part, in the first part. 
+            Released around 130 KB, given current device database of
+            Usb-ModeSwitch.
+          o Fixed a long existing issue preventing some switchable devices from 
+            being properly switched. Was providing wrong configuration file to 
+            Usb-ModeSwitch. Affected devices are a subset of devices with IDs:
+            05c6:1000 and 19d2:2000.
+          o Setting stick_to_console does not any more imply alwayssudo. You 
+            must explicitly set alwayssudo for sudo to be used.
+          o Less output should now appear when debug or VERBOSE are not set.
+          o User is now notified if tty device is occupied by another process. 
+            This will help users understand whether their modemmanager is
+            messing with their ports.
+          o Unknown, switched and user-defined modems are all now given a 10 
+            seconds period to settle connection with driver. This increases
+            time required to connect, but sets more unsupported modems usable.
+          o When debug variable is set, output is now more rich during modem 
+            switching.
+          o Large pack of comments found on top part of script are now more 
+            readable.
+          o Added copyright notices:
+                + when called with the "help" argument.
+                + on 9menu interface, before connecting. 
+
+0.1.1 	2010/01/25
+
+    * Now using fresh 1.1.0 version of Usb-ModeSwitch and 2010/01/24 device 
+      database.
+    * Added support for operators offering more than one APNs.
+          o FORCE_APN variable must be set if operator provides more than one 
+            APNs, or if requires subscriber number to be included in username
+            or password for ppp connection. 
+    * VERXOSD option is renamed to VERBOSE and is now turned off by default.
+    * Added support for operators:
+          o 22201: TIM (Italy)
+          o 22210: Vodafone (Italy)
+          o 22288: WIND (Italy)
+          o 22299: Tre (Italy)
+          o 26202: Vodafone (Germany)
+          o 26207: O2 (Germany)
+          o 26216: Vistream (Germany)
+          o 28601: Vodafone (Portugal)
+          o 28603: Optimus (Portugal)
+          o 28606: TMN (Portugal)
+          o 70802: Tigo (Honduras) 
+    * Fixed the following issues:
+          o Script now waits for network logon even for SIM cards that do not 
+            need PIN number.
+          o Script does not any more switch modem if called with the "help" or 
+            "status" arguments. 
+
+0.1.0 	2010/01/20
+
+    * Added progress bar functionality for xosd (osd_cat) users.
+    * Added support for the following operators:
+          o 20209: Wind (Greece)
+          o 23201: Mobilkom/A1 (Austria)
+          o 23203: T-Mobile AT (Austria)
+          o 23205: Orange AT (Austria)
+          o 23207: T-Mobile AT (Austria)
+          o 23210: Drei AT (Austria)
+          o 26201: T-Mobile D1 (Germany)
+          o 26203: E-Plus (Germany)
+          o 26205: E-Plus (Germany)
+          o 26206: T-Mobile D1 (Germany)
+          o 26277: E-Plus (Germany)
+          o 27602: VODAFONE (Albania) 
+    * Fixed the following issues:
+          o If "option" driver fails to create devices, it removes it before 
+            attempting with driver specified by modem configuration.
+          o Chown operations now do not also define group.
+          o Desktop shortcut is now chmoded to 744.
+          o After supplying PIN number to modem, script now waits for network 
+            logon prior to continuing. 
+
+0.0.9 	2010/01/15
+
+Fixed the following issues:
+
+    * Ironic messages appearing when cleaning up files in "/tmp", do not appear 
+      any more.
+    * Added wait interval support for devices requiring it (only Huawei E170 
+      and family so far). 
+
+0.0.8 	2010/01/14
+
+    * Added experimental support for modems:
+          o 12d1:1003: Huawei E170 E220 E230 E270 E870 
+    * Fixed the following issues:
+          o Does not mess with HAL for unknown modems.
+          o Now uses a combination of UID/EUID/USER for determining if root or 
+            not. Not all shells set all three of them. 
+
+0.0.7 	2010/01/13
+
+    * If no gksu/kdesu is found, switches to normal su. Sudo is now used only 
+      when no X display is found, or when stick_to_console is set, or when
+      alwayssudo is set.
+    * Fixed the following issues:
+          o Script had been checking for pppd/wvdial existence, prior to being 
+            root.
+          o Script now checks for "chat" existence before proceeding.
+          o Now relies on UID, instead of EUID for determining being root or 
+            not. 
+
+0.0.6 	2010/01/12
+
+    * Added xosd support. xosd is used if neither 9menu nor aosd_cat are 
+      installed. It is more popular among distributions. If xosd is also not
+      found, fallbacks to terminal.
+    * Fixed the following issues:
+          o Calls to "which" redirect stderr output to /dev/null. This should 
+            eliminate spamming occuring on some configurations.
+          o When "gksu" is not present, checks if "kdesu" exists, and uses that 
+            one instead. This should prevent it from using "su" on KDE
+            environments.
+
+0.0.5 	2010/01/10
+
+    * Added HAL support (fallbacks to previous method if HAL is not available):
+          o /dev/tty* device is determined by accessing HAL devices.
+          o HAL is updated of modem capabilities if not already set. This 
+            should make modem device appear on hal-aware programs. 
+    * Added command line argument "setup", which only setups modem(s):
+          o Switches modem (if not switched).
+          o Loads kernel driver (if not loaded).
+          o Updates HAL for modem capabilities (if not already aware). 
+          Using this argument, can be used as udev rule for setting up device 
+          and allow use by other applications. 
+    * Now uses option driver and if still no serial devices appear, the one on 
+      config is used instead.
+    * Fixed the following bugs:
+          o Now makes sure it has root privileges before invoking 
+            usb_modeswitch.
+          o If modem gets disconnected, while 9menu is running, it scans if 
+            other usable hardware is present. If not, aborts like it used to do.
+
+0.0.4 	2010/01/09
+
+Updated so that includes newer 1.0.7 version of Usb_ModeSwitch.
+
+0.0.3 	2010/01/04
+
+    * Sakis3G now embeds whole Usb_ModeSwitch 2009/12/28 database. This makes 
+      clear to whom, one should refer if facing problems. Issue a "sakis3g 
+      connect" from a terminal and watch for messages appearing. If your modem
+      gets properly switched, you should contact Sakis3G author. If modem does
+      not get switched, is probably a new device and you should contact
+      Usb_ModeSwitch forums for further troubleshooting instructions.
+    * Sakis3G now utilizes devices on Usb_ModeSwitch device list with default 
+      initialization strings, even if not supported by Sakis3G itself. To
+      identify whether your modem is used like this, issue "sakis3g help".
+      If SWITCHED_MODEM is identified as present hardware, then your modem is
+      used with default values (and may not work).
+    * Sakis3G now detects tty devices appearing from the USB Bus that your 
+      modem is attached on, autodetecting appropriate tty device. This should
+      handle cases where other devices, USB or not, create /dev/tty* nodes,
+      leading to the wrong node being selected. If you still have wrong
+      /dev/tty* node selected, try using another USB port. Try "lsusb -t" to
+      see what else devices reside on the same USB bus as your modem. 
+
+0.0.2 	2010/01/02
+
+Initial version published to celebrate blog creation. Only author's equipment 
+and operators are supported.
+
+    * Added comments and instructions within shell script, to increase 
+      reusability. 
+
+0.0.1 	Can't remember
+
+Made initially by the author to allow family members to use 3G connections, and 
+easier installation accross different home PCs. 

@@ -1,0 +1,12 @@
+########################################################
+# Onda TM201 14.4 (TIM Italy)
+
+DefaultVendor= 0x1ee8
+DefaultProduct=0x0063
+
+TargetVendor=  0x1ee8
+TargetProduct= 0x0064
+
+MessageContent="555342431234567800000000000008FF000000000000030000000000000000"
+
+CheckSuccess=20

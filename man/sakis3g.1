@@ -1,0 +1,559 @@
+.TH "SAKIS3G" "1" 
+.SH "NAME" 
+sakis3g - Manages 3G modems and connections
+
+.SH "SYNOPSIS" 
+.PP
+ \fBsakis3g\fP [ \fIactors\fP ] [ \fIswitches\fP ] [ \fIvariables\fP ]
+
+ \fBsakis3g disassemble\fP \fIdestination\fP
+ \fBsakis3g getfile\fP \fIfile\fP
+ \fBsakis3g ls\fP
+
+ \fBsakis3g usb_modeswitch\fP [ \fIarguments\fP ]
+
+ \fBsakis3g man\fP [ \fIsakis3g\fP | \fIsakis3g.conf\fP | \fIusb_modeswitch\fP ]
+ \fBsakis3g version\fP 
+ \fBsakis3g help\fP 
+
+.SH "DESCRIPTION" 
+.PP
+Sakis3G is a \fIshell script\fP which is supposed to work out-of-the-box
+for establishing a 3G connection with any combination of modem or 
+\fIoperator\fP. If you are lucky enough, you may be connected 30 seconds 
+after downloading script.
+.PP
+Sakis3G script is built around some fundamental requirements:
+.PP
+.IP "\fB1.\fR" 3
+As less as possible disk size requirements.
+.IP "\fB2.\fR" 3
+As few as possible third-party dependencies: Nothing more than you should need if manually setting up.
+.IP "\fB3.\fR" 3
+As fast as possible installation procedure: There is no installation, download and make it executable.
+.IP "\fB4.\fR" 3
+As clean as possible operation: No files are installed/modified on your disk.
+.IP "\fB5.\fR" 3
+No configuration is required: No need for configuring \fIwvdial\fP, \fIpppd\fP, \fIudev\fP, \fIhal\fP or \fIusb_modeswitch\fP.
+.IP "\fB6.\fR" 3
+As good as possible user experience: "sakis3g connect" or "sakis3g disconnect", or no arguments at all for a simple UI to appear. 
+.PP
+	This script comes to fill in the gap of no/partial support to some 
+distributions for using \fIUSB modems\fP, or to work around the "clumsy 
+way" others do. While major distributions will gradually find their 
+way into reliably, and in a unified way, support these devices, this 
+script will end-up as a lightweight replacement to 
+NetworkManager/ModemManager bundle, or to gnome-ppp/wvdial bundle, 
+or to kppp for small footprint distributions. 
+
+.SH "INVOCATION METHODS"
+.PP
+.IP "[ \fIactors\fP ] [ \fIswitches\fP ] [ \fIvariables\fP ]" 10
+Using this syntax, you can define:
+.IP "           \fB*\fP" 13
+Actions for Sakis3G script to follow, by defining action's corresponding \fBactor\fP.
+.IP "           \fB*\fP" 13
+Alter \fBactors'\fP behaviour, by setting \fBswitches\fP.
+.IP "           \fB*\fP" 13
+Provide values to \fBactors\fP, by using \fBvariables\fP.
+.IP "" 10
+You should consult \fBsakis3g.conf\fP(5) for information on \fBswitches\fP and \fBvariables\fP available. For a list of available \fBactors\fP see below.
+.IP "\fBdisassemble\fP \fIdestination\fP" 10
+Extracts Sakis3G \fIembedded package\fP within \fIdestination\fP directory and exits.
+.IP "\fBgetfile\fP \fIfile\fP" 10
+Extracts \fIfile\fP from Sakis3G \fIembedded package\fP and displays it on \fIstandard output\fP.
+.IP "           \fB*\fP" 13
+\fIRelative path\fP of file is also supported if \fIfile\fP is able to uniquely identify file within package.
+.IP "           \fB*\fP" 13
+\fIWildcard characters\fP are \fBnot\fP supported.
+.IP "           \fB*\fP" 13
+\fIFile\fP should exist within Sakis3G \fIembedded package\fP. 
+.IP "\fBls\fP" 10
+Displays contents of Sakis3G \fIembedded package\fP and exits. No further \fIarguments\fP exist, allowing output to be filtered. 
+.IP "\fBusb_modeswitch\fP [ \fIarguments\fP ]" 10
+Provides direct access to the \fIembedded\fP \fBUsb-ModeSwitch\fP binary. Any subsequent \fIcommand line arguments\fP are passed to \fBUsb-ModeSwitch\fP. Consult \fBusb_modeswitch\fP(1) for a detailed list of acceptable \fIarguments\fP. 
+.IP "\fBman\fP [ \fIsakis3g\fP | \fIsakis3g.conf\fP | \fIusb_modeswitch\fP ]" 10
+Displays one of:
+.IP "           \fB*\fP" 13
+\fBsakis3g\fP(1)
+.IP "           \fB*\fP" 13
+\fBsakis3g.conf\fP(5)
+.IP "           \fB*\fP" 13
+\fBusb_modeswitch\fP(1)
+.IP "" 10
+If no argument is specified, \fBsakis3g\fP(1) is displayed.
+.IP "\fBversion\fP, \fB--version\fP" 10
+Displays Sakis3G script's version and exits. 
+.IP "\fBhelp\fP, \fB--help\fP" 10
+Displays a minimal help page and exists. 
+
+.SH "ACTORS"
+.PP
+Each \fBactor\fP refers to a specific action Sakis3G script should execute. Many programs provide a similar functionality, allowing to execute a specific action by explicitly defining it through \fIcommand line\fP. When no \fBactor\fP is defined in \fIcommand line\fP, behavior depends upon selected \fIuser interface\fP. As a general rule, when using an \fIinteractive UI\fP, \fBmenu actor\fP is implied leading to \fIMain Menu\fP appearing. 
+
+.SH "CHAINS"
+.PP
+Sakis3G script allows defining more than one \fBactors\fP, which altogether form a \fBChain\fP.
+.IP " \fB*\fP" 3
+An \fBactor\fP may be referenced twice or more within a chain, leading into being executed an equivalent count of times.
+.IP " \fB*\fP" 3
+Whenever an \fBactor\fP is terminated (successfully or not), it sets its \fIresult code\fP accordingly.
+.IP " \fB*\fP" 3
+If \fIresult code\fP is not \fI0 (zero)\fP, which denotes success, or if no other \fBactor\fP is specified in \fBchain\fP, then Sakis3G script itself terminates, returning \fIresult code\fP previously set, as \fIexit status\fP. 
+.IP " \fB*\fP" 3
+If \fIresult code\fP equals to \fI0 (zero)\fP, next \fBactor\fP in \fBchain\fP is executed. 
+
+.SH "COMMON ACTORS"
+.PP
+.IP "\fBconnect\fP, \fBstart\fP" 10
+Attempts to establish a data connection with \fIoperator\fP. 
+.IP "\fBreconnect\fP, \fBrestart\fP" 10
+Drops current data connection and, using same connection settings, connects again. Useful when data connection seems \fIstalled\fP (it is still up but no traffic occurs). 
+.IP "\fBdisconnect\fP, \fBstop\fP" 10
+Drops all currently running \fiP-t-P connections\fP. 
+.IP "\fBswitchonly\fP" 10
+Only \fIswitches\fP a \fIUSB modem\fP. 
+.IP "\fBrecompile\fP" 10
+Recompiles \fIembedded\fP \fIUsb-ModeSwitch\fP version for your system. 
+.IP "\fBstatus\fP" 10
+Displays connection status. 
+.IP "\fBinfo\fP" 10
+Displays information about current connection. 
+.IP "\fBreport\fP" 10
+Generates a report for providing feedback. 
+.IP "\fBdesktop\fP" 10
+Creates a shortcut for Sakis3G script on your \fIdesktop\fP. 
+.IP "\fBhelper\fP" 10
+Enables \fIHelper mode\fP for script to occupy a slot in \fBnotification area\fP. 
+
+.SH "SPECIAL ACTORS"
+.PP
+In order to allow more sophisticated \fBchains\fP there are some \fBspecial actors\fP available. \fBSpecial actors\fP never display \fIerrors\fP or \fInotifications\fP, allowing to avoid expected error messages:
+.PP
+.IP "\fBconnected\fP" 10
+Returns \fI0 (zero)\fP if currently connected. 
+.IP "\fBdisconnected\fP" 10
+Returns \fI0 (zero)\fP if not currently connected. 
+.IP "\fBplugged\fP" 10
+Returns \fI0 (zero)\fP when a \fIUSB modem\fP is currently plugged. 
+.IP "\fBunplugged\fP" 10
+Returns \fI0 (zero)\fP when no \fIUSB modem\fP is currently plugged. 
+.IP "\fBswitched\fP" 10
+Returns \fI0 (zero)\fP when a \fIUSB modem\fP is currently plugged, and no \fIswitchable\fP modem is detected. 
+.IP "\fBswitchable\fP" 10
+Returns \fI0 (zero)\fP when a \fIswitchable\fP modem is detected. 
+.IP "\fBwait, sleep\fP" 10
+Waits for one second and then unconditionally returns \fI0 (zero)\fP.  Using this \fBactor\fP as the last one, within a \fBchain\fP, is pointless. 
+
+.SH "OPERATOR ACTORS"
+.PP
+In order to allow even more sophisticated \fBchains\fP, \fBspecial actors\fP imitating what we usually call \fIunary operators\fP, are also offered:
+.PP
+.IP "\fBignore\fP" 10
+Unconditionally converts \fIresult\fP of next \fBactor\fP to \fI0 (zero)\fP, forcing \fBchain\fP to continue traversing. 
+.IP "\fBnot\fP" 10
+Reverses \fIresult\fP of next \fBactor\fP. 
+.PP
+.IP "\fBNote:\fP" 6
+Keep in mind that while "\fBnot connected\fP" is equal to "\fBdisconnected\fP", you should be cautious when using "\fBnot\fP" operator and avoid making false assumptions. As an example, "\fBnot switched\fP" is not (always) equivalent to "\fBswitchable\fP", and vice versa. 
+
+.SH "ACTION ACTORS"
+.PP
+.IP "\fBabout\fP" 10
+Displays copyright information about Sakis3G script.
+.IP "\fBclicked\fP" 10
+When a \fIdesktop shortcut\fP is created, this \fBactor\fP is by default placed as argument. It initiates \fBmenu actor\fP, unless selected \fIUI\fP is \fIinteractive terminal\fP or \fIterminal\fP, in which case it initiates \fBtoggle actor\fP. You can later modify \fIdesktop shortcut\fP, to explicitly call an \fBactor\fP of your taste instead.
+.IP "\fBconnect\fP, \fBstart\fP" 10
+Attempts to establish a data connection with your \fIoperator\fP, calling \fBprepare actor\fP if necessary.
+.IP "\fBdesktop\fP" 10
+Attempts to create a shortcut for Sakis3G script on calling user's \fIdesktop\fP.
+.IP "\fBdisconnect\fP, \fBstop\fP" 10
+Attempts to terminate all currently running \fIP-t-P connections\fP.
+.IP "\fBhelper\fP" 10
+Forces Sakis3G script to enter \fBHelper mode\fP. This \fBactor\fP prevents the rest of the \fBchain\fP from ever being executed.
+.IP "\fBinfo\fP" 10
+Displays information about currently established connection. Fails if invoked while not connected.
+.IP "\fBmenu\fP" 10
+Displays \fIMain Menu\fP of Sakis3G script. Returns:
+.IP "           \fB*\fP" 13
+\fI0 (zero)\fP if user selected \fICancel\fP , or
+.IP "           \fB*\fP" 13
+\fI98\fP if user selected \fIExit\fP, thus terminating execution of \fBchain\fP. 
+.IP "\fBmodem\fP, \fBselect\fP" 10
+Executes \fIdevice selection procedure\fP. Returns \fI0 (zero)\fP if a modem was selected. This \fBactor\fP does not perform any setup operation. Using this \fBactor\fP as the last one, within a \fBchain\fP, is pointless. 
+.IP "\fBmoremenu\fP, \fBmore\fP, \fBmenumore\fP" 10
+Displays \fIMore actions\fP menu of Sakis3G script. Returns:
+.IP "           \fB*\fP" 13
+\fI0 (zero)\fP if user selected \fICancel\fP , or
+.IP "           \fB*\fP" 13
+\fI98\fP if user selected \fIExit\fP, thus terminating execution of \fBchain\fP. 
+.IP "\fBprepare\fP, \fBinit\fP" 10
+It attempts to \fIPIN unlock\fP modem, \fIregister network\fP and \fIupdate HAL\fP. Calls \fBsetup actor\fP if required.
+.IP "\fBrecompile\fP" 10
+Attempts to recompile \fIembedded\fP \fBUsb-ModeSwitch\fP binary for you.
+.IP "\fBreconnect\fP, \fBrestart\fP" 10
+Attempts to drop current connection (if any), and then attempts to connect again.
+.IP "\fBreport\fP" 10
+Generates a report for providing feedback. Fails if invoked while not connected.
+.IP "\fBsetup\fP" 10
+Attempts to load required \fIkernel module\fP and create appropriate \fItty node\fP (if not created already), calling \fBswitchonly actor\fP if required.
+.IP "\fBstate\fP" 10
+Provided for convenience. Suggests \fBvariable\fP values and \fBswitches\fP that could help you repeat result of previously executed \fBactor(s)\fP, by avoiding to answer as many questions as possible. Always returns \fI0 (zero)\fP.
+.IP "\fBstatus\fP" 10
+Displays information about current connection status. Returns:
+.IP "           \fB*\fP" 13
+\fI0 (zero)\fP if currently connected.
+.IP "           \fB*\fP" 13
+\fI6 (six)\fP if not currently connected. 
+.IP "\fBswitchonly\fP" 10
+Attempts to only \fIswitch\fP selected \fIUSB modem\fP, calling \fBmodem actor\fP if necessary.
+.IP "\fBtoggle\fP" 10
+Attempts to toggle current connection status:
+.IP "           \fB*\fP" 13
+Attempts to disconnect if currently connected, or
+.IP "           \fB*\fP" 13
+attempts to connect if not yet connected.
+.IP "\fBudevrule\fP" 10
+Provided for convenience. Suggests a \fIudev rule file\fP, that could be used, for repeating results of previously executed \fBactor(s)\fP, immediately upon physical connection of \fIUSB modem\fP. Always returns \fI0 (zero)\fP.
+
+.SH "USER INTERFACE"
+.PP
+Sakis3G script will attempt to automatically determine best fitted \fIUI\fP upon each one execution. Automatic selection will only happen if a \fIUI\fP is not explicitly set using \fBSGUI variable\fP, or corresponding \fBswitches\fP, or \fIUI\fP explicitly set, through these methods, is not available. 
+.PP
+There are several aspects taken into consideration when Sakis3G script attempts to detect best fitted \fIUI\fP:
+.IP "1." 3
+Existence or not of a valid \fIlocal\fP X session display on which access is granted,
+.IP "2." 3
+One or more of the following \fBswitches\fP being set:
+.IP "    \fB*\fP" 6
+\fB--console switch\fP forcing the use of \fItext mode UIs\fP only.
+.IP "    \fB*\fP" 6
+\fB--interactive switch\fP allowing the use of an \fIinteractive UI\fP.
+.IP "    \fB*\fP" 6
+\fB--osd switch\fP requesting for \fIOSD messages\fP being displayed.
+.IP "    \fB*\fP" 6
+\fB--balloons switch\fP requesting for "balloon-like" \fInotifications\fP being presented through \fIlibnotify\fP. 
+.IP "3." 3
+Availability of respective utilities within system's \fIPATH\fP. 
+.PP
+If more than one \fIUI\fP providers are available, the one that will be used is determined according to the following list (most to least preferred):
+.IP "1." 3
+\fIkdialog\fP,
+.IP "2." 3
+\fIzenity\fP,
+.IP "3." 3
+\fIXdialog\fP,
+.IP "4." 3
+Terminal emulator in the following order:
+.IP "    \fB*\fP" 6
+\fIgnome-terminal\fP
+.IP "    \fB*\fP" 6
+\fIkonsole\fP
+.IP "    \fB*\fP" 6
+\fIxterm\fP
+.IP "5." 3
+\fIwhiptail\fP,
+.IP "6." 3
+\fIdialog\fP,
+.IP "7." 3
+\fIinteractive terminal\fP, which resembles an elementary \fIUI\fP through \fIshell builtin functions\fP.
+.IP "8." 3
+\fIterminal\fP, which is no \fIUI\fP at all. Sometimes useful to set (e.g. when using Sakis3G from within another \fIshell script\fP). 
+.PP
+.IP "\fBNote:\fP" 6
+\fI9menu\fP is never automatically selected. It can only be used by explicitly setting either one of those two:
+ 	\fB--9menu\fP
+ 	\fBSGUI="9menu"\fP
+
+.SH "GRAPHICAL UI"
+.PP
+\fIGraphical UI\fP is only used if:
+.IP "\fB*\fP" 2
+A valid \fIlocal\fP X session display is available, and
+.IP "\fB*\fP" 2
+access is granted to that display, and
+.IP "\fB*\fP" 2
+\fB--console switch\fP is not set, and
+.IP "\fB*\fP" 2
+at least one of the following is available:
+.IP "  \fB*\fP" 4
+\fIzenity\fP, or
+.IP "  \fB*\fP" 4
+\fIkdialog\fP, or
+.IP "  \fB*\fP" 4
+\fIXdialog\fP, or
+.IP "  \fB*\fP" 4
+\fI9menu\fP, or
+.IP "  \fB*\fP" 4
+\fIgnome-terminal\fP or \fIkonsole\fP or \fIxterm\fP
+.IP "\fBNote:\fP" 6
+You can redirect Sakis3G script to a specific display using \fBDISPLAY\fP and \fBLOCALAUTHORITY variables\fP.
+
+.SH "CONFIGURATION FILES"
+.PP
+\fBVariables\fR and \fBswitches\fR can either be supplied on command line, or be placed within \fIconfiguration file(s)\fP. It is not possible to define an \fBactor\fR within a \fIconfiguration file\fP. For detailed information about \fIconfiguration files\fP, please consult \fBsakis3g.conf\fR(5).
+
+.SH "EXAMPLES"
+.PP
+\fBExample #1:\fR Extract source of Sakis3G script within \fI/usr/src\fP folder:
+
+ 	# sakis3g disassemble /usr/src
+ 	# ls -ld /usr/src/sakis3g-*
+ 	drwxr-x--- 2 sakis sakis 4096 2010-04-14 06:04 sakis3g-0.2.0
+ 	#
+.PP
+\fBExample #2:\fR Determine status according to \fIresult code\fP:
+
+ 	#!/bin/sh
+ 	/usr/bin/sakis3g silent status
+ 	ret=$?
+ 	if [ "${ret}" -eq "0" ]; then
+ 	   echo "Connected."
+ 	elif [ "${ret}" -eq "6" ]; then
+ 	   /usr/bin/sakis3g silent plugged
+ 	   ret=$?
+ 	   if [ "${ret}" -eq "0" ]; then
+ 	      echo "Not connected."
+ 	   else
+ 	      echo "No modem plugged."
+ 	   fi
+ 	else
+ 	   echo "Error ${ret} occurred." >> /dev/stderr
+ 	fi
+
+.PP
+\fBExample #3:\fR Extract source of \fIembedded\fP \fBUsb-ModeSwitch\fP version and compile a binary for your own use:
+
+ 	$ sakis3g getfile usb_modeswitch.h > usb_modeswitch.h
+ 	$ sakis3g getfile usb_modeswitch.c > usb_modeswitch.c
+ 	$ gcc -Wall -lusb -o "usb_modeswitch" "usb_modeswitch.c"
+ 
+.PP
+\fBExample #4:\fR Check version of \fIembedded\fP \fBUsb-ModeSwitch\fP binary.
+
+ 	$ sakis3g usb_modeswitch --version
+
+.PP
+\fBExample #5:\fR Directly use \fIembedded\fP \fBUsb-ModeSwitch\fP binary to switch a ZTE device:
+
+ $ sakis3g usb_modeswitch -v 19d2 -p 2000 
+ -M "55534243123456782000000080000c85010101180101010101000000000000"
+
+.PP
+\fBExample #6:\fR Display \fIman page\fP of \fIembedded\fP \fBUsb-ModeSwitch\fP version:
+
+ 	$ sakis3g man usb_modeswitch
+
+.PP
+\fBExample #7:\fR Display Sakis3G script's \fIman page\fP:
+
+ 	$ sakis3g man
+
+.PP
+\fBExample #8\fR: \fBinfo actor\fR will only be executed if \fBconnect actor\fR succeeded into establishing data connection:
+
+ 	$ sakis3g connect info
+
+.PP
+\fBExample #9:\fR On this example, \fBconnect actor\fR will never be executed!
+
+ 	$ sakis3g disconnect info connect
+
+Let us discover reason behind:
+.IP " \fB*\fP" 3
+If \fBdisconnect actor\fR failed (e.g. you did not provide it with root password), \fBchain\fR will anyway stop.
+.IP " \fB*\fP" 3
+If \fBdisconnect actor\fR succeeded, then \fBinfo actor\fR will anyway fail, since no active connection exists. 
+
+.PP
+\fBExample #10:\fR Executing \fBswitchonly actor\fR while no \fIswitchable\fP device exists, results into error "No switchable modem found" being displayed. Using this example, you avoid seeing the error message, by aborting \fBchain\fR before \fBswitchonly actor\fR being executed:
+
+ 	$ sakis3g switchable switchonly
+
+.PP
+\fBExample #11:\fR Re-implementing \fBreconnect actor\fR:
+
+ 	$ sakis3g ignore disconnect connect
+
+.PP
+\fBExample #12:\fR Re-implementing \fBtoggle actor\fR:
+
+ 	$ sakis3g connected disconnect || sakis3g disconnected connect
+
+.IP "\fBNote:\fP" 6
+Using this example, instead of \fBtoggle actor\fP, is a waste of cpu-cycles.
+
+.PP
+\fBExample #13:\fR Implementing a more clever \fBreconnect\fR like behavior. This may be useful when your operator sometimes drops connection after a while:
+
+ 	$ sakis3g ignore disconnect connect wait wait wait wait not connected connect
+
+.PP
+\fBExample #14:\fR A native language statement:
+
+ 	$ sakis3g If not connected anywhere, then connect somewhere.
+
+.IP " \fB*\fP" 3
+"If": Unrecognized, ignored.
+.IP " \fB*\fP" 3
+"not": \fBnot operator\fR reversing next \fBactor\fR.
+.IP " \fB*\fP" 3
+"connected": \fBconnected special actor\fR.
+.IP " \fB*\fP" 3
+"anywhere,": Additional unrecognized text, in order to be able to use comma ",". Using it next to "\fBconnected\fR" would lead into "connected," being parsed which would be ignored as unrecognized.
+.IP " \fB*\fP" 3
+"then": Unrecognized, ignored.
+.IP " \fB*\fP" 3
+"connect": \fBconnect actor\fR.
+.IP " \fB*\fP" 3
+"somewhere.": Additional unrecognized text, in order to be able to use dot ".". Using it next to "\fBconnect\fR" would lead into "connect." being parsed which would be ignored as unrecognized. 
+
+.PP
+\fBExample #15:\fR Exercising our manners:
+
+ 	$ sakis3g Can you please connect for me?
+
+.IP " \fB*\fP" 3
+"Can", "you": Unrecognized, ignored.
+.IP " \fB*\fP" 3
+"please": A synonym of \fB--voodoo switch\fR.
+.IP " \fB*\fP" 3
+"connect": \fBconnect actor\fR.
+.IP " \fB*\fP" 3
+"for", "me?": Additional unrecognized text, in order to be able to use question mark "?". Using it next to "\fBconnect\fR" would lead into "connect?" being parsed which would be ignored as unrecognized. 
+
+.SH "EXIT STATUS"
+.PP
+The \fIexit status\fP of Sakis3G script is set to indicate whether any error was
+detected, or the reason for the \fIscript\fP being terminated. Values used are:
+.PP
+ \fB0\fR	No error occured, or
+ 	Connected. [ status actor ]
+.PP
+ \fB1\fR	Failed to become root through sudo, or
+ 	Unexpected internal error.
+.PP
+ \fB2\fR	Reserved.
+.PP
+ \fB3\fR	No method for acquiring root privileges.
+.PP
+ \fB4\fR	Required utility not found within PATH.
+.PP
+ \fB5\fR	Sakis3G itself, not found within PATH.
+.PP
+ \fB6\fR	Not connected, or unable to detect if connected. [ status actor ]
+.PP
+ \fB7\fR	Unable to locate/enumerate connected USB devices.
+.PP
+ \fB8\fR	Error while setting up modem.
+.PP
+ \fB9\fR	Failed to unload existing driver.
+.PP
+ \fB10\fR	Failed to locate appropriate driver for use with USB modem.
+.PP
+ \fB11\fR	Failed to load appropriate driver for USB modem.
+.PP
+ \fB12\fR	Wrong PIN. Aborting to prevent SIM LOCK.
+.PP
+ \fB13\fR	Modem is unable to register a network.
+.PP
+ \fB95\fR	Failed to connect (wvdial or pppd failed to connect).
+.PP
+ \fB98\fR	User interaction required or user requested to terminate.
+.PP
+ \fB99\fR	Unknown error. 
+
+.SH "KNOWN PROBLEMS"
+.PP
+Known problems should be fixed in the future:
+.PP
+\fB1.\fR Connecting with an operator using CDMA is not yet possible.
+.PP
+\fB2.\fR If OSD messages output method is osd_cat/xosd and font defined by XOSDFONT configuration variable does not exist, nothing appears on X screen. Use \fIxfontsel\fP or \fIxlsfonts\fP utilities to construct/locate a valid font string for your system.
+.PP
+\fB3.\fR If you connect using Sakis3G script and then disconnect and connect back by using other software, script may incorrectly report status of connection according to information from previous connection.
+.PP
+\fB4.\fR Ironic messages may appear when invoking script using only non-recognized arguments. 
+
+.SH "LIMITATIONS"
+.PP
+This page refers to known limitations of Sakis3G script. Known limitations are problems, issues or functionality which one should not expect to be fixed/added in the future.
+.PP
+\fB1.\fR For \fISIM card\fP safety reasons, this script does its best to only allow exactly 4-digit PIN numbers. If you use a shorter/longer than 4-digits PIN number, it will not work. Plug \fISIM card\fP to a \fIcellular phone\fP and have its PIN number limited to 4 digits.
+.PP
+\fB2.\fR Unpredicted behavior if more than one modem units with identical USB IDs are connected.
+.PP
+\fB3.\fR Due to the fundamental requirement that script should change nothing on filesystem(s):
+.IP "   \fB*\fP" 5
+It does not store your network configuration prior into getting connected with your 3G/GSM provider.
+.IP "   \fB*\fP" 5
+As a result, after being disconnected:
+.IP "     \fB1.\fP" 8
+it does not revert \fI/etc/resolv.conf\fP back to the configuration prior to making the connection,
+.IP "     \fB2.\fP" 8
+nor it restores your previous default gateway to your routing table. 
+.IP "   \fB*\fP" 5
+If your existing infrastructure provides DNS servers and gateways from DHCP, you could/should try to disconnect and reconnect to network to get a working setup again.
+.IP "   \fB*\fP" 5
+If you were not connected to any other network while establishing 3G connection, this limitation does not apply. 
+.PP
+\fB4.\fR This script does not allow sending SMS.
+.PP
+\fB5.\fR This script does not allow monitoring of signal quality and band.
+.PP
+\fB6.\fR This script does not in any way interfere with your iptables configuration and does intend to do it in the future.
+.IP "   \fB*\fP" 5
+If you want to manage your iptables configuration, use CONNECTION_HOOK variable to invoke a tailor-made command.
+.IP "   \fB*\fP" 5
+As a note, if you encounter problems while sharing (do NAT through) your 3G connection, consider using the following command:
+.IP "" 5
+iptables -I FORWARD -p tcp --tcp-flags SYN,RST SYN 
+         -j TCPMSS --clamp-mss-to-pmtu 
+.PP
+\fB7.\fR While disconnecting, this script will kill all running pppd instances, thus eliminating any other P-t-P connections you might have running. If you have a complex setup (i.e. bridging across ppp connections), you should NOT (need to) use this script, as it also messes up with your routing tables: you were warned. 
+
+.SH "FILES"
+.PP
+Sakis3G script never touches anything on your filesystem(s), except when:
+.IP " \fB*\fP" 3
+explicitly instructed to create a \fIdesktop shortcut\fP, and when
+.IP " \fB*\fP" 3
+explicitly instructed to generate a log.
+.PP
+.IP "\fI/tmp/sakis3g.3gnet\fP         " 10 
+Temporary file containing information useful to Sakis3G script for presenting connection information.
+.IP "\fI/etc/sakis3g.conf\fP         " 10 
+Sakis3G configuration file. Consult \fBsakis3g.conf\fP(5) for more information.
+.IP "\fI~/.3gpin\fP" 10
+Allows user to define its own \fIPIN number\fP. This value gets overriden if \fBSIM_PIN variable\fP is set through \fIcommand line\fP or within a \fIconfiguration file\fP.
+.PP
+Other than that, you may only temporarily witness some file(s) appearing on your \fI/tmp\fP directory.
+
+.SH "SEE ALSO" 
+.PP
+\fBsakis3g.conf\fP(5), \fBusb_modeswitch\fP(1), \fBpppd\fP(8), \fBwvdial\fP(1), \fBudev\fP(1), \fBudevd\fP(8), \fBhald\fP(8)
+
+.SH "AUTHOR" 
+.PP
+Sakis3G script and this man page are written by Sakis Dimopoulos (sakis at project's domain). Official page of project is at:
+.PP
+	http://www.sakis3g.org/
+.PP
+Official documentation of latest Sakis3G script version, is available at:
+.PP
+	http://wiki.sakis3g.org/
+
+.SH "LICENSE"
+.PP
+Sakis3G script is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+.PP
+This program is distributed in the hope that it will be useful, but \fBWITHOUT ANY WARRANTY\fR; without even the implied warranty of \fBMERCHANTABILITY\fR or \fBFITNESS FOR A PARTICULAR PURPOSE\fR. See the GNU General Public License for more details:
+.PP
+	http://www.gnu.org/licenses/gpl.txt
+.PP
+Above statement includes additional charges you may receive from your operator by using this program, defects to your SIM card including but not limited to being PIN blocked, defects on your hardware, 3G service abuse ban etc. \fBUSE WITH CARE\fR. Author of this program or authors of any of its dependencies have no responsibility for what may happen to you.
+.PP
+Author is not related in any way with any of the companies, being operators or modem manufacturers, other than being a customer to some of them. Logos and trademarks mentioned by this package belong to their respective owners.
+.PP
+This program, in order to remain as self-contained as possible, includes original source packages of some of its dependencies. You should consult their respective COPYING and README files to identify terms under which they are redistributed by Sakis3G script. 
+

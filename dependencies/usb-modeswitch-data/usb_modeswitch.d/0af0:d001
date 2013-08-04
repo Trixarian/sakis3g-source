@@ -1,0 +1,14 @@
+#######################################################
+# Option GlobeTrotter GI1515
+
+DefaultVendor= 0x0af0
+DefaultProduct=0xd001
+
+TargetVendor=  0x0af0
+TargetProduct= 0xd157
+
+CheckSuccess=20
+
+MessageContent="55534243785634120100000080000601000000000000000000000000000000"
+
+NoDriverLoading=1

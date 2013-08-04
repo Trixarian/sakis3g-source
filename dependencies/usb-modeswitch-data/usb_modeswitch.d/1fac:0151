@@ -1,0 +1,11 @@
+########################################################
+# Franklin Wireless U600
+
+DefaultVendor= 0x1fac
+DefaultProduct=0x0151
+
+TargetClass=0xff
+Configuration=2
+
+CheckSuccess=20
+

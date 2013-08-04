@@ -1,0 +1,13 @@
+########################################################
+# ZTE MF821D
+
+DefaultVendor= 0x19d2
+DefaultProduct=0x0325
+
+TargetVendor=  0x12d1
+TargetProduct= 0x0326
+
+MessageContent="5553424312345678000000000000061b000000020000000000000000000000"
+
+CheckSuccess=20
+

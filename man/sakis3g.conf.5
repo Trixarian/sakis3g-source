@@ -1,0 +1,1283 @@
+.TH "sakis3g.conf" "5" 
+.SH "NAME" 
+sakis3g.conf - Configuration file of Sakis3G script
+
+.SH "DESCRIPTION" 
+.PP
+Every time \fBSakis3G script\fP is started, configuration is determined by running a specific sequence. If more than one of the eligible \fIconfiguration file(s)\fP exist, they are processed in the order they appear below:
+.PP
+   \fB1.\fR ~/.3gpin
+   \fB2.\fR \fICommand line arguments
+   \fB3.\fR /etc/default/3gpin
+   \fB4.\fR /etc/sysconfig/3gpin
+   \fB5.\fR /etc/3gpin
+   \fB6.\fR /etc/default/sakis3g.3gpin
+   \fB7.\fR /etc/sysconfig/sakis3g.3gpin
+   \fB8.\fR /etc/sakis3g.3gpin
+   \fB9.\fR /etc/default/sakis3g
+   \fB10.\fR /etc/sysconfig/sakis3g
+   \fB11.\fR /etc/sakis3g.conf
+.PP
+This means that \fI/etc/sakis3g.conf\fP overrides anything
+
+
+.SH "CONFIGURATION TYPES" 
+.PP
+There are two types of \fIconfiguration options\fP for Sakis3G script:
+.IP "\fBSwitches\fR" 10
+Switches alter behavior of script, enabling or disabling \fIfunctionality\fP. It is usually provided only one switch per functionality: the one that alters default operation. As an example, \fBstorage switch\fP is a synonym for \fBnostorage switch\fP. There is not such thing as yesstorage since default functionality anyway respects storage personality of a \fIUSB device\fP.
+.IP "\fBVariables\fR" 10
+Variables provide an other than default value to \fIinternal variables\fP of Sakis3G script, or provide a shortcut mechanism to avoid answering the same question again and again. As an example, providing \fBSIM_PIN="1234"\fP makes sure that script will never ask you again for the \fIPIN number\fP of your \fISIM card\fP (and will effectively block any other \fISIM card\fP requiring \fIPIN number\fP, that might get connected to your computer). 
+.PP
+	Both \fIconfiguration types\fP can either be supplied on \fIcommand line\fP, or 
+be placed within \fIconfiguration files\fP. It is not possible to define an \fBactor\fR within a \fIconfiguration file\fP.
+.PP
+	If a \fBvariable\fP exists in both the \fIcommand line\fP and a \fIconfiguration file\fP, value from \fIconfiguration file\fP will be used. A \fBvariable\fP defined on \fIcommand line\fP can be unset, within a \fIconfiguration file\fP, by being assigned an empty value (e.g. \fBSIM_PIN=""\fP). On the other hand, if a \fBswitch\fP exists in \fIcommand line\fP, there is no way it can be unset within a \fIconfiguration file\fP and vice versa. 
+.PP
+	If a \fBvariable\fP exists more than once in \fIcommand line\fP, right-most assignment is taken into consideration. As an example, command:
+.IP "" 12
+sakis3g SIM_PIN=1234 SIM_PIN=1111
+.PP
+will be executed using "1111" as \fIPIN number\fP.
+.PP
+Keep in mind that:
+.IP "\fB*\fR" 2
+Sakis3G script will never generate or modify any \fIconfiguration file\fP. You need to create/edit \fIconfiguration file(s)\fP by yourself.
+.IP "\fB*\fR" 2
+Lines starting with '#' and empty lines are ignored.
+.IP "\fB*\fR" 2
+\fBVariable\fP values and \fBswitches\fP specified within \fIconfiguration file(s)\fP cannot be overridden/purged from \fIcommand line\fP. You should therefore be cautious on what you place inside \fIconfiguration file(s)\fP.
+.IP "\fB*\fR" 2
+\fBVariable\fP values and \fBswitches\fP, specified within \fIconfiguration file(s)\fP, should appear only \fIone per line\fP. Example:
+.IP "" 10
+ --nostorage
+ MODEM="19d2:0031 1bbb:0000 1bbb:f000 19d2:2000"
+
+.SH "SWITCHES" 
+.PP
+\fBSwitches\fP are supposed to be not prefixed, or prefixed with a single or with double minus.
+.PP
+ 	[-][-]<switch name|switch synonym>
+.PP
+Following our previous \fBswitch\fP example, all:
+.PP
+    \fB*\fP --nostorage,
+    \fB*\fP --storage, 
+    \fB*\fP -nostorage,
+    \fB*\fP -storage, 
+    \fB*\fP nostorage,
+    \fB*\fP storage 
+.PP
+have the exact same effect. Most \fBswitches\fP also offer \fIsynonyms\fP like our \fBnostorage\fP example.
+.PP
+.IP "\fB*\fP" 2
+\fISynonyms\fP are only provided for aesthetic and backwards compatibility purposes.
+.IP "\fB*\fP" 2
+Since a \fIsynonym's\fP functionality may change in the future, you should generally avoid using \fIsynonyms\fP. 
+.IP "\fB*\fP" 2
+\fISynonym\fP are not listed below. Please consult documentation to discover available \fIsynonyms\fP. 
+
+.IP "\fB-b\fP, \fB--balloons\fP" 10
+This \fBswitch\fP instructs Sakis3G script to:
+.IP "          \fB*\fP" 12
+display balloon notifications, using \fInotify-send\fP utility, when an action is complete.
+.IP "          \fB*\fP" 12
+display balloon notifications, using \fIzenity\fP, when events occur and script is running as \fIhelper\fP. 
+.IP "" 10
+\fBNotes:\fP
+.IP "          \fB*\fP" 12
+This \fBswitch\fP is \fIdisabled\fP when using a \fItext mode UI\fP.
+.IP "          \fB*\fP" 12
+Action completion \fInotifications\fP are \fIdisabled\fP when \fB--osd switch\fP is set.
+.IP "          \fB*\fP" 12
+Some systems fail to present \fInotifications\fP when \fInotify-send\fP is called by \fIroot\fP, displaying following text: 
+.IP "" 14
+libnotify-Message: Unable to get session bus: Did not receive a reply. Possible causes include: the remote application did not send a reply, the message bus security policy blocked the reply, the reply timeout expired, or the network connection was broken.
+
+.IP "\fB-c\fP, \fB--console\fP" 10
+This \fBswitch\fP instructs Sakis3G script not to take into consideration any active X displays and instead remain in (virtual) terminal from which it was invoked.
+.IP "          \fBNote:\fP" 16
+If you need an \fIinteractive text mode UI\fP to be used, then use of this switch requires you to also set:
+.IP "                \fB*\fP" 18
+\fB--interactive switch\fP, or
+.IP "                \fB*\fP" 18
+explicitly set an \fIinteractive text mode UI\fP through \fBSGUI variable\fP or corresponding \fBswitches\fP.
+
+.IP "\fB-d\fP, \fB--debug\fP" 10
+This \fBswitch\fP enables \fIdebug mode\fP.
+.IP "          \fB*\fP" 12
+This is the first step one should make when troubleshooting.
+.IP "          \fB*\fP" 12
+When Sakis3G script operates in \fIdebug mode\fP a huge amount of \fIdebug information\fP is sent to \fIstandard error\fP.
+.IP "          \fB*\fP" 12
+Providing \fIdebug output\fP when seeking support is essential. 
+.IP "" 10
+To grab debug information use following syntax:
+.IP "" 12
+sakis3g connect --debug 2> /home/sakis/sakis3g.log
+.IP "          \fBNote:\fP" 16
+Use of this switch significantly reduces performance. Make sure it is not set when not required.
+
+.IP "\fB-f\fP, \fB--nofix\fP" 10
+Whenever a data connection is initiated, and before \fIinforming\fP you about connection being established, Sakis3G script performs the following two actions:
+.IP "          \fB1.\fP" 13
+Forces \fIdefault gateway\fP to be the \fIP-t-P peer\fP provided by newly created \fIinterface\fP.
+.IP "          \fB2.\fP" 13
+If DNS servers, provided by operator, are 10.11.12.13 and 10.11.12.14, sets \fIGoogle DNS servers\fP instead. 
+.IP "" 10
+These actions take care that newly initiated P-t-P connection is properly setup.
+.IP "" 10
+This \fBswitch\fP allows you to \fIprevent\fP these actions from taking place. This can be useful:
+.IP "          \fB*\fP" 12
+if you do not want all traffic to pass through "expensive" WAN connection and only direct specific traffic through mobile internet, or
+.IP "          \fB*\fP" 12
+if you anyway set appropriate \fIDNS servers\fP using another method/interface/IP. 
+
+.IP "          \fBNotes:\fP" 17
+.IP "                 \fB*\fP" 19
+Action which might be specified by \fBCONNECTION_HOOK variable\fP is still performed when this \fBswitch\fP is set.
+.IP "                 \fB*\fP" 19
+This \fBswitch\fP \fIdisables\fP \fB--googledns switch\fP and \fBDNS variable\fP.
+
+.IP "\fB-G\fP, \fB--guruplug\fP" 10
+Instructs script to attempt and utilize leds, found on GuruPlug devices, for indicating progress, errors and success. Using this \fBswitch\fP while
+not running on a GuruPlug device has no effect.
+.IP "          \fBNotes:\fP" 17
+.IP "                 \fB*\fP" 19
+This \fBswitch\fP is affected by \fB--noverbose\fP, \fB--noerrors\fP, \fB--nonotify\fP and \fB--quiet switches\fP.
+.IP "                 \fB*\fP" 19
+Sakis3G script will restore leds, on the state they had been before invoking it, upon exit.
+.IP "                 \fB*\fP" 19
+Errors are denoted by both leds blinking red for 5 seconds.
+.IP "                 \fB*\fP" 19
+Success is denoted by both leds blinking green for 5 seconds.
+.IP "                 \fB*\fP" 19
+Progress is indicated by both leds being green, while they swap blinking each time progress is advanced. If a step is persisted (e.g. when
+waiting for modem to register a network), blinking led goes red.
+
+.IP "\fB-g\fP, \fB--googledns\fP" 10
+Setting this \fBswitch\fP instructs Sakis3G script to set \fIGoogle DNS servers\fP immediately after connection with operator is established, regardless of \fIname servers\fP suggested by operator.
+.IP "          \fBNotes:\fP" 17
+.IP "                 \fB*\fP" 19
+This \fBswitch\fP is equivalent to:
+.IP "" 23
+DNS="8.8.8.8 8.8.4.4"
+.IP "                 \fB*\fP" 19
+This \fBswitch\fP is \fIdisabled\fP when \fB--nofix switch\fP is set.
+
+.IP "\fB-h\fP, \fB--nohal\fP" 10
+This \fBswitch\fP instructs Sakis3G script not to contact \fBHAL\fP.
+.IP "" 10
+Sakis3G script interacts with \fBHAL\fP (if \fIhald\fP is installed) in two occasions:
+.IP "          \fB1.\fP" 13
+Before \fIswitching\fP modem in order to \fIexclusively lock\fP interface \fIorg.freedesktop.Hal.Device.Storage\fP and avoid \fBHAL\fP messing with \fIUSB device\fP while Sakis3G script does not expect it.
+.IP "          \fB1.\fP" 13
+Immediately after modem has been \fIPIN unlocked\fP and \fIregistered to network\fP (and before setting \fIAPN\fP and connecting) in order to inform \fBHAL\fP that a modem exists. 
+.IP "          \fBNotes:\fP" 17
+.IP "                 \fB*\fP" 19
+This \fBswitch\fP is automatically set when one or more of the following utilities are \fInot found\fP within path:
+.IP "                   \fB*\fP" 21
+\fIhal-device\fP
+.IP "                   \fB*\fP" 21
+\fIhal-find-by-property\fP
+.IP "                   \fB*\fP" 21
+\fIhal-get-property\fP
+.IP "                   \fB*\fP" 21
+\fIhal-lock\fP
+.IP "                   \fB*\fP" 21
+\fIhal-set-property\fP
+.IP "                 \fB*\fP" 19
+This \fBswitch\fP also implies \fB--nohalinform switch\fP.
+
+.IP "\fB-i\fP, \fB--interactive\fP" 10
+This \fBswitch\fP informs Sakis3G script that it can utilize its \fIinteractive mode\fP and not abort when user interference is required.
+
+This means:
+.IP "          \fB*\fP" 12
+It can ask user to perform selections when required,
+.IP "          \fB*\fP" 12
+It can prompt user to provide values when required,
+.IP "          \fB*\fP" 12
+User can provide root password if required. 
+.IP "" 10
+Script takes this information into consideration when deciding which \fIUI\fP to use.
+.IP "          \fBNotes:\fP" 17
+.IP "                 \fB*\fP" 19
+Explicitly setting a \fIUI\fP (by using \fBSGUI variable\fP or respective \fBswitches\fP) which requires \fB--interactive switch\fP being set, results into \fIinteractive mode\fP anyway being set.
+.IP "                 \fB*\fP" 19
+When \fIinteractive mode\fP is \fInot\fP enabled, and not implied, Sakis3G script will abort whenever user interference is required.
+.IP "                 \fB*\fP" 19
+When:
+.IP "                       \fB*\fP" 25
+DISPLAY \fIenvironment variable\fP points to a valid local X session display, and
+.IP "                       \fB*\fP" 25
+access is granted for that display, and
+.IP "                       \fB*\fP" 25
+tools required for using at least one \fIGraphical UI\fP are available, then 
+.IP "" 19
+this switch is set unconditionally. In other words, an X display \fBimplies\fP \fIinteractive mode\fP availability.
+
+If you need to prevent this assumption (however, this will prevent you from using any Graphical UI):
+.IP "                       \fB*\fP" 25
+consider using \fB--console switch\fP, or
+.IP "                       \fB*\fP" 25
+unset DISPLAY \fIenvironment variable\fP before invoking Sakis3G script:
+.IP "" 29
+unset DISPLAY; sakis3g
+
+.IP "\fB-k\fP, \fB--nostorage\fP" 10
+Some \fIUSB modems\fP provide a \fIstorage interface\fP even after being \fImode switched\fP. This is essentially true for devices offering an SD/microSD/MMC slot. This triggers numerous procedures being initiated for setting up those \fIblock device(s)\fP exported by \fIstorage interface\fP. Depending on \fIkernel version\fP and \fIsystem setup\fP:
+.IP "          \fB*\fP" 12
+Setting up those volume(s) may take several seconds.
+.IP "            \fB*\fP" 14
+Especially if your system intends to automatically \fImount\fP exported volume(s). 
+.IP "          \fB*\fP" 12
+Setting up those volume(s), may render modem unusable.
+.IP "          \fB*\fP" 12
+Accessing those volume(s) (even after data connection is established) may still render modem unusable.
+.IP "          \fB*\fP" 12
+Setting up modem-part and storage-part simultaneously may render one or both parts unusable. 
+.IP "" 10
+Sakis3G script takes all measures required for preventing any simultaneous modem and storage operations, leading to an, as much as possible, stable environment:
+.IP "          \fB1.\fP" 13
+Locks \fBHAL\fP before \fIswitching\fP device.
+.IP "          \fB2.\fP" 13
+\fISwitches\fP device.
+.IP "          \fB3.\fP" 13
+Checks if \fBusb_storage\fP got bound to \fIstorage interface\fP.
+.IP "             \fB*\fP" 16
+If it is bound:
+.IP "               \fB*\fP" 18
+\fIUnlocks\fP \fBHAL\fP and checks if \fBHAL\fP spawned a \fIpolling process\fP.
+.IP "                 \fB*\fP" 20
+If a \fIpolling process\fP was spawned:
+.IP "                   \fB*\fP" 22
+Awaits for spawned process to finish \fImounting volumes\fP. 
+.IP "             \fB*\fP" 16
+If it is not bound:
+.IP "               \fB*\fP" 18
+Unlocks HAL. 
+.IP "          \fB4.\fP" 13
+Then proceeds into setting up modem-part. 
+.IP "" 10
+Doing all these may take \fIseveral\fP seconds (even up to 30 seconds). Even then, things can still be destroyed by another \fIsilly\fP process messing with modem or volume(s).
+
+This \fBswitch\fP instructs Sakis3G script to \fIsafely unbind\fP \fBusb_storage\fP \fImodule\fP from \fIstorage interface\fP (if possible). Chances of storage-part operations interfering with modem-part operations are then highly reduced.
+.IP "          \fBNotes:\fP" 17
+.IP "                 \fB*\fP" 19
+Using this \fBswitch\fP renders \fIUSB modem's\fP SD/microSD/MMC card slot unusable.
+.IP "                 \fB*\fP" 19
+Using this \fBswitch\fP simultaneously with \fB--nohal switch\fP, may get you into various troubles:
+.IP "                   \fB*\fP" 21
+Your system and/or file manager may complain about volume disappearing.
+.IP "                   \fB*\fP" 21
+Your system may recover by \fIre-binding\fP \fBusb_storage\fP \fImodule\fP to \fIstorage interface\fP.
+.IP "                     \fB*\fP" 23
+Still Sakis3G script will be considering it did its job into eliminating storage part and will proceed.
+.IP "                     \fB*\fP" 23
+Simultaneous access/setup operations to modem and storage parts will be taking place, leading into one or both parts being unusable. 
+
+.IP "\fB-l\fP, \fB--nohalinform\fP" 10
+Whenever Sakis3G script has finished setting up your modem, it updates \fIserial node's\fP \fBHAL entry\fP so that your system is aware of the newly attached modem. Using this \fBswitch\fP you can disable this functionality.
+.IP "          \fBNotes:\fP" 17
+.IP "                 \fB*\fP" 19
+Disabling this functionality may be helpful if \fImodemmanager\fP keeps messing with newly appeared modems, preventing (or delaying) Sakis3G script from using modem.
+.IP "                 \fB*\fP" 19
+This \fBswitch\fP is implied when \fB--nohal switch\fP is set.
+
+.IP "\fB-n\fP, \fB--noprobegsm\fP" 10
+Sakis3G script probes \fIcharacter device node\fP (aka. \fItty node\fP) for \fIGSM capabilities\fP before proceeding into attempting data connection. However, some modems do not advertise their \fIGSM capabilities\fP resulting into Sakis3G script aborting connection.
+
+Setting this \fBswitch\fP allows you to force Sakis3G script consider \fItty node\fP GSM capable.
+
+.IP "\fB-o\fP, \fB--osd\fP" 10
+This \fBswitch\fP instructs Sakis3G script to use \fIOSD messages\fP for \fIverbosing\fP and displaying \fIprogress bars\fP, instead of method provided by \fIUI\fP.
+.IP "          \fB*\fP" 12
+This \fBswitch\fP requires \fIaosd_cat\fP/aosd or \fIosc_cat\fP/xosd being available within \fBPATH\fP.
+.IP "          \fB*\fP" 12
+If none of them is found within \fBPATH\fP, this \fBswitch\fP will be ignored.
+.IP "          \fB*\fP" 12
+If both of them are found, \fIosd_cat\fP/xosd is used since it is able to provide \fIprogress bar functionality\fP.
+.IP "          \fB*\fP" 12
+If \fB--noverbose switch\fP is set, \fIOSD messages\fP still appear as a \fIfinal notification\fP text (e.g. "Connected to..." or "Disconnected").
+.IP "            \fB*\fP" 14
+If you do need to also eliminate these:
+.IP "              \fB*\fP" 16
+Either set \fB--nonotify switch\fP, or
+.IP "              \fB*\fP" 16
+do not set \fB--osd switch\fP at first place. 
+
+.IP "          \fBNotes:\fP" 17
+.IP "                 \fB*\fP" 19
+You need to have access to a valid local X session display. Either appropriately set DISPLAY \fIenvironment variable\fP or use Sakis3G \fBDISPLAY\fP and \fBLOCALAUTHORITY variables\fP to specify target display.
+.IP "                 \fB*\fP" 19
+Use of this \fBswitch\fP disables \fB--balloons switch\fP.
+.IP "                 \fB*\fP" 19
+This \fBswitch\fP is disabled when using a \fItext mode UI\fP, even if an X session DISPLAY is available/detected.
+
+.IP "\fB-P\fP, \fB--persist\fP" 10
+This \fBswitch\fP is only taken into consideration with \fBhelper actor\fP is running. This \fBswitch\fP instructs \fIhelper\fP to ignore user selecting \fIExit option\fP and instead keep running.
+.IP "          \fB*\fP" 12
+This can be useful when you have to cope with users that keep selecting \fIExit\fP and then complain that "it disappeared".
+.IP "          \fBNote:\fP" 16
+Using this \fBswitch\fP can be really annoying when you attempt to stop Sakis3G script by killing it.
+
+.IP "\fB-p\fP, \fB--pppd\fP" 10
+This \fBswitch\fP instructs Sakis3G script to directly use \fIpppd\fP and not call \fIwvdial\fP. This \fBswitch\fP is automatically set when \fIwvdial\fP is not found within \fBPATH\fP. 
+
+.IP "\fB-q\fP, \fB--quiet\fP" 10
+Eliminates any \fIconfirmation/information/error/verbose text\fP and \fIprogress bars\fP from appearing.
+
+Dialogs prompting user to make a selection or provide a value will still appear. If you want to also suppress prompts, then both:
+.IP "          \fB*\fP" 12
+set \fB--console switch\fP, and
+.IP "          \fB*\fP" 12
+make sure \fB--interactive switch\fP is not set. 
+.IP "          \fBNotes:\fP" 17
+.IP "                 \fB*\fP" 19
+This \fBswitch\fP implies all \fB--noerrors\fP, \fB--nonotify\fP and \fB--noverbose switches\fP.
+
+.IP "\fB--noerrors\fP" 10
+Eliminates any \fIerror message\fP from appearing.
+.IP "          \fBNote:\fP" 16
+This \fBswitch\fP is implied when \fB--quiet\fP switch is set.
+
+.IP "\fB--nonotify\fP" 10
+Eliminates any \fIconfirmation/information text\fP from appearing. Dialogs prompting user to perform a selection or provide a value will still appear. 
+
+.IP "          \fBNote:\fP" 16
+This \fBswitch\fP is implied when \fB--quiet\fP switch is set.
+
+.IP "\fB--noverbose\fP" 10
+Eliminates any \fIverbose text\fP or \fIprogress bar\fP from appearing while Sakis3G script is working.
+.IP "          \fBNote:\fP" 16
+This \fBswitch\fP is implied when \fB--quiet\fP switch is set.
+
+
+.IP "\fB--scanno\fP" 10
+If modem is unable to automatically register a network, script will offer you to manually select one, 
+by scanning for available networks. This \fBswitch\fP instructs script not to scan for available networks 
+and unconditionally fail whenever modem fails to register a network.
+.IP "          \fBAlso see:\fP" 20
+\fB--scanyes\fP
+
+.IP "\fB--scanyes\fP" 10
+Instructs script to scan for available networks whenever modem does not automatically register one.
+.IP "          \fBAlso see:\fP" 20
+\fB--scanno\fP
+
+
+.IP "\fB-s\fP, \fB--sudo\fP" 10
+This \fBswitch\fP instructs Sakis3G script to always use \fIsudo\fP utility for acquiring root privileges. This can be useful when you do not want to share \fIroot password\fP with users, still allow them to use Sakis3G script. Example:
+.IP "" 12
+Type this:
+.IP "" 18
+$ sudo visudo
+.IP "" 12
+Append similar lines to file and save it.
+.IP "" 17
+ %bar ALL=(root) NOPASSWD: /usr/bin/sakis3g
+ foo  ALL=(root) NOPASSWD: /usr/bin/sakis3g
+.IP "" 12
+User \fIfoo\fP and members of \fIbar\fP group will
+then be able to use Sakis3G script without ever
+being prompt to supply administrator password.
+.IP "          \fBNotes:\fP" 17
+.IP "                 \fB*\fP" 19
+When using a \fIsudo based\fP distribution (like Ubuntu), there is no need to use this \fBswitch\fP, since \fIgksu\fP will anyway use \fIsudo\fP as backend.
+.IP "                 \fB*\fP" 19
+Setting this \fBswitch\fP while using a \fIGraphical UI\fP, will force Sakis3G script to \fIfail\fP since \fIsudo\fP output will end up to \fIvoid\fP, unless you use \fBNOPASSWD\fP as illustrated in example above.
+
+.IP "\fB-T\fP, \fB--showtext\fP" 10
+This \fBswitch\fP (in conjuction with \fB--debug switch\fP) results into \fIdebug information\fP, regarding translations, to appear in \fIstandard error\fP.
+
+.IP "\fB-t\fP, \fB--notranslate\fP" 10
+If there is a translation for your \fIlocale\fP, it is automatically used as long as \fIUI\fP allows it. Setting this \fBswitch\fP disables translations.
+.IP "          \fBNotes:\fP" 17
+.IP "                 \fB*\fP" 19
+If no appropriate translation is found, and no other translation file is provided through \fBTRANSLATE variable\fP, this \fBswitch\fP is automatically set.
+.IP "                 \fB*\fP" 19
+If you can afford English text, setting this \fBswitch\fP will significantly improve performance.
+
+.IP "\fB-u\fP, \fB--unsafe\fP" 10
+Several \fIUSB devices\fP have a tendency to "break" after being plugged for a while. This may happen due to:
+.IP "          \fB1.\fP" 13
+Bad hardware implementation of modem or USB controller, or
+.IP "          \fB2.\fP" 13
+Bugs in device EEPROM, or
+.IP "          \fB3.\fP" 13
+An unknown/undocumented \fIAT command\fP is required to prevent device from enterring its propretiary "power saving" mode. 
+.IP "" 10
+Sometimes, when this happens, any application trying to access \fIUSB bus\fP goes \fIstalled\fP until device is physically removed from bus. Sakis3G script uses safety checks to avoid being \fIstalled\fP. Instead, it informs user that he should try reconnecting device.
+
+Setting this \fBswitch\fP allows you to disable those safety checks.
+.IP "          \fB*\fP" 12
+If this never happens to your device, it is safe that you set it and reduce time required to connect by a maximum of 4 seconds.
+.IP "          \fB*\fP" 12
+If Sakis3G script incorrectly reports it happened and stops working for no reason, you can try setting this \fBswitch\fP in case it helps (but I doubt it will). 
+
+.IP "\fB-v\fP, \fB--voodoo\fP" 10
+Enables \fIVoodoo mode\fP. When Sakis3G script is executed under \fIvoodoo mode\fP it will attempt to perform without your interference (if possible).
+.IP "          \fBNote:\fP" 16
+You should be cautious when using \fIvoodoo mode\fP. If your modem is not found with \fIembedded\fP \fBUsb-ModeSwitch\fP \fIdevice database\fP, and in order to avoid asking you about which your modem is, Sakis3G script may consider an attached \fImass storage USB device\fP being a not yet \fIswitched\fP device. This will lead into device being \fIejected\fP.
+
+.IP "\fB--9menu\fP, \fB--kdialog\fP, \fB--zenity\fP, \fB--Xdialog\fP" 10
+Forces script to use respective application for presenting \fIuser interface\fP.
+.IP "          \fB*\fP" 12
+If respective application is not found within \fBPATH\fP, another \fIUI\fP will be used instead.
+.IP "          \fB*\fP" 12
+Equivalent to: 
+.IP "" 15
+ SGUI="9menu" or
+ SGUI="kdialog" or
+ SGUI="Xdialog" or
+ SGUI="zenity"
+.IP "          \fBNotes:\fP" 17
+.IP "                 \fB*\fP" 19
+You need to have access to a valid local X session display. Either appropriately set DISPLAY \fIenvironment variable\fP or use Sakis3G \fBDISPLAY\fP and \fBLOCALAUTHORITY variables\fP to specify target display. Otherwise, a \fItext mode UI\fP will be used instead.
+.IP "                 \fB*\fP" 19
+These \fBswitches\fP imply \fB--interactive switch\fP.
+.IP "                 \fB*\fP" 19
+Translations are not available when using \fI9menu\fP or \fIXdialog\fP for displaying \fIUI\fP.
+
+.IP "\fB--gnome-terminal\fP, \fB--konsole\fP, \fB--xterm\fP" 10
+Forces script to spawn a new Sakis3G script instance within respective \fIterminal emulation application\fP. Spawned instance will be using best available \fItext mode UI\fP. There is no way to specify \fIUI\fP which spawned instance will be using. If respective \fIterminal application\fP is not found within \fBPATH\fP, another \fIUI\fP will be used instead.
+
+Equivalent to: 
+.IP "" 15
+ SGUI="gnome-terminal" or
+ SGUI="konsole" or
+ SGUI="xterm"
+.IP "          \fBNotes:\fP" 17
+.IP "                 \fB*\fP" 19
+You need to have access to a valid local X session display. Either appropriately set DISPLAY \fIenvironment variable\fP or use Sakis3G \fBDISPLAY\fP and \fBLOCALAUTHORITY variables\fP to specify target display. Otherwise, a \fItext mode UI\fP will be used instead.
+.IP "                 \fB*\fP" 19
+These switches imply \fB--interactive switch\fP.
+
+.IP "\fB--dialog\fP, \fB--whiptail\fP" 10
+Forces script to use respective utility for presenting \fIUI\fP. If required utility is not found within \fBPATH\fP another \fIUI\fP will be used instead, not necessarily a \fItext mode UI\fP. If you want to make sure a \fItext mode UI\fP will be used, also supply \fB--console switch\fP.
+
+Equivalent to: 
+.IP "" 15
+ SGUI="dialog" or
+ SGUI="whiptail"
+.IP "          \fBNote:\fP" 16
+Both \fBswitches\fP imply \fB--interactive switch\fP.
+
+.IP "\fB--iterm\fP" 10
+Forces script not use any application for providing \fIUI\fP and instead resemble a simple \fItext mode UI\fP using colored output and gathering input through \fIshell builtin functions\fP.
+
+Equivalent to: 
+.IP "" 15
+ SGUI="interactive terminal"
+.IP "          \fBNote:\fP" 16
+Implies \fB--interactive switch\fP.
+
+.IP "\fB--term\fP" 10
+Forces script not to use \fIany UI\fP. All required options and values, of \fBactor(s)\fP specified in \fIcommand line\fP, must be already supplied either using \fIcommand line\fP or through a \fIconfiguration file\fP. Otherwise, \fBactor(s)\fP will fail.
+
+Equivalent to: 
+.IP "" 15
+ SGUI="terminal"
+
+.IP "\fB--legacy\fP" 10
+Provided for convenience, simulating \fIlegacy version's\fP appearance. Equivalent to supplying both: 
+.IP "" 15
+ --9menu --osd
+
+.SH "VARIABLES"
+.PP
+\fBVariables\fP are expected to have the following syntax:
+.IP "" 5
+\fI<Variable name>\fP = [ "\fI<Variable value>\fP" | \fI<Valuewithnospace>\fP ]
+.PP
+Which means that quotes are only necessary when a white space is to be included within value.
+.PP
+There is also \fImultiple values\fP syntax:
+.IP "" 5
+\fI<Variable name>\fP = "\fI<Value1>\fP [ \fI<Value2>\fP [ \fI...\fP ] ]"
+.PP
+\fIMultiple values\fP syntax allows you to provide multiple valid values for a \fBvariable\fP. Sakis3G script will iterate through supplied values until first one being valid is encountered. This value automatically replaces contents of \fBvariable\fP and iteration stops. \fIMultiple values\fP syntax is only available for the following \fBvariables\fP:
+.PP
+ \fB*\fP APN           \fB*\fP MODEM       \fB*\fP USBDRIVER
+ \fB*\fP BLUETOOTH     \fB*\fP MOREMENU    \fB*\fP USBINTERFACE
+ \fB*\fP DESKTOPICON   \fB*\fP OTHER       \fB*\fP USBMODEM
+ \fB*\fP MENU          \fB*\fP RFSERVICE
+.PP
+Sakis3G script does not require that you provide a value to any of these \fBvariables\fP. Even if it fails to find appropriate value itself, it will ask that you do it through \fIUI\fP. You only need to supply a value on \fBvariables\fP if:
+.IP " \fB1.\fP" 4
+no \fIUI\fP is available, rendering script unable to proceed lacking your feedback,
+.IP " \fB2.\fP" 4
+you want to avoid navigating and providing answers through \fIUI\fP,
+.IP " \fB3.\fP" 4
+automatically selected value is not correct,
+.IP " \fB4.\fP" 4
+you want to prevent users from making wrong decisions themselves, and instead force appropriate values through a \fIconfiguration file\fP.
+.IP " \fB5.\fP" 4
+you want to fine tune Sakis3G script operation. 
+
+.IP "\fBAOSDFONT\fP" 10
+This \fBvariable\fP defines \fIfont\fP that should be used when displaying \fIOSD messages\fP using \fIaosd_cat\fP utility. If no value is provided, default value \fIDejaVuSans 36\fP is loaded. If value specified refers to a \fIfont\fP not available in system, \fIaosd_cat\fP replaces it with a valid one.
+
+Example:
+.IP "" 18
+ AOSDFONT="DejaVuSans 24"
+.IP "" 10
+See also: \fBXOSDFONT\fP, \fBOSDFONT\fP
+
+.IP "\fBAPN\fP" 10
+This variable defines \fIAPN\fP (\fIAccess Point Name\fP) that should be used to establish connection. Value assigned must be a valid \fIAPN\fP for your \fIoperator\fP, or word "\fICUSTOM_APN\fP". If value assigned is not a valid \fIAPN\fP for your \fIoperator\fP, value is discarded.
+
+If your \fIoperator\fP is not found within \fIlist of known operators\fP, Sakis3G script will check if your modem has an \fIAPN\fP stored since its last connection. If it has, that \fIAPN\fP will be considered a valid \fIAPN\fP.
+
+If none of the above operations indicated a valid \fIAPN\fP for you to use, no matter what value is already loaded, "\fICUSTOM_APN\fP" is automatically set.
+.IP "          \fB*\fP" 12
+When value "\fICUSTOM_APN\fP" is specified, \fIAPN name\fP is instead retrieved from \fBCUSTOM_APN variable\fP. 
+.IP "" 10
+Examples:
+.IP "" 18
+ APN="internet.myprovider"
+ APN="CUSTOM_APN" CUSTOM_APN="internet.myprovider"
+.IP "" 10
+See also: \fBAPN_USER\fP, \fBAPN_PASS\fP, \fBCUSTOM_APN\fP, \fBFORCE_APN\fP
+
+.IP "\fBAPN_USER\fP" 10
+This value defines \fIusername\fP which \fIoperator\fP requires when using selected \fIAPN\fP (\fIAccess Point Name\fP).
+.IP "          \fB*\fP" 12
+If \fIoperator\fP provided you with a \fIusername\fP, required for performing connection, this is the place to use it.
+.IP "          \fB*\fP" 12
+Most \fIoperators\fP are reasonable enough not to require a special \fIusername\fP for widely used \fIAPNs\fP.
+.IP "          \fB*\fP" 12
+If \fIoperator\fP does not require a \fIusername\fP, you can place anything you like.
+.IP "          \fBNote:\fP" 16
+Even if your \fIAPN\fP does not need a \fIusername\fP, you still have to provide a value in this \fBvariable\fP. By convention, on these cases we usually use "\fIuser\fP" as \fIusername\fP, indicating that no exact value is required. 
+.IP "" 10
+Example:
+.IP "" 18
+ APN="CUSTOM_APN" 
+ CUSTOM_APN="internet.myprovider.com"
+ APN_USER="myphonenumber"
+.IP "" 10
+See also: \fBAPN\fP, \fBAPN_PASS\fP, \fBCUSTOM_APN\fP, \fBFORCE_APN\fP
+
+.IP "\fBAPN_PASS\fP" 10
+This value defines \fIpassword\fP which \fIoperator\fP requires when using selected \fIAPN\fP (\fIAccess Point Name\fP).
+.IP "          \fB*\fP" 12
+If \fIoperator\fP provided you with a \fIpassword\fP, required for performing connection, this is the place to use it.
+.IP "          \fB*\fP" 12
+Most \fIoperators\fP are reasonable enough not to require a special \fIpassword\fP for widely used \fIAPNs\fP.
+.IP "          \fB*\fP" 12
+If \fIoperator\fP does not require a \fIpassword\fP, you can place anything you like.
+.IP "          \fBNote:\fP" 16
+Even if your \fIAPN\fP does not need a \fIpassword\fP, you still have to provide a value in this \fBvariable\fP. By convention, on these cases we usually use "\fIpass\fP" as \fIpassword\fP, indicating that no exact value is required. 
+.IP "" 10
+Example:
+.IP "" 18
+ APN="CUSTOM_APN" 
+ CUSTOM_APN="internet.myprovider.com"
+ APN_USER="myphonenumber" 
+ APN_PASS="internet123"
+.IP "" 10
+See also: \fBAPN\fP, \fBAPN_USER\fP, \fBCUSTOM_APN\fP, \fBFORCE_APN\fP
+
+.IP "\fBBAUD\fP" 10
+This \fBvariable\fP allows user to specify \fIbaud rate\fP which \fIpppd\fP and/or \fIwvdial\fP should be instructed to use. Since \fIwvdial\fP also
+relies on \fIpppd\fP for establishing connection, you should consult \fBpppd\fP(8) for determining available values. If this \fBvariable\fP
+is not set, default value \fI460800\fP is used.
+.IP "" 10
+In addition to the usual numeric values, Sakis3G script allows assigning following values to this \fBvariable\fP:
+.IP "          \fBDEFAULT\fP" 18
+Results into value \fI460800\fP being used.
+.IP "          \fBMAX\fP" 18
+Results into value \fI4000000\fP being used.
+.IP "          \fBMIN\fP" 18
+Results into value \fI115200\fP being used.
+.IP "          \fBNotes:\fP" 17
+.IP "           \fB*\fP" 13
+You can consult your running kernel's sources (header file \fIinclude/asm/termbits.h\fP) for a list of possible values.
+.IP "           \fB*\fP" 13
+Using an invalid or unsupported value might render connection impossible.
+.IP "" 10
+Examples:
+.IP "            \fB1.\fP" 15
+Use maximum possible rate:
+ BAUD=MAX
+.IP "            \fB2.\fP" 15
+Use a really safe value:
+ BAUD=MIN
+.IP "            \fB3.\fP" 15
+Use a custom value:
+ BAUD=921600
+.IP "" 10
+See also: \fBPPPD_OPTIONS\fP
+
+.IP "\fBBLUETOOTH\fP" 10
+This \fBvariable\fP should either contain the \fIBluetooth address\fP of a currently \fIdiscoverable\fP Bluetooth device, or the word "\fIUNDISCOVERABLE\fP". If value is not valid, or device is not currently \fIdiscoverable\fP, value of this \fBvariable\fP is discarded. This \fBvariable\fP is only taken into consideration when \fBOTHER variable\fP contains word "\fIBLUETOOTH\fP" and is used for selecting a \fIdiscoverable\fP Bluetooth device. If value "\fIUNDISCOVERABLE\fP" is loaded, device selection procedure refers to \fBUNDISCOVERABLE variable\fP. 
+.IP "          \fBNote:\fP" 16
+Even if device is \fIdiscoverable\fP, you may find defining it as \fIundiscoverable\fP more convenient (see example #2). This can save you a couple of seconds by avoiding scan of Bluetooth devices. 
+.IP "" 10
+Examples:
+.IP "            \fB1.\fP" 15
+Define \fIdiscoverable\fP device:
+ MODEM="OTHER" OTHER="BLUETOOTH" 
+ BLUETOOTH="00:25:47:59:AA:00"
+.IP "            \fB2.\fP" 15
+Define \fIundiscoverable\fP device:
+ MODEM="OTHER" OTHER="BLUETOOTH" 
+ BLUETOOTH="UNDISCOVERABLE" 
+ UNDISCOVERABLE="00:25:47:59:AA:00"
+.IP "" 10
+See also: \fBMODEM\fP, \fBOTHER\fP, \fBRFSERVICE\fP, \fBRFCHANNEL\fP, \fBUNDISCOVERABLE\fP
+
+.IP "\fBCHAT_ABORT_STRINGS\fP" 10
+This \fBvariable\fP provides control over \fIchat\fP abort strings. You can find additional information on \fBchat\fP(8). If no value is assigned, default value is automatically set. 
+
+Default value is:
+ ABORT BUSY
+ ABORT ERROR 
+ ABORT BLOCKED 
+ ABORT NOCARRIER
+.IP "" 10
+Example: Prevent \fIany\fP PIN operation.
+.IP "" 15
+ CHAT_ABORT_STRINGS="ABORT BUSY ABORT ERROR ABORT BLOCKED ABORT NOCARRIER ABORT 'SIM PIN'"
+
+.IP "\fBCONNECTION_HOOK\fP" 10
+This \fBvariable\fP allows you to specify a \fIcommand\fP that should be run, whenever a connection with \fIoperator\fP is succesfully established. If no value is provided, nothing is executed.
+
+\fIConnection hook\fP is executed even if \fB--nofix switch\fP is set. \fIConnected notification dialog\fP of Sakis3G script does not appear before \fIconnection hook\fP has returned. When executed, \fIconnection hook\fP may enjoy information found within \fIenvironment variables\fP (see example).
+
+There is no "formal way" that \fIconnection hook\fP could use to inform back Sakis3G script to terminate connection. Both \fIoutput\fP and \fIexit status\fP of \fIconnection hook\fP command are discarded from Sakis3G script. If you need to disconnect from within \fIconnection hook\fP you could still call:
+.IP "" 15
+sakis3g disconnect
+.IP "" 10
+You should however be aware that when \fIconnection hook\fP has finished, Sakis3G script will display \fIFailed to connect\fP error dialog.
+.IP "          \fBExample:\fP" 20
+Save \fIenvironment variables\fP, during invocation of \fIconnection hook\fP, onto a file. You can later review them and construct amazing \fIshell
+scripts\fP like this one:
+.IP "" 10
+ CONNECTION_HOOK="set > /var/log/sakis3g.environment"
+.IP "          \fBNote:\fP" 16
+This \fBvariable\fP cannot be used from \fIcommand line\fP for \fIsecurity reasons\fP. It would be risky to allow users provide a \fIcommand\fP to be executed with \fIroot privileges\fP. 
+
+.IP "\fBCUSTOM_APN\fP" 10
+This \fBvariable\fP defines the \fIAPN\fP (\fIAccess Point Name\fP) that should be used to establish connection, which can be different than the one that \fIinternal database\fP of Sakis3G script indicates, and the one that your modem might remember since its last connection. This \fBvariable\fP is only taken into consideration when \fBAPN variable\fP contains value "\fICUSTOM_APN\fP". If value assigned is not an acceptable \fIAPN\fP by your \fIoperator\fP, connection will fail. 
+.IP "" 10
+Example:
+.IP "" 18
+ APN="CUSTOM_APN" 
+ CUSTOM_APN="internet.myprovider.com"
+ APN_USER="myphonenumber" 
+ APN_PASS="internet123"
+.IP "" 10
+See also: \fBAPN\fP, \fBAPN_USER\fP, \fBAPN_PASS\fP, \fBFORCE_APN\fP
+
+.IP "\fBCUSTOM_TTY\fP" 10
+This \fBvariable\fP should only contain the full path of an existing \fIcharacter device node\fP. This \fBvariable\fP is only taken into consideration when \fBOTHER variable\fP contains word "\fICUSTOM_TTY\fP" and is used for selecting an already existing \fIcharacter device node\fP offering \fImodem capabilities\fP. If value is not valid, or node does not exist already, value of this variable is discarded. 
+.IP "          \fBNote:\fP" 16
+If \fIcharacter device node\fP resides within \fI/dev\fP directory, then you may just provide its \fIbasename\fP (see example #2). 
+.IP "" 10
+Examples:
+.IP "            \fB1.\fP" 15
+Use already existing \fI/dev/ttyS0\fP as a modem.
+ MODEM="OTHER" 
+ OTHER="CUSTOM_TTY" 
+ CUSTOM_TTY="/dev/ttyS0"
+.IP "            \fB2.\fP" 15
+Same effect as example above.
+ MODEM="OTHER"
+ OTHER="CUSTOM_TTY"
+ CUSTOM_TTY="ttyS0"
+.IP "" 10
+See also: \fBMODEM\fP, \fBOTHER\fP
+
+.IP "\fBDESKTOP\fP" 10
+This \fBvariable\fP allows you to specify directory where your \fIdesktop\fP resides. This \fBvariable\fP is only taken into consideration during \fIdesktop shortcut\fP creation. If no value is provided, and DESKTOP \fIenvironment variable\fP exists, it is used instead. If directory specified does not exist and \fB$HOME/$DESKTOP\fP also does not exist, value is discarded. If no directory is found, \fIdesktop shortcut\fP is created within your \fIhome directory\fP. 
+.IP "          \fBNote:\fP" 16
+You may need to set this \fBvariable\fP if you are using a \fIlocalized\fP name for your \fIdesktop folder\fP.
+.IP "" 10
+Examples:
+.IP "            \fB1.\fP" 15
+Point a \fIcustomly named\fP desktop.
+ DESKTOP="/home/myself/FatsaKarta"
+.IP "            \fB2.\fP" 15
+A more appropriate form, with the same effect, for use within a global \fIconfiguration file\fP.
+ DESKTOP="FatsaKarta"
+
+.IP "\fBDIAL\fP" 10
+This \fBvariable\fP forces Sakis3G script to dial whatever is supplied as value, when attempting to establish data connection. Value should only contain \fIdecimal digits\fP or symbols "\fB#\fP" and "\fB*\fP". If an invalid value is supplied, behavior depends on your modem, but it will usually fail to find \fIcarrier\fP. If this value is not set, \fIinternal operators database\fP is consulted to determine phone number to dial. If no value was supplied using this \fBvariable\fP and no entry was found within \fIinternal operators database\fP, default number "\fB*99#\fP" is dialed. 
+.IP "" 10
+Example:
+.IP "" 18
+ DIAL="*99***1#"
+
+.IP "\fBDISPLAY\fP" 10
+This \fBvariable\fP allows you to explicitly specify the X session display on which Sakis3G UI should appear. If no value is provided, DISPLAY \fIenvironment variable\fP is automatically loaded if available. If loaded value does not refer to a valid local display, it is automatically discarded. If you have no access to display specified, value loaded is automatically discarded. To avoid such thing, either:
+.IP "           \fB*\fP" 13
+Merge \fIcookie\fP to your \fIauthority file\fP, or
+Use \fBLOCALAUTHORITY variable\fP to point to an \fIauthority\fP file which contains a valid \fIcookie\fP for display specified. 
+.IP "" 10
+If no value is provided, or is discarded already, then Sakis3G script will attempt to locate a \fItext-mode UI\fP instead. 
+
+Example:
+.IP "" 18
+ DISPLAY=":1"
+.IP "" 10
+See also: \fBLOCALAUTHORITY\fP
+
+.IP "\fBDNS\fP" 10
+This \fBvariable\fP allows you to provide specific \fIDNS servers\fP that should be used after connection with \fIoperator\fP is established. This \fBvariable\fP is only taken into consideration if \fB--nofix switch\fP is \fBnot\fP set. If no value is assigned, \fIDNS server\fP settings provided by \fIoperator\fP are used. If \fIoperator\fP did not provide any \fIDNS servers\fP settings, Sakis3G script will automatically set \fIGoogle DNS servers\fP for your convenience.
+.IP "          \fBNote:\fP" 16
+If \fB--googledns switch\fP is set, this value will anyway be set to \fIGoogle DNS servers\fP. 
+.IP "          \fBExample:\fP" 19
+Equivalent to \fB--googledns switch\fP.
+.IP "" 18
+ DNS="8.8.8.8 8.8.4.4"
+
+.IP "\fBFORCE_APN\fP" 10
+This \fBvariable\fP defines the \fIAPN\fP (\fIAccess Point Name\fP) that should be used to establish connection, no matter what \fIinternal database\fP of Sakis3G script or your modem might indicate. If value assigned is not an acceptable \fIAPN\fP by your \fIoperator\fP, connection will fail.
+
+This variable seems like a duplicate to \fBAPN\fP and/or \fBCUSTOM_APN variables\fP but is not:
+.IP "          \fB1.\fP" 13
+\fBAPN variable\fP can only contain a value found within \fIlist of known operators\fP, or retrieved from your modem's memory.
+.IP "          \fB2.\fP" 13
+\fBCUSTOM_APN variable\fP can indeed contain any value but causes both \fIinternal database\fP and modem be queried, while seeking for a valid \fIAPN\fP, in cases where \fIoperator\fP was not found within \fIlist of known operators\fP.
+.IP "          \fB3.\fP" 13
+\fBFORCE_APN variable\fP bypasses all validation, queries to \fIinternal database\fP and query against modem memory to unconditionally set specified \fIAPN\fP. 
+.IP "          \fBExamples:\fP" 21
+.IP "          \fB1.\fP" 13
+\fIOperator\fP is found within \fIdatabase\fP and \fIAPN\fP was also mentioned. \fIUsername\fP and \fIpassword\fP are also retrieved from database and they need not to be mentioned:
+ APN="internet.myprovider.com"
+
+.IP "          \fB2.\fP" 13
+\fIOperator\fP was not found within \fIdatabase\fP but \fIAPN\fP was retrieved by modem's memory. In this case, you have to supply \fIusername\fP and \fIpassword\fP:
+ APN="internet.myprovider.com" 
+ APN_USER="postpay" 
+ APN_PASS="internet"
+
+.IP "          \fB3.\fP" 13
+\fIOperator\fP was not found within \fIdatabase\fP and modem did not report any recent \fIAPN\fP being used. Or, what was found within \fIdatabase\fP is not appropriate for your contract/product. In both cases, you have to supply all information yourself:
+ APN="CUSTOM_APN" 
+ CUSTOM_APN="internet.myprovider.com"
+ APN_USER="postpay" 
+ APN_PASS="internet"
+
+.IP "          \fB4.\fP" 13
+No matter if \fIoperator\fP exists or not in \fIdatabase\fP, defined \fIAPN\fP is used and modem is never queried:
+ FORCE_APN="internet.myprovider.com"
+ APN_USER="postpay" 
+ APN_PASS="internet"
+
+.IP "          \fB5.\fP" 13
+An alternative syntax having the same effect with example #4:
+ FORCE_APN="internet.myprovider.com::postpay:internet"
+
+.IP "          \fBNotes:\fP" 17
+.IP "           \fB*\fP" 13
+You can use \fBFORCE_APN variable\fP to improve performance by skipping \fIinternal database\fP lookups (compare examples #3 and #4).
+.IP "           \fB*\fP" 13
+\fBFORCE_APN variable\fP offers an alternative syntax which allows setting up \fBAPN_USER\fP and \fBAPN_PASS\fP variables also (compare examples #4 and #5). 
+
+See also: \fBAPN\fP, \fBAPN_USER\fP, \fBAPN_PASS\fP, \fBCUSTOM_APN\fP
+
+.IP "\fBFORCE_ISP\fP" 10
+This \fBvariable\fP instructs Sakis3G script to \fIdisable roaming\fP on modem and instead stick with \fInetwork\fP specified in value. Value should contain the \fInumeric ID\fP of \fInetwork\fP to be used. If an invalid value is supplied, behavior depends on your modem (whether it will disconnect from any \fInetwork\fP already registered to, or will remain connected). If \fInetwork\fP specified is not available, or modem refused to \fIregister network\fP, Sakis3G script will refuse to proceed with connection.
+
+This \fBvariable\fP can be useful, when you live near a country's borders, into avoiding unintended roaming costs. However, this may lead into limited \fInetwork coverage\fP on cases where your \fIoperator\fP transparently (without additional cost) cooperates with another \fInetwork\fP to extend coverage. 
+
+.IP "          \fBExample:\fP" 19
+Force modem to stick with \fBGR COSMOTE\fP.
+.IP "" 18
+ FORCE_ISP="20201"
+.IP "          \fBNote:\fP" 16
+To discover your \fInetwork's ID\fP, consult \fIConnection Information\fP after getting connected, or use:
+.IP "" 18
+ $ sakis3g console info
+
+.IP "\fBINIT\fP" 10
+This \fBvariable\fP provides access to initialization \fIAT commands\fP that will be sent to modem. Value provided here is sent to modem just before \fIdialing operator\fP and immediately after Sakis3G script has finished all initialization it should do. This \fBvariable\fP is provided for end-user to be able to supply the \fIweird-non-standard command\fP that might be required by modem for establishing a reliable connection.
+.IP "          \fBNote:\fP" 16
+Dialing will occur even if \fIAT commands\fP, specified by this value, produced an \fBERROR\fP to modem. 
+.IP "          \fBExample:\fP" 19
+Request some information from modem.
+.IP "" 19
+INIT="ATI AT+CGDCONT? AT+COPS=0,2 AT+COPS? AT+COPS=0,0 AT+COPS?"
+.IP "" 10
+See also: \fBPREPARE\fP
+
+
+.IP "\fBLOCALAUTHORITY\fP" 10
+This \fBvariable\fP allows you to specify an \fIauthority file\fP which contains a valid \fIcookie\fP for X display selected (either by \fIenvironment variable\fP DISPLAY, or by \fBDISPLAY variable\fP). If no value is provided, your own X \fIauthority file\fP is assumed. If value does not refer to an X \fIauthority file\fP, or read access is not granted, it is automatically discarded. If both your own and the alternative X \fIauthority files\fP do not contain a valid \fIcookie\fP for X display selected, Sakis3G script will attempt to locate a \fItext-mode UI\fP instead. 
+
+Example:
+.IP "" 19
+XAUTHORITY="/home/sakis/authorities/cryo"
+.IP "" 10
+See also: \fBDISPLAY\fP
+
+.IP "\fBLOG_POSITION\fP" 10
+This \fBvariable\fP allows you to specify position of \fIlog file\fP that should be used when Sakis3G script is called through \fIudevd\fP. If no value is provided, default value \fI/var/log/sakis3g.log\fP is used. If value provided refers to a non-existing path, value is discarded. 
+
+Example:
+.IP "" 19
+LOG_FILE="/var/log/sakis3g/log"
+
+.IP "\fBMENU\fP" 10
+This \fBvariable\fP provides a shortcut for \fImenu action\fP that should be followed upon first execution of \fBmenu actor\fP. Value assigned will be discarded after \fBmenu actor\fP is executed, and only after corresponding \fBactor\fP, specified by value, has finished (regardless of success or failure) . Use of this \fBvariable\fP could be avoided since all operations offered by \fBmenu actor\fP are also available as stand-alone \fBactors\fP.
+.IP "" 10
+Valid values are:
+.IP "           \fB*\fP" 13
+\fICONNECT\fP: Calls \fBconnect actor\fP.
+.IP "           \fB*\fP" 13
+\fIDISCONNECT\fP: Calls \fBdisconnect actor\fP.
+.IP "           \fB*\fP" 13
+\fIINFO\fP: Calls \fBinfo actor\fP.
+.IP "           \fB*\fP" 13
+\fIDESKTOP\fP: Calls \fBdesktop actor\fP.
+.IP "           \fB*\fP" 13
+\fIABOUT\fP: Calls \fBabout actor\fP.
+.IP "           \fB*\fP" 13
+\fIMOREMENU\fP: Calls \fBmoremenu actor\fP.
+.IP "           \fB*\fP" 13
+\fIEXIT\fP: Forces \fBmenu actor\fP to return \fI98\fP on exit, preventing execution of remaining \fBactors\fP within currently executed \fBchain\fP.
+.IP "" 10
+If value assigned is not valid, it is automatically discarded. This is essentially true when:
+.IP "           \fB*\fP" 13
+Value assigned is "\fIDISCONNECT\fP", "\fIINFO\fP", "\fIDESKTOP\fP" while not connected.
+.IP "           \fB*\fP" 13
+Value assigned is "\fICONNECT\fP" while already connected. 
+.IP "" 10
+.IP "          \fBExamples:\fP" 21
+.IP "          \fB1.\fP" 13
+Implement splash-like functionality for the first time that \fImenu\fP will appear.
+ MENU="ABOUT"
+.IP "          \fB2.\fP" 13
+Force \fImenu\fP not to appear. However, defining \fBmenu actor\fP twice, will eventually make \fImenu\fP appear.
+ MENU="EXIT"
+.IP "" 10
+See also: \fBMOREMENU\fP
+
+.IP "\fBMENUFONT\fP"
+This \fBvariable\fP defines \fIfont\fP that should be used when using \fI9menu\fP for displaying \fIUI\fP. If no value is provided, default value "\fI-monotype-arial-medium-r-normal-*-18-*-*-*-*-*-*-*\fP" is loaded. If value specified refers to a \fIfont\fP not available in system, \fI9menu\fP replaces it with a valid one. You can use \fIxlsfonts\fP or \fIxfontsel\fP utilities for discovering/constructing a valid \fIfont string\fP. 
+.IP "" 10
+Examples:
+.IP "           \fB*\fP" 13
+MENUFONT="-unknown-freesans-medium-r-normal-*-17-*-*-*-*-*-*-*"
+.IP "           \fB*\fP" 13
+MENUFONT="-dejavu-sans-medium-r-normal-*-18-*-*-*-*-*-*-*"
+.IP "" 10
+See also: \fBAOSDFONT\fP, \fBOSDFONT\fP, \fBXOSDFONT\fP
+
+.IP "\fBMODEM\fP" 10
+This \fBvariable\fP is expected to either hold \fIUSB IDs\fP of the \fIUSB modem\fP which is going to be used for getting connected, or the word "\fIOTHER\fP". If word "\fIOTHER\fP" is found, device selection procedure will refer to \fBOTHER variable\fP for locating modem that will be used. If provided value refers to a \fIUSB modem\fP not currently connected, its contents are discarded.
+.IP "           \fB*\fP" 13
+If no value is loaded (or loaded value was discarded previously) and only one \fIUSB modem\fP is detected, this one \fIUSB modem\fP is automatically selected.
+.IP "           \fB*\fP" 13
+If no value is loaded (or loaded value was discarded previously) and no other \fIUSB modem\fP is detected, it is automatically loaded with the "\fIOTHER\fP" value. 
+.IP "" 10
+Therefore, use of \fBMODEM variable\fP is only meaningful when:
+.IP "          \fB1.\fP" 13
+There are more than two \fIUSB modems\fP plugged and you need to select a specific one (see example #1).
+.IP "          \fB2.\fP" 13
+Your \fIUSB device\fP is not automatically detected as a \fIUSB modem\fP (see example #3).
+.IP "          \fB3.\fP" 13
+Your modem is not a \fIUSB modem\fP (see example #4). 
+.IP "" 10
+Examples:
+.IP "          \fB1.\fP" 13
+Select one among many modems.
+ MODEM="19d2:2000"
+.IP "          \fB2.\fP" 13
+Force script to always ask about modem type.
+ MODEM="OTHER"
+.IP "          \fB3.\fP" 13
+Consider a \fIUSB device\fP as a \fIUSB modem\fP.
+ MODEM="OTHER"
+ OTHER="USBMODEM"
+ USBMODEM="19d2:2001"
+.IP "          \fB4.\fP" 13
+Define a specific \fItty\fP as an already setup modem. 
+ MODEM="OTHER" 
+ OTHER="CUSTOM_TTY" 
+ CUSTOM_TTY="/dev/ttyS1"
+.IP "" 10
+See also: \fBOTHER\fP, \fBUSBMODEM\fP, \fBBLUETOOTH\fP, \fBCUSTOM_TTY\fP
+
+.IP "\fBMOREMENU\fP" 10
+This \fBvariable\fP provides a shortcut for \fImenu action\fP that should be followed upon first execution of \fBmoremenu actor\fP. Value assigned will be discarded after \fBmoremenu actor\fP is executed, and only after corresponding \fBactor\fP, specified by value, has finished (regardless of success or failure) . Use of this \fBvariable\fP could be avoided since all operations offered by \fBmoremenu actor\fP are also available as stand-alone \fBactors\fP.
+.IP "" 10
+Valid values are:
+.IP "           \fB*\fP" 13
+\fICONNECT\fP: Calls \fBconnect actor\fP.
+.IP "           \fB*\fP" 13
+\fIRECONNECT\fP: Calls \fBreconnect actor\fP.
+.IP "           \fB*\fP" 13
+\fIDISCONNECT\fP: Calls \fBdisconnect actor\fP.
+.IP "           \fB*\fP" 13
+\fIPREPARE\fP: Calls \fBprepare actor\fP.
+.IP "           \fB*\fP" 13
+\fISETUP\fP: Calls \fBsetup actor\fP.
+.IP "           \fB*\fP" 13
+\fISWITCH\fP: Calls \fBswitchonly actor\fP.
+.IP "           \fB*\fP" 13
+\fICOMPILE\fP: Calls \fBrecompile actor\fP.
+.IP "           \fB*\fP" 13
+\fIINFO\fP: Calls \fBinfo actor\fP.
+.IP "           \fB*\fP" 13
+\fIREPORT\fP: Calls \fBreport actor\fP.
+.IP "           \fB*\fP" 13
+\fIDESKTOP\fP: Calls \fBdesktop actor\fP.
+.IP "           \fB*\fP" 13
+\fIABOUT\fP: Calls \fBabout actor\fP.
+.IP "           \fB*\fP" 13
+\fIHELP\fP: Calls \fBshowhelp actor\fP.
+.IP "           \fB*\fP" 13
+\fIEXIT\fP: Forces \fBmoremenu actor\fP to return \fI98\fP on exit, preventing execution of remaining \fBactors\fP within currently executed \fBchain\fP.
+.IP "" 10
+If value assigned is not valid, it is automatically discarded. This is essentially true when:
+.IP "           \fB*\fP" 13
+Value assigned is "\fIDISCONNECT\fP", "\fIRECONNECT\fP", "\fIINFO\fP", "\fIREPORT\fP" while not connected.
+.IP "           \fB*\fP" 13
+Value assigned is "\fICONNECT\fP", "\fIPREPARE\fP", "\fISETUP\fP", "\fISWITCH\fP" while already connected. 
+.IP "" 10
+.IP "          \fBExamples:\fP" 21
+.IP "          \fB1.\fP" 13
+Implement splash-like functionality for the first time that \fImenu\fP will appear.
+ MOREMENU="ABOUT"
+.IP "          \fB2.\fP" 13
+Force \fImenu\fP not to appear. However, defining \fBmoremenu actor\fP twice, will eventually make \fImenu\fP appear.
+ MOREMENU="EXIT"
+.IP "" 10
+See also: \fBMENU\fP
+
+.IP "\fBOSDFONT\fP" 10
+This \fBvariable\fP defines \fIfont string\fP that should be used when displaying \fIOSD messages\fP regardless of backend utility. It just sets both \fBAOSDFONT\fP and \fBXOSDFONT variables\fP to the same content. It is user's responsibility to supply \fIfont string\fP expected by selected \fIOSD\fP backend.
+.IP "          \fBExamples:\fP" 21
+.IP "          \fB1.\fP" 13
+Defining a font appropriate for use with aosd_cat 
+ OSDFONT="DejaVuSans 24"
+.IP "          \fB2.\fP" 13
+Defining a font appropriate for use with osd_cat 
+ OSDFONT="-misc-fixed-medium-r-semicondensed--36-*-*-*-c-*-*-*"
+.IP "" 10
+See also: \fBAOSDFONT\fP, \fBXOSDFONT\fP
+
+.IP "\fBOTHER\fP" 10
+This \fBvariable\fP should only contain one of possible values. It is only taken into consideration if \fBMODEM variable\fP contains word "\fIOTHER\fP" and is used for determining type of modem. According to its value, device selection procedure will refer to \fBUSBMODEM\fP, \fBBLUETOOTH\fP or \fBCUSTOM_TTY variable\fP for locating modem that will be used.
+.IP "          \fBExamples:\fP" 21
+.IP "          \fB1.\fP" 13
+Modem is a \fIUSB modem\fP.
+ MODEM="OTHER"
+ OTHER="USBMODEM"
+.IP "          \fB2.\fP" 13
+Modem is a \fIBluetooth modem\fP.
+ MODEM="OTHER"
+ OTHER="BLUETOOTH"
+.IP "          \fB3.\fP" 13
+3. Modem is already setup and a \fItty\fP already exist.
+ MODEM="OTHER" 
+ OTHER="CUSTOM_TTY"
+See also: \fBMODEM\fP, \fBUSBMODEM\fP, \fBBLUETOOTH\fP, \fBCUSTOM_TTY\fP
+
+.IP "\fBPPPD_OPTIONS\fP" 10
+This \fBvariable\fP allows you to modify \fIarguments\fP that will be passed to \fIpppd daemon\fP. This \fBvariable\fP is only taken into consideration when \fIwvdial\fP is not installed, or when \fB--pppd switch\fP is set. If no values are provided, default values are used.
+
+Default values used when no value is supplied are:
+.IP "" 12
+modem crtscts -detach defaultroute dump
+noipdefault replacedefaultroute usepeerdns
+usehostname ktune logfd 2 noauth name sakis3g
+lock maxfail 3
+.IP "" 10
+If, within \fIdirectory\fP denoted by \fBPPPD_PEERS variable\fP, exists a \fIpeer\fP (a file) named \fIsakis3g\fP, then:
+.IP "           \fB*\fP" 13
+this \fBvariable\fP is ignored, and
+.IP "           \fB*\fP" 13
+\fIdaemon pppd\fP is called with the following arguments:
+.IP "" 15
+ -detach dump logfd 2
+ maxfail 3 name sakis3gpeer call sakis3g 
+.IP "           \fB*\fP" 13
+and you should instead edit file \fIPPPD_PEERS/sakis3g\fP to modify \fIpppd options\fP. 
+.IP "          \fBNote:\fP" 16
+You should avoid specifying \fIbaud rate\fP within this \fBvariable\fP and instead use \fBBAUD variable\fP. Specifying \fIbaud rate\fP using
+\fBPPPD_OPTIONS\fP will result into two \fIbaud rates\fP (possibly different) being passed to \fIpppd\fP, leading to doubts on which one will
+be used.
+.IP "          \fBExample:\fP" 20
+Options to \fIpppd\fP are read from file \fI/home/sakis/custom\fP
+.IP "" 15
+ PPPD_PEERS="/home/sakis" 
+ PPPD_OPTIONS="call custom"
+.IP "" 10
+See also: \fBBAUD\fP, \fBPPPD_PEERS\fP
+
+.IP "\fBPPPD_PEERS\fP"
+This \fBvariable\fP allows you to specify \fIdirectory\fP where \fIpppd peer files\fP are located. If no value is provided, default value "\fI/etc/ppp/peers\fP" is used. If:
+.IP "           \fB*\fP" 13
+\fIdirectory\fP specified exists, and
+.IP "           \fB*\fP" 13
+within \fIdirectory\fP a file named \fIsakis3g\fP exists, and
+.IP "           \fB*\fP" 13
+\fIwvdial\fP is not installed, or \fB--pppd switch\fP is set, then 
+.IP "" 10
+\fIpppd\fP is instructed to read \fIoptions\fP from \fIPPPD_PEERS/sakis3g\fP. 
+
+.IP "          \fBExample:\fP" 20
+Let it check for if file \fI/etc/ppp/peers/custom/sakis3g\fP exists.
+.IP "" 15
+ PPPD_PEERS="/etc/ppp/peers/custom"
+.IP "" 10
+See also: \fBPPPD_OPTIONS\fP
+
+.IP "\fBPPPINT\fP" 10
+This \fBvariable\fP allows you to specify \fIinterface name\fP your system uses for \fIP-t-P connection\fP. If no value is provided, default value "\fIppp0\fP" is used. This value is only taken into consideration when checking status of connection. 
+
+This value is not taken into consideration when disconnecting:
+.IP "           \fB*\fP" 13
+All active \fIpppd sessions\fP are terminated, eliminating all your \fIP-t-P connections\fP.
+.IP "           \fB*\fP" 13
+While disconnecting, this script will \fIkill\fP all running \fIpppd\fP instances, thus eliminating any other \fIP-t-P connections\fP you might have running. 
+.IP "          \fBNotes:\fP" 18
+.IP "                 \fB*\fP" 19
+If value provided does not match \fIinterface name\fP created, you should expect some serious Sakis3G script malfunctions to occur.
+.IP "                 \fB*\fP" 19
+If you have a complex setup (i.e. \fIbridging\fP across \fIppp connections\fP or \fImultilink ppp\fP connections), you should \fBNOT\fP (need to) use this script, as it also messes up with your \fIrouting tables\fP: you were warned.
+.IP "          \fBExample:\fP" 20
+Use \fIppp1\fP instead of \fIppp0\fP.
+.IP "" 15
+ PPPINT="ppp1" 
+ PPPD_OPTIONS="unit 1 ...
+
+.IP "\fBPREPARE\fP" 10
+This \fBvariable\fP allows you to send custom \fIAT commands\fP to modem. \fIAT commands\fP specified here are sent to modem before \fIany\fP other command is sent.
+.IP "          \fBNote:\fP" 16
+Procedure will carry on even if \fIAT commands\fP, specified by this value, produced an \fBERROR\fP to modem.
+.IP "          \fBExample:\fP" 19
+Make sure \fIECHO\fP is turned on.
+.IP "" 19
+PREPARE="ATE1"
+.IP "" 10
+See also: \fBINIT\fP
+
+.IP "\fBRFCHANNEL\fP" 10
+This \fBvariable\fP should contain the decimal representation of an \fIRFCOMM channel\fP of the \fIBluetooth device\fP previously defined using \fBBLUETOOTH\fP or \fBUNDISCOVERABLE variables\fP. This \fBvariable\fP is only taken into consideration when \fBRFSERVICE\fP variable contains word "\fIRFCHANNEL\fP". If value is not valid, or \fIRFCOMM channel\fP defined, is not available/valid in device, connection will be impossible. 
+
+.IP "          \fBNote:\fP" 17
+Even if device reports \fIRFCOMM channel\fP, you may find defining it through \fBRFCHANNEL variable\fP more convenient (see examples #2 and #3). This can save you a couple of seconds by avoiding querying \fIBluetooth device\fP for available services. Examples #1 and #3 have exactly the same effect if device and appropriate channel are \fIdiscoverable\fP. However, example #3 skips all validation saving up to 6 seconds. Keep in mind, this may lead into problems if device is currently out of range.
+.IP "          \fBExamples:\fP" 21
+.IP "          \fB1.\fP" 13
+Define \fIdiscoverable\fP channel.
+ MODEM="OTHER" 
+ OTHER="BLUETOOTH" 
+ BLUETOOTH="00:25:47:59:AA:00"
+ RFSERVICE="1"
+.IP "          \fB2.\fP" 13
+Define \fIundiscoverable\fP channel.
+ MODEM="OTHER"
+ OTHER="BLUETOOTH" 
+ BLUETOOTH="00:25:47:59:AA:00"
+ RFSERVICE="RFCHANNEL"
+ RFCHANNEL="1"
+.IP "          \fB3.\fP" 13
+Skip all validation.
+ MODEM="OTHER"
+ OTHER="BLUETOOTH" 
+ BLUETOOTH="UNDISCOVERABLE" 
+ UNDISCOVERABLE="00:25:47:59:AA:00"
+ RFSERVICE="RFCHANNEL"
+ RFCHANNEL="1"
+.IP "" 10
+See also: \fBBLUETOOTH\fP, \fBMODEM\fP, \fBOTHER\fP, \fBRFSERVICE\fP, \fBUNDISCOVERABLE\fP
+
+
+.IP "\fBRFSERVICE\fP" 10
+This \fBvariable\fP should contain the decimal representation of a \fIdiscoverable RFCOMM channel\fP of the Bluetooth device previously defined using \fBBLUETOOTH\fP or \fBUNDISCOVERABLE variables\fP. If value is not valid, or \fIRFCOMM channel\fP was not reported by device, value of this \fBvariable\fP is discarded. If this \fBvariable\fP is loaded with the "\fIRFCHANNEL\fP" value, device selection procedure skips validating \fIRFCOMM channel\fP by querying Bluetooth device and uses channel defined by \fBRFCHANNEL variable\fP unconditionally. 
+
+.IP "          \fBNote:\fP" 17
+Even if device reports \fIRFCOMM channel\fP, you may find defining it through \fBRFCHANNEL variable\fP more convenient (see examples #2 and #3). This can save you a couple of seconds by avoiding querying \fIBluetooth device\fP for available services. Examples #1 and #3 have exactly the same effect if device and appropriate channel are \fIdiscoverable\fP. However, example #3 skips all validation saving up to 6 seconds. Keep in mind, this may lead into problems if device is currently out of range.
+.IP "          \fBExamples:\fP" 21
+.IP "          \fB1.\fP" 13
+Define \fIdiscoverable\fP channel.
+ MODEM="OTHER" 
+ OTHER="BLUETOOTH" 
+ BLUETOOTH="00:25:47:59:AA:00"
+ RFSERVICE="1"
+.IP "          \fB2.\fP" 13
+Define \fIundiscoverable\fP channel.
+ MODEM="OTHER"
+ OTHER="BLUETOOTH" 
+ BLUETOOTH="00:25:47:59:AA:00"
+ RFSERVICE="RFCHANNEL"
+ RFCHANNEL="1"
+.IP "          \fB3.\fP" 13
+Skip all validation.
+ MODEM="OTHER"
+ OTHER="BLUETOOTH" 
+ BLUETOOTH="UNDISCOVERABLE" 
+ UNDISCOVERABLE="00:25:47:59:AA:00"
+ RFSERVICE="RFCHANNEL"
+ RFCHANNEL="1"
+.IP "" 10
+See also: \fBBLUETOOTH\fP, \fBMODEM\fP, \fBOTHER\fP, \fBRFCHANNEL\fP, \fBUNDISCOVERABLE\fP
+
+
+.IP "\fBSGUI\fP" 10
+This \fBvariable\fP defines \fIUI\fP that should be used, overriding the one that Sakis3G script would automatically select. If value is not within list of valid values, it is automatically discarded and \fIUI\fP selection procedure will proceed like this \fBvariable\fP was never set.
+
+If value specified refers to a UI not currently available, it is automatically discarded:
+.IP "          \fB1.\fP" 13
+If you selected a \fIgraphical UI\fP while no X session exists, or
+.IP "          \fB2.\fP" 13
+If utility required for selected \fIUI\fP was not found within \fBPATH\fP.
+.IP "" 10
+Valid values are:
+.IP "" 12
+   \fBText mode\fP                  \fBGraphics mode\fP
+
+ \fB*\fP terminal                \fB*\fP xterm
+ \fB*\fP interactive terminal    \fB*\fP konsole
+ \fB*\fP dialog                  \fB*\fP gnome-terminal
+ \fB*\fP whiptail                \fB*\fP 9menu
+                           \fB*\fP Xdialog
+                           \fB*\fP kdialog
+                           \fB*\fP zenity
+.IP "" 10
+Keep in mind that:
+.IP "          \fB*\fP" 12
+All values, except "\fIterminal\fP", also set \fB--interactive switch\fP.
+.IP "          \fB*\fP" 12
+Values "\fIxterm\fP", "\fIkonsole\fP" and "\fIgnome-terminal\fP" spawn corresponding \fIterminal emulation\fP utility, within which Sakis3G script is executed, with \fB--console switch\fP enabled, leading into one of "\fIwhiptail\fP", "\fIdialog\fP" or "\fIinteractive terminal\fP" being selected as \fIUI\fP. 
+.IP "          \fBNotes:\fP" 18
+.IP "                 \fB*\fP" 19
+There is no way to affect \fIUI\fP that will be used by newly spawned Sakis3G script instance within \fIterminal emulation\fP utility.
+.IP "                 \fB*\fP" 19
+You can easily render Sakis3G script invisible (thus, unusable) by modifying \fIdesktop shortcut\fP so that it appoints \fBSGUI variable\fP a value referring to a \fItext mode UI\fP. This way, whenever you double-click \fIdesktop shortcut\fP, Sakis3G script will actually being started, but its \fIoutput\fP will end-up to void. 
+.IP "          \fBExamples:\fP" 21
+.IP "          \fB1.\fP" 13
+Use \fI9menu\fP:
+ SGUI="9menu"
+.IP "          \fB2.\fP" 13
+Use \fIdialog\fP:
+ SGUI="dialog"
+
+.IP "\fBSIM_PIN\fP" 10
+This \fBvariable\fP allows you to explicitly provide \fIPIN number\fP that should be used if \fISIM card\fP placed inside modem requires it. This value is only utilized when modem reports that \fISIM card\fP needs \fIPIN number\fP. If value provided is not consisted of exactly four decimal digits, it is automatically discarded. If no value is provided, or is discarded already, then Sakis3G script:
+.IP "           \fB*\fP" 13
+will ask you to provide it, if selected \fIUI\fP allows it, or
+.IP "           \fB*\fP" 13
+will abort execution, if selected \fIUI\fP does not provide a way to ask you.
+.IP "          \fBNotes:\fP" 18
+.IP "                 \fB*\fP" 19
+If value supplied, by any means, is rejected by modem, Sakis3G script will immediately cease operation to prevent you from having your \fISIM card PIN-blocked\fP, from accidental consequent failed attempts. If forementioned failed attempt, had been the last one allowed by your \fISIM card\fP, then you just succeed into \fIPIN-blocking\fP your \fISIM card\fP.
+.IP "                 \fB*\fP" 19
+When modem reports \fISIM card\fP needs another kind of number (PIN #2, PUK, PUK #2), Sakis3G script will refuse to proceed. You might temporarily place your \fISIM card\fP to a \fIcellular phone\fP, unlock card so that it asks for \fIPIN number\fP instead. 
+.IP "          \fBExample:\fP" 20
+.IP "" 15
+ SIM_PIN="1212" 
+
+.IP "\fBTRANSLATION\fP" 10
+This \fBvariable\fP defines full path name of translation file that should be used. This is useful for testing purposes, when creating a new translation for Sakis3G script. Setting this \fBvariable\fP \fIempty\fP will not succeed into preventing Sakis3G script from using translations. If you want to prevent translations you should use \fB--notranslate switch\fP.
+
+\fBExample:\fP
+
+ TRANSLATION="/home/sakis/Documents/sakis3g.translation.txt"
+
+.IP "\fBUNDISCOVERABLE\fP" 10
+This \fBvariable\fP should only contain a valid \fIBluetooth address\fP of a Bluetooth device. If value is not valid, or device is not currently within range, connecting will be impossible. This \fBvariable\fP is only taken into consideration when \fBBLUETOOTH variable\fP contains word "\fIUNDISCOVERABLE\fP" and is used for manually specifying the \fIBluetooth address\fP of a \fIundiscoverable\fP Bluetooth device.
+.IP "          \fBNote:\fP" 17
+Even if device is \fIdiscoverable\fP, you may find defining it as \fIundiscoverable\fP more convenient (see example #2). This can save you a couple of seconds by avoiding scan of Bluetooth devices.
+.IP "          \fBExamples:\fP" 21
+.IP "          \fB1.\fP" 13
+Define \fIdiscoverable\fP device.
+ MODEM="OTHER"
+ OTHER="BLUETOOTH" 
+ BLUETOOTH="00:25:47:59:AA:00"
+.IP "          \fB2.\fP" 13
+Define \fIundiscoverable\fP device.
+ MODEM="OTHER"
+ OTHER="BLUETOOTH" 
+ BLUETOOTH="UNDISCOVERABLE" 
+ UNDISCOVERABLE="00:25:47:59:AA:00"
+.IP "" 10
+See also: \fBMODEM\fP, \fBOTHER\fP, \fBBLUETOOTH\fP
+
+.IP "\fBUSBDRIVER\fP" 10
+This \fBvariable\fP should contain the name of \fIkernel module\fP that should be bound to \fIUSB interface\fP which provides a usable data modem, for corresponding \fIdevice node\fP to be created. If assigned value is not valid, or if this \fIkernel module\fP does not exist, value is discarded. If no value is assigned, or value was discarded previously, script will seek for a candidate driver. If no candidate is found, it automatically selects \fBoption\fP \fImodule\fP. It can sometimes be useful that you explicitly define \fBoption\fP \fImodule\fP, to avoid having to select it among other candidates. 
+.IP "          \fBExamples:\fP" 21
+.IP "          \fB1.\fP" 13
+Select \fBcdc_acm\fP \fImodule\fP:
+ USBDRIVER="cdc_acm"
+.IP "          \fB2.\fP" 13
+Explicitly select \fBoption\fP \fImodule\fP:
+ USBDRIVER="option"
+.IP "" 10
+See also: \fBUSBINTERFACE\fP
+
+.IP "\fBUSBINTERFACE\fP" 10
+This \fBvariable\fP should contain the decimal representation of \fIUSB interface\fP that should be used. If assigned value is not valid, or if this \fIinterface number\fP does not exist, value is discarded. 
+.IP "          \fBExample:\fP" 20
+Select \fIinterface\fP #3:
+.IP "" 20
+ USBINTERFACE="3"
+.IP "" 10
+See also: \fBUSBDRIVER\fP
+
+.IP "\fBUSBMODEM\fP" 10
+This \fBvariable\fP should only contain \fIUSB IDs\fP of a currently connected \fIUSB device\fP. If value is not valid, or device is not currently connected, value of this \fBvariable\fP is discarded. This \fBvariable\fP is only taken into consideration when \fBOTHER variable\fP contains word "\fIUSBMODEM\fP" and is used for selecting the \fIUSB device\fP which is actually a modem.
+
+While this \fBvariable\fP looks an equivalent to \fBMODEM variable\fP, they actually differ:
+.IP "           \fB*\fP" 13
+\fBMODEM variable\fP considers valid \fIUSB IDs\fP those listed within its Sakis3G \fIdevice database\fP, or within \fIembedded\fP \fBUsb-Modeswitch\fP \fIdevice database\fP.
+.IP "           \fB*\fP" 13
+\fBUSBMODEM variable\fP considers valid all \fIUSB IDs\fP of currently connected \fIUSB devices\fP.
+.IP "          \fBExample:\fP" 20
+Consider a \fIUSB device\fP as a \fIUSB modem\fP:
+.IP "" 20
+ MODEM="OTHER"
+ OTHER="USBMODEM"
+ USBMODEM="19d2:2001"
+.IP "" 10
+See also: \fBMODEM\fP, \fBOTHER\fP, \fBUSBDRIVER\fP, \fBUSBINTERFACE\fP
+
+.IP "\fBXOSDFONT\fP" 10
+This \fBvariable\fP defines \fIfont\fP that should be used when displaying \fIOSD messages\fP using \fIosd_cat\fP utility. If no value is provided, default value "\fI-*-freesans-bold-r-*-*-36-*-*-*-*-*-*-*\fP" is loaded. If value specified refers to a \fIfont\fP not available in system, \fIosd_cat\fP does not display message requested. You can use \fIxlsfonts\fP or \fIxfontsel\fP utilities for discovering/constructing a valid \fIfont string\fP.
+.IP "          \fBExamples:\fP" 21
+.IP "" 10
+XOSDFONT="-*-helvetica-*-r-*-*-36-*-*-*-*-*-*-*"
+
+XOSDFONT="-adobe-helvetica-*-r-*-*-24-*-*-*-*-*-*-*"
+
+XOSDFONT="-misc-fixed-medium-r-semicondensed--36-*-*-*-c-*-*-*"
+
+XOSDFONT="-monotype-arial-medium-r-normal-*-36-*-*-*-*-*-*-*"
+.IP "" 10
+See also: \fBAOSDFONT\fP, \fBMENUFONT\fP, \fBOSDFONT\fP
+
+
+.SH "SEE ALSO" 
+.PP
+\fBsakis3g\fR(1), \fBchat\fP(8), \fBpppd\fP(8)
+
+.SH "AUTHOR" 
+.PP
+Sakis3G script and this man page are written by Sakis Dimopoulos (sakis at project's domain). Official page of project is at:
+.PP
+	http://www.sakis3g.org/
+.PP
+Official documentation of latest Sakis3G script version, is available at:
+.PP
+	http://wiki.sakis3g.org/
+.SH "LICENSE"
+.PP
+Sakis3G script is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+.PP
+This program is distributed in the hope that it will be useful, but \fBWITHOUT ANY WARRANTY\fR; without even the implied warranty of \fBMERCHANTABILITY\fR or \fBFITNESS FOR A PARTICULAR PURPOSE\fR. See the GNU General Public License for more details:
+.PP
+	http://www.gnu.org/licenses/gpl.txt
+.PP
+Above statement includes additional charges you may receive from your operator by using this program, defects to your SIM card including but not limited to being PIN blocked, defects on your hardware, 3G service abuse ban etc. \fBUSE WITH CARE\fR. Author of this program or authors of any of its dependencies have no responsibility for what may happen to you.
+.PP
+Author is not related in any way with any of the companies, being operators or modem manufacturers, other than being a customer to some of them. Logos and trademarks mentioned by this package belong to their respective owners.
+.PP
+This program, in order to remain as self-contained as possible, includes original source packages of some of its dependencies. You should consult their respective COPYING and README files to identify terms under which they are redistributed by Sakis3G script. 
+

@@ -1,0 +1,705 @@
+##2
+# If first line starts with "##" and has a single digit following it,
+# it should denote average count of bytes used in representing UTF-8
+# characters of this locale. This value is utilized into properly
+# wrapping translated text.
+#
+# This is a translation file for Sakis3G All-in-one script.
+#
+# All translation files should strictly remain in UTF-8 encoding.
+# Make sure your editor loads and saves file using UTF-8.
+# 
+# File information:
+# - Translator(s): 
+# - Email (optional): xxxxxx is local part. Domain is xxxxxxx.
+# - Locale: xx_xx.UTF-8
+# - Location: messages/xx_xx.UTF-8
+#
+# To test your translation, execute sakis3g with TRANSLATE argument,
+# sakis3g TRANSLATE="/home/me/translationfile"
+#
+# Notes and guidelines:
+# - Please respect \n \t or any other character when translating.
+# - Please respect count, order and datatype of "%" arguments when
+#   translating.
+# - If a specific statement appears the same way, in your locale, and to
+#   original text, you should place an empty line below it. Do not 
+#   copy-paste same content to denote identical original and translated
+#   text. Doing so will lead into problems
+# - Feel free to alter order of statements according to your taste, as 
+#   long as each translation comes after its English text.
+# - Lines starting with # are ignored.
+# - Empty line means that above statement does not have a translation. You
+#   should therefore only allow empty lines in pairs. Like those below:
+
+
+## End of comments. More comments appear within text to help you translating.
+
+
+"About Sakis3G"
+
+"Acquiring exclusive lock to HAL"
+
+"Acquiring root privileges"
+
+"Already selected value %s=\"%s\". Is not valid.\n"
+
+#
+# This statement appears within connection information which when
+# displayed from "zenity" displays text aligned. Make sure you append
+# statements with enough \t characters so that they appear aligned.
+# All statements appearing in connection information dialog have 
+# "CONNECTION_INFORMATION" tag for you to search for.
+#
+"APN:\t\t\t%s"
+"APN:\t\t\t\t%s"
+"Available options are:\n"
+
+"Bluetooth modem"
+
+"Both \"%s\" and \"%s\" are missing."
+
+"Cancel"
+
+"Checking dependencies"
+
+"Checking tools availability"
+
+"Choose action for Sakis3G script to follow."
+
+"Cleaning"
+
+"Compile embedded Usb-ModeSwitch"
+
+"Compiling"
+
+"Connected."
+
+"Connected"
+
+#
+# This statement appears within connection information which when
+# displayed from "zenity" displays text aligned. Make sure you append
+# statements with enough \t characters so that they appear aligned.
+# All statements appearing in connection information dialog have 
+# "CONNECTION_INFORMATION" tag for you to search for.
+#
+"Connected since:\t%s\n"
+
+"Connected to %s."
+
+"Connected to %s (%s)."
+
+"Connecting"
+
+"Connecting (second attempt)"
+
+"Connection information"
+
+"Connection Information"
+
+"Connect with 3G"
+
+"Create desktop shortcut"
+
+"Create shortcut"
+
+#
+# Make sure you include your name between final "\n\n" like this:
+#
+# "(c) Sakis Dimopoulos 2009, 2010 under GNU GPL v2\nTranslation for English: Sakis Dimopoulos\n"
+#
+#
+"(c) Sakis Dimopoulos 2009, 2010 under GNU GPL v2\n\n"
+"(c) Σάκης Δημόπουλος 2009, 2010 υπό την GNU GPL v2\nΜεταφραση στα Ελληνικά: Σάκης Δημόπουλος\n"
+"Custom APN..."
+
+"Custom tty..."
+
+#
+# This statement appears within connection information which when
+# displayed from "zenity" displays text aligned. Make sure you append
+# statements with enough \t characters so that they appear aligned.
+# All statements appearing in connection information dialog have 
+# "CONNECTION_INFORMATION" tag for you to search for.
+#
+"Default route(s):\t%s\n"
+
+"Desktop icon"
+
+"Desktop shortcut created at %s."
+
+"Device did not report GSM capabilities. You can skip this by adding --noprobe command line switch.\n"
+
+"Device node \"%s\" does not exist.\n"
+
+"Device node \"%s\" does not exist. Setup failed."
+
+#
+# This statement appears within connection information which when
+# displayed from "zenity" displays text aligned. Make sure you append
+# statements with enough \t characters so that they appear aligned.
+# All statements appearing in connection information dialog have 
+# "CONNECTION_INFORMATION" tag for you to search for.
+#
+"Device:\t\t\t%s\n"
+
+"Disconnect"
+
+"Disconnect and then connect again"
+
+"Disconnected.\n"
+
+"Disconnecting"
+
+"Either enable interactive mode:\n"
+
+"Embedded Usb-ModeSwitch binary is not valid for your architect. You need to recompile for devices to switch properly. Start by issueing: %s recompile"
+
+"Enter Bluetooth address"
+
+"Enter Bluetooth address of undiscoverable device, or leave empty to abort"
+
+"Enter correct APN, or leave empty to abort. Contact your operator if unsure"
+
+"Enter name of appropriate kernel module that should be used, or leave empty to abort"
+
+"Enter password required by APN, or leave empty to abort. Contact your operator if unsure. This information is usually easily retrieved through a fast call to customer support"
+
+"Enter RFCOMM channel that should be used, or leave empty to abort [1-255]"
+
+"Enter tty node where your 3G modem resides, or leave empty to abort"
+
+"Enter username required by APN, or leave empty to abort. Contact your operator if unsure. This information, along with APN password, is usually easily retrieved through a fast call to customer support"
+
+"Error"
+
+"Error occured"
+
+"Exit"
+
+"Failed to become root."
+
+"Failed to compile. Compilation output:\n%s\n"
+
+"Failed to connect.\n"
+
+"Failed to create device node \"%s\"."
+
+"Failed to detach wrong driver \"%s\". Please do it yourself and retry.\n"
+
+"Failed to detect driver of interface %d.\n"
+
+"Failed to disassemble Sakis3G package.\n"
+
+"Failed to disconnect.\n"
+
+"Failed to get valid response from modem while checking for PIN."
+
+"Failed to link %s. This usually indicates libusb (or libusb-compat) development kit missing.\n"
+
+"Failed to load module \"%s\".\n"
+
+"Failed to prepare modem.\n"
+
+"Failed to setup modem.\n"
+
+"Failed to succesfully create new version. Old version is still available at \"%s\".\n"
+
+"Failed to succesfully place new version. You are still using old version.\n"
+
+"Failed to switch.\n"
+
+"Failed to unbind driver %s. I am sorry."
+
+"Failed to unload module \"%s\".\n"
+
+"Failed to verify result of compilation.\n"
+
+"Failure to write on %s.\n"
+
+"Fixing connection"
+
+"Following dependencies not found within path: %s\n"
+
+"Header file %s missing from your system.\n"
+
+"Header file %s missing from your system. This usually indicates libusb (or libusb-compat) development kit missing.\n"
+
+"Help with this question"
+
+#
+# This statement appears within connection information which when
+# displayed from "zenity" displays text aligned. Make sure you append
+# statements with enough \t characters so that they appear aligned.
+# All statements appearing in connection information dialog have 
+# "CONNECTION_INFORMATION" tag for you to search for.
+#
+"Interface:\t\t\tP-t-P (%s)\n"
+
+#
+# This statement appears within connection information which when
+# displayed from "zenity" displays text aligned. Make sure you append
+# statements with enough \t characters so that they appear aligned.
+# All statements appearing in connection information dialog have 
+# "CONNECTION_INFORMATION" tag for you to search for.
+#
+"IP Address:\t\t%s\n"
+
+#
+# This statement appears within connection information which when
+# displayed from "zenity" displays text aligned. Make sure you append
+# statements with enough \t characters so that they appear aligned.
+# All statements appearing in connection information dialog have 
+# "CONNECTION_INFORMATION" tag for you to search for.
+#
+"Kernel driver:\t\t%s\n"
+
+#
+# This statement appears within connection information which when
+# displayed from "zenity" displays text aligned. Make sure you append
+# statements with enough \t characters so that they appear aligned.
+# All statements appearing in connection information dialog have 
+# "CONNECTION_INFORMATION" tag for you to search for.
+#
+"Kilobytes received:\t%d\n"
+
+#
+# This statement appears within connection information which when
+# displayed from "zenity" displays text aligned. Make sure you append
+# statements with enough \t characters so that they appear aligned.
+# All statements appearing in connection information dialog have 
+# "CONNECTION_INFORMATION" tag for you to search for.
+#
+"Kilobytes sent:\t%d\n"
+
+"Loading driver %s"
+
+"Locating tty"
+
+"Manages 3G internet connection and 3G USB modems"
+
+"Manually enter non-discovered channel..."
+
+"Manually enter undiscoverable device..."
+
+"Modem needs PIN"
+
+"Modem on %s is registered to %s.\n"
+
+"Modem refused to register operator \"%s\" (currently registered to \"%s\").\n"
+
+"Modem refused to register operator \"%s\".\n"
+
+"Modem responded \"%s\" while checking for PIN."
+
+"Modem selected.\n"
+
+"Modem setup residing on %s.\n"
+
+"Modem switched.\n"
+
+"Modem switched to %s.\n"
+
+#
+# This statement appears within connection information which when
+# displayed from "zenity" displays text aligned. Make sure you append
+# statements with enough \t characters so that they appear aligned.
+# All statements appearing in connection information dialog have 
+# "CONNECTION_INFORMATION" tag for you to search for.
+#
+"Modem:\t\t\t%s\n"
+
+#
+# This statement appears within connection information which when
+# displayed from "zenity" displays text aligned. Make sure you append
+# statements with enough \t characters so that they appear aligned.
+# All statements appearing in connection information dialog have 
+# "CONNECTION_INFORMATION" tag for you to search for.
+#
+"Modem type:\t\tBluetooth\n"
+
+#
+# This statement appears within connection information which when
+# displayed from "zenity" displays text aligned. Make sure you append
+# statements with enough \t characters so that they appear aligned.
+# All statements appearing in connection information dialog have 
+# "CONNECTION_INFORMATION" tag for you to search for.
+#
+"Modem type:\t\tCustom\n"
+
+#
+# This statement appears within connection information which when
+# displayed from "zenity" displays text aligned. Make sure you append
+# statements with enough \t characters so that they appear aligned.
+# All statements appearing in connection information dialog have 
+# "CONNECTION_INFORMATION" tag for you to search for.
+#
+"Modem type:\t\tUnknown\n"
+
+#
+# This statement appears within connection information which when
+# displayed from "zenity" displays text aligned. Make sure you append
+# statements with enough \t characters so that they appear aligned.
+# All statements appearing in connection information dialog have 
+# "CONNECTION_INFORMATION" tag for you to search for.
+#
+"Modem type:\t\tUnspecified\n"
+
+#
+# This statement appears within connection information which when
+# displayed from "zenity" displays text aligned. Make sure you append
+# statements with enough \t characters so that they appear aligned.
+# All statements appearing in connection information dialog have 
+# "CONNECTION_INFORMATION" tag for you to search for.
+#
+"Modem type:\t\tUSB\n"
+
+"Modem unable to register a network."
+
+"Module \"%s\" loaded but did not bind to device \"%s\".\n"
+
+"Module \"%s\" loaded but refused to bind to device \"%s\".\n"
+
+"More options..."
+
+"\nAvailable options are:\n"
+
+#
+# This statement appears within connection information which when
+# displayed from "zenity" displays text aligned. Make sure you append
+# statements with enough \t characters so that they appear aligned.
+# All statements appearing in connection information dialog have 
+# "CONNECTION_INFORMATION" tag for you to search for.
+#
+"Network ID:\t\t%s"
+
+"\nExample:\n"
+
+"No method for acquiring root privileges found."
+
+"No modem selected.\n"
+
+"Not connected"
+
+"Not connected.\n"
+
+"Notification"
+
+"Not running from within package.\n"
+
+"No USB modem"
+
+"No USB modem was selected. No need for a udev example.\n"
+
+"No write access to temporary folder \"%s\".\n"
+
+"\nUtility \"%s\" found but cannot be used since we are not interactive.\n"
+
+"OK"
+
+"Only prepare modem (Setup + PIN unlock + Register Network + Update HAL)"
+
+"Only setup modem (Switch + Load module + Setup tty)"
+
+"Only switch modem (if applicable)"
+
+"Oops. Weird \"%s\" version. Deleted temporary folder \"%s\".\n"
+
+#
+# This statement appears within connection information which when
+# displayed from "zenity" displays text aligned. Make sure you append
+# statements with enough \t characters so that they appear aligned.
+# All statements appearing in connection information dialog have 
+# "CONNECTION_INFORMATION" tag for you to search for.
+#
+"Operator name:\t%s"
+
+"Option"
+
+"Option %s not implemented.\n"
+
+"or, force using %s instead:\n"
+
+"Other..."
+
+"Other driver..."
+
+#
+# This statement appears within connection information which when
+# displayed from "zenity" displays text aligned. Make sure you append
+# statements with enough \t characters so that they appear aligned.
+# All statements appearing in connection information dialog have 
+# "CONNECTION_INFORMATION" tag for you to search for.
+#
+"Peer IP Address:\t%s\n"
+
+"Please appropriate interface"
+
+"Please enter APN"
+
+"Please enter name of driver"
+
+"Please enter PIN number, or leave empty to abort" 
+
+"Please enter RFCOMM channel"
+
+"Please enter tty"
+
+"Please select an action"
+
+"Please select APN"
+
+"Please select appropriate driver"
+
+"Please select Bluetooth device"
+
+"Please select modem"
+
+"Please select modem type"
+
+"Please select RFCOMM service" 
+
+"Please select USB modem"
+
+"Please use numbers %d-%d to perform your selection: "
+
+"Port %s is currently occupied by %s."
+
+"Preparing modem"
+
+"Problem while parsing %s sources.\n"
+
+"Reconnected to %s.\n"
+
+"Registering network"
+
+"Reported by your modem (%s)"
+
+"Reported package location is not executable: %s\n"
+
+"Resuming"
+
+"Retrieving operator icon"
+
+"Sakis 3G All-in-one script - Version %s\n"
+
+"Sakis3G tux icon"
+
+"%s by using %s variable, or by enabling interactive mode.\n"
+
+"Scan device again"
+
+"Scan devices again"
+
+"Scanning bluetooth devices"
+
+#
+# First argument is modem name. Second argument is operator name.
+#
+"%s connected to %s."
+
+#
+# First argument is modem name. Second argument is operator name.
+#
+"%s connected to %s (%s)."
+
+#
+# Argument is bluetooth address of selected device, in the form
+# xx:xx:xx:xx:xx:xx
+#
+"Seeking %s"
+
+"Select"
+
+"Select APN that best describes your connection. Contact your operator if unsure. This information, along with APN username and password, is usually easily retrieved through a fast call to customer support"
+
+"Select Bluetooth device that provides 3G modem capabilities."
+
+"Select icon to use for shortcut"
+
+"Select kernel module that should be used."
+
+"Select modem category that best fits your 3G modem."
+
+"Select modem interface of USB device that provides modem capabilities."
+
+"Select modem that will be used for establishing 3G connection."
+
+"Select RFCOMM service of Bluetooth device that provides 3G modem capabilities."
+
+"Select USB device that provides modem capabilities."
+
+"Sending PIN"
+
+"Show help"
+
+"Something really bad happened. I am really sorry. You may need to re-download Sakis3G.\n"
+
+"Spurious changes in tty %s. Consider using \"killstorage\" switch in case it improves stability."
+
+"Spurious changes in tty %s. Problem may be solved by upgrading your kernel or by choosing another driver."
+
+"Starting up"
+
+#
+# This statement appears within connection information which when
+# displayed from "zenity" displays text aligned. Make sure you append
+# statements with enough \t characters so that they appear aligned.
+# All statements appearing in connection information dialog have 
+# "CONNECTION_INFORMATION" tag for you to search for.
+#
+"Subnet Mask:\t\t%s\n"
+
+"Succesfully recompiled.\n"
+
+"Switching modem"
+
+"Switching modem (using %s)"
+
+"Testing compiler"
+
+"To automatically repeat result of last action, immediately upon device connection, include following line within a %s file within \"%s\" directory:\n%s\n"
+
+"To automatically repeat result of last action, use following command line:\n%s\n"
+
+"Unable to check if module is currently loaded or if it has users.\n"
+
+"Unable to check if %s is occupied. Not root."
+
+"Unable to create a safe backup to \"%s\".\n"
+
+"Unable to create device node \"%s\"."
+
+"Unable to create file %s.\n"
+
+"Unable to create rfcomm device node \"%s\"."
+
+"Unable to create rfcomm node %s."
+
+"Unable to create temporary folder \"%s\".\n"
+
+"Unable to create temporary pppd config file within %s directory.\n"
+
+"Unable to create temporary wvdial config file within %s directory.\n"
+
+"Unable to delete previously existing \"%s\".\n"
+
+"Unable to delete \"%s\".\n"
+
+"Unable to determine my path.\n"
+
+"Unable to discover connected USB devices. Script will now abort."
+
+"Unable to extract %s source from package.\n"
+
+"Unable to find available rfcomm device index. Minors occupied.\n"
+
+"Unable to gather connection information.\n"
+
+"Unable to get %s icon, unknown reason."
+
+"Unable to install tray icon to system notification area. You need to install %s.\n"
+
+"Unable to load driver \"%s\" for device \"%s\""
+
+"Unable to locate dependency \"%s\". Script will now abort."
+
+"Unable to locate driver to use for device \"%s\""
+
+"Unable to overwrite existing package %s. Check if on read-only filesystem.\n"
+
+"Unable to stop running pppd session. Both %s and % were not found.\n"
+
+"Unloading driver %s"
+
+"Unusable binary after including \"%s\".\n"
+
+"Updating HAL"
+
+"USB device"
+
+"Waiting device to settle"
+
+"Waiting HAL to mount device(s)"
+
+"Waiting %s to be released by PID %s."
+
+"Working..."
+
+"WRONG PIN. Aborting to prevent you from locking your SIM card."
+
+"You can automate this selection by setting %s variable.\n"
+
+"You can automate this selection by setting %s variable.\nEnter \"*\" to discover how.\n"
+
+"You can automate this selection by setting %s variable on command line, click here to discover how.\n"
+
+"You can automate this selection by setting %s variable on command line.\n"
+
+"Resolving connection details"
+
+"Initializing modem"
+
+"Confirm exit"
+
+"Exiting will also remove tray icon. Are you sure you want to exit Sakis3G?"
+
+"Disconnected"
+
+"USB Modem plugged"
+
+"USB Modem %s is now plugged on computer."
+
+"Modem %s is now connected to %s."
+
+"Modem %s is now connected."
+
+"You are now connected to %s."
+
+"Computer is now connected."
+
+"USB Modem Unplugged"
+
+"No USB modem is anymore plugged on computer."
+
+"You were disconnected due to modem being unplugged."
+
+"You are now disconnected from operator."
+
+"Seems like an electrical/USB bus error occured. You may need to replug your modem for it to properly work.\n"
+
+"Locating device"
+
+"Unable to locate a configuration file for switching device %s.\n"
+
+"You are running a binary free version of Sakis3G. Unable to recompile %s.\n"
+
+"%s is not installed on your system.\n"
+
+"You are running a binary free version of Sakis3G. This action is not available.\n"
+
+"Trying emergency switch"
+
+"You need to be connected for generating report.\n"
+
+"Please report following text:\n"
+
+"Generate success report"
+
+"You can automate this selection by setting --%syes or --%sno switches.\n"
+
+"Scan for network" 
+
+"Modem was unable to register a network. Would you like to manually select a network?"
+
+"Scanning networks"
+
+"Please select a network"
+
+"Select network for modem to register."
+
+"You are running a stripped version of Sakis3G. This action is not available.\n"
+
+
+

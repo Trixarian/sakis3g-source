@@ -1,0 +1,11 @@
+#######################################################
+# Alcatel-Lucent T930S
+
+DefaultVendor= 0x04cc
+DefaultProduct=0x225c
+
+TargetClass=0xff
+
+Configuration=2
+
+CheckSuccess=20

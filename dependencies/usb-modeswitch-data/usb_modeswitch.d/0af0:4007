@@ -1,0 +1,15 @@
+#######################################################
+# Option iCon 711
+
+DefaultVendor= 0x0af0
+DefaultProduct=0x4007
+
+TargetVendor=  0x0af0
+TargetProduct= 0x4005
+
+SierraMode=1
+
+NoDriverLoading=1
+
+CheckSuccess=20
+

@@ -1,0 +1,15 @@
+#######################################################
+# Option Globetrotter (Variant)
+
+DefaultVendor= 0x0af0
+DefaultProduct=0x8006
+
+TargetVendor=  0x0af0
+TargetProduct= 0x9100
+
+CheckSuccess=10
+
+MessageContent="55534243785634120100000080000601000000000000000000000000000000"
+
+NoDriverLoading=1
+

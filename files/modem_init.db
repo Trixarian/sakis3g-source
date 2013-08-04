@@ -1,0 +1,41 @@
+# Modem INIT AT commands
+# Part of Sakis3G package, distributed under GNU GPL v2
+#
+# Lines starting with # are comments
+#
+# File is of the following format:
+# <USB IDs>::<tab>STAGE 1 INIT Commands<tab>
+#                 STAGE 2 INIT Commands<tab>
+#                 STAGE 3 INIT Commands<tab>
+#                 STAGE 4 INIT Commands<tab>
+#                 STAGE 5 INIT Commands<tab>
+#                 STAGE 6 INIT Commands<tab>
+#                 STAGE 7 INIT Commands<tab>
+# Or:
+# <USB IDs>:SPECIFIC VARIANT:<tab>STAGE 1 INIT Commands...
+# SPECIFIC VARIANT is the result of AT+CGMM
+# Stage 1: Before asking for PIN, limited command-set
+# Stage 2: Specific PIN inquiry command (if other than AT+CPIN=?)
+# Stage 3: Specific PIN supply command (if other than AT+CPIN=%s)
+#          Entries of this stage must contain a unique %s that will be
+#          replaced by PIN supplied by user.
+# Stage 4: After PIN unlock, full command-set, network registration not granted
+# Stage 5: Before initializing, registered to network
+# Stage 6: Specific initialization (if other than default)
+#          Entries of this stage must contain a unique %s that will be
+#          replaced by APN selected.
+# Stage 7: After initialization, before ATD*99#
+
+# ZTE modem (MF636)
+# Needs +ZOPRT=5 for staying on power.
+# Needs +CPMS with no arguments which while producing an error, suppresses
+#       +ZUSIMR:2 spamming.
+19d2:0031::	AT+ZOPRT=5			AT+ZOPRT=5 AT+CPMS	AT+ZOPRT=5 AT+CPMS		ATS7=60 S30=0
+
+# Alcatel X200
+# Needs +CFUN=1 for recovering from power autosaving mode.
+1bbb:0000::	AT+CFUN=1			AT+CFUN=1	AT+CFUN=1
+
+# Sony Ericsson MD400
+0fce:d0e1:MD400:	AT+CFUN=1		AT+CPIN="%s"	AT+CFUN=1	AT+CGATT=1
+

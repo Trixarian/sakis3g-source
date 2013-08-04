@@ -1,0 +1,12 @@
+####################################################### 
+# D-Link DWM-156 (Variant)
+
+DefaultVendor= 0x2001
+DefaultProduct=0xa708
+
+TargetVendor=  0x2001
+TargetProduct= 0x7d03
+
+MessageContent="5553424312345678000000000000061b000000020000000000000000000000"
+
+CheckSuccess=20

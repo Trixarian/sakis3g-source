@@ -1,0 +1,53 @@
+# This file lists contributors to Sakis3G All-in-one script
+
+==Ideas==
+* Josua Dietze.
+* Arturas Sleinius.
+* Tasos Gropalis.
+
+
+==Patches==
+* Josua Dietze: Identified and fixed a regression issue, introduced by 0.1.2, that was preventing correct tty device detection on several modems. Proposed fix was included in 0.1.3.
+* Emanuele Bovisio: Identified and fixed an issue with older wvdial versions. Proposed fix was included in 0.2.0c.
+* Hartmut Giessmann: Identified and fixed an issue with certain UTF-8 translations not being used if locale was specified in lowercase. Proposed patch was included in 0.2.0d.
+
+
+==Translators==
+* Hartmut Giessmann: German translation. Included since 0.2.0d.
+* Jean-Pierre VAISSIERE: French translation. Included since 0.2.0e.
+
+
+==Wiki editors==
+None so far.
+
+
+==Testers==
+* Josua Dietze.
+* Jean-Pierre VAISSIERE.
+* Arturas Sleinius.
+* Peder Norgaard.
+* Luikki.
+* Monty’s SoupCatcher.
+* Tasos Gropalis.
+
+
+==Operator updates==
+* Brenton Scott (8ta Mobile Internet)
+* Arturas Sleinius (Omnitel Lithuania).
+* Don (1und1 Germany).
+* Luikki (ZON, Clix Portugal).
+* Monty’s SoupCatcher (T-Mobile, Vodafone, O2 United Kingdom).
+* Sébastien Abilla (Orange French Caraibes).
+* Vasco Santos (TMN Portugal).
+* Rafael Estevez (IndosatM2, 3 Indonesia).
+* Stefanix (ToT Thailand)
+
+
+==Modem information/feedback==
+* Dimitrios Tsolakis (Huawei E170).
+* Jean-Pierre VAISSIERE (GBC PL68).
+* Arturas Sleinius (ZTE MF633).
+* Luikki (ZTE MF627).
+* Monty’s SoupCatcher (Huawei E160).
+* Tasos Gropalis (Huawei E1692).
+

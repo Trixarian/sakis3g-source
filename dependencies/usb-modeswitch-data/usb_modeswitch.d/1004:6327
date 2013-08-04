@@ -1,0 +1,12 @@
+#########################################################
+# LG L-03D LTE/3G
+
+DefaultVendor= 0x1004
+DefaultProduct=0x6327
+
+TargetVendor=  0x1004
+TargetProduct= 0x6326
+
+MessageContent=555342431234567800000000000005f1010100000000000000000000000000
+CheckSuccess=20
+

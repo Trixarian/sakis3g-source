@@ -1,0 +1,293 @@
+# List of known networks of Sakis3G.
+# Distributed under GNU GPL v2
+#
+# Generic network format:
+#               <ISPID>::<tab>
+#               ISP_NAME<tab>
+#               ISP_PRODUCT<tab>
+#               FGCOLOR<tab>
+#               BGCOLOR<tab>
+#               DIAL<tab>
+#               APN#1<space>APN#2<space>...<space>APN#n<tab>
+#               ICON<EOL>
+#
+# Specific operator with network format:
+#               <ISPID>:<SPECIFIC ISP_NAME>:<tab>
+#               ISP_NAME<tab>
+#               ISP_PRODUCT<tab>
+#               FGCOLOR<tab>
+#               BGCOLOR<tab>
+#               DIAL<tab>
+#               APN#1<space>APN#2<space>...<space>APN#n<tab>
+#               ICON<EOL>
+#
+# APN#1, #2, ..., #n has format:
+# APN URL:Description_with_no_spaces:Username:Password
+#
+# Empty lines and lines starting with "#" are not taken into consideration.
+#
+
+# Greece
+20201::	GR COSMOTE	Cosmote Internet on the Go		8DC919		internet:Real_IP_Internet:user:pass 3g-internet:NAT_IP_Internet:user:pass	http://www.cosmote.gr/cosmote/resources/images/sm_logo_on_green.gif
+20205::	VODAFONE GR	VODAFONE Live		ff0000		internet.vodafone.gr:Internet:user:pass webkarta.vodafone.gr:CU_Internet:user:pass	http://www.vodafone.pt/vodafone/gui09/img/menu/logo.gif
+20209::	WIND GR	Wind ADSM	0000ff	ffffff	*99***1#	gint.b-online.gr:Wind:web:web myq:Q_Telecom:user:pass	http://www.wind.com.gr/wind_amea/images/logo_1.gif
+20210::	WIND GR	Wind ADSM	0000ff	ffffff	*99***1#	gint.b-online.gr:Wind:web:web myq:Q_Telecom:user:pass	http://www.wind.com.gr/wind_amea/images/logo_1.gif
+
+# Netherlands
+20404::	Vodafone NL	Vodafone Mobiel Internet		ff0000		live.vodafone.com:Non-business:vodafone:vodafone office.vodafone.nl:Business:vodafone:vodafone	http://www.vodafone.pt/vodafone/gui09/img/menu/logo.gif
+20408::	NL KPN	KPN Mobiel Internet		29aa2b		internet:KPN:KPN:gprs internet:Telfort:telfortnl:pass portalmmm.nl:Hi:user:pass umts.xs4all.nl:XS4ALL:user:pass	http://www.kpn.com/v2/static/kpncom/images/kpn_logo.png
+20412::	Telfort NL	T-Mobile Mobiel Internet		0000ff		internet::telfortnl:pass	http://www.prepaidgsm.net/loghi/logo_telfort.gif
+20416::	T-Mobile NL	T-Mobile Mobiel Internet		ff00ff		internet:Internet:user:pass internet.ben:Ben:user:pass	http://www.t-mobile.at/Tico.ico
+20420::	Orange NL	Orange Mobiel Internet		ff6600		internet::orange:orange	http://i5.woopic.com/I/Header/orange.gif
+
+# Belgium
+20601::	BEL PROXIMUS	Proximus Mobile Internet		2f207b		internet.proximus.be:Inter:user:pass intraprox.be:Intra:user:pass	http://customer.proximus.be/img3ldr/paw30/logos/proximus.png
+20610::	B mobistar	Mobistar Mobile Internet	000000	f0f0f0		internet.be:Mobistar_Personal:mobistar:mobistar web.pro.be:Mobistar_Business:mobistar:mobistar iew.be:Mobistar_Internet_Everywhere:mobistar:mobistar telenetwap.be:Telenet_Mobile:user:pass	http://www.mobistar.be/nl/e-services/spage/images/logo/mobistar.gif
+20620::	Base	Base Mobile Internet	435f79	dde6f7		gprs.base.be:BASE:user:pass orangeinternet:Orange:user:pass	http://www.prepaidgsm.net/loghi/logo_base.gif
+
+# France
+20801::	Orange F	Orange Internet 3G+		ff6600		orange.fr:Orange_Contract:orange:orange internet-entreprise:Orange_Business_Contract:orange:orange orange:Orange_Mobicarte:orange:orange orange-mib:Orange_MIB:mportail:mib orange.ie:Orange_Internet_Everywhere_3G:user:pass orange.fr.mnc001.mcc208.gprs:France_Telecom_GPRS:gprs:pass ao.fr:TEN:orange:orange ofnew.fr:TEN_Pay-by-MB:orange:orange	http://i5.woopic.com/I/Header/orange.gif
+20810::	F SFR	Clé Internet 3G+		ff0000		websfr:Web_SFR:user:pass wap65:A_Mobile:user:pass	http://www.sfr.fr/mobile/edito/img/logoSFR.png
+20811::	F SFR	Clé Internet 3G+		ff0000		websfr:Web_SFR:user:pass wap65:A_Mobile:user:pass	http://www.sfr.fr/mobile/edito/img/logoSFR.png
+20820::	Bouygtel FR	Internet Mobile 3G+	02a9bc	ffffff		ebouygtel.com:ebouygtel:user:pass b2bouygtel.com:B2Bouygtel:user:pass	http://www.bouyguestelecom.fr/client/homev2/imagesSite/header/logo-bouygues-telecom.png
+20821::	Bouygtel FR	Internet Mobile 3G+	02a9bc	ffffff		ebouygtel.com:ebouygtel:user:pass b2bouygtel.com:B2Bouygtel:user:pass	http://www.bouyguestelecom.fr/client/homev2/imagesSite/header/logo-bouygues-telecom.png
+
+# Spain
+21401::	Vodafone ES	Vodafone Internet en el Móvil		ff0000		airtelnet.es:Vodafone:vodafone:vodafone gprs.pepephone.es:Pepephone:user:pass	http://www.vodafone.pt/vodafone/gui09/img/menu/logo.gif
+21403::	Orange ES	Orange Internet Everywhere		ff6600		internet:Orange:CLIENTE:AMENA internetmas:Másmovil:user:pass gprs-service.com:Simyo:user:pass	http://www.orange.at/Content.Node/images/orange-logo.gif
+21404::	YOIGO ES	Yoigo internet móvil	ff00ff	ffffff		Internet::user:pass	http://www.prepaidgsm.net/loghi/logo_yoigo.gif
+21406::	Vodafone ES	Vodafone Internet en el Móvil		ff0000		airtelnet.es:Vodafone:vodafone:vodafone gprs.pepephone.es:Pepephone:user:pass	http://www.vodafone.pt/vodafone/gui09/img/menu/logo.gif
+21407::	Movistar ES	Movistar internet móvil	0000ff	ffffff		movistar.es:Movistar:movistar:movistar Internet:Yoigo:user:pass	http://www.movistar.es/flot/terminales_multiidioma/img/logo_movistar_term_multiidioma.jpg
+21408::	Euskaltel ES	Euskaltel internet móvil		ff6600		internet.euskaltel.mobi::CLIENTE:EUSKALTEL	http://www.euskaltel.com/webektest/Galeria/Imagenes/homes/empresa/tximeleta_gris.jpg
+21409::	Orange ES	Orange Internet Everywhere		ff6600		internet:Orange:CLIENTE:AMENA internetmas:Másmovil:user:pass gprs-service.com:Simyo:user:pass	http://www.orange.at/Content.Node/images/orange-logo.gif
+21416::	Telecable ES	Telecable internet móvil	0000ff	ffffff		internet.telecable.es::telecable:telecable	http://web.telecable.es/pages/img/es/portal/logoEmpresa.gif
+21417::	R móbil ES	mundo R internet móvil	000000	ffffff		internet.mundo-r.com::user:pass	http://particulares.mundo-r.com/WCR/imx/r.gif
+21418::	Ono ES	Ono Banda Ancha Movil	000000	ffffff		internet.ono.com::user:pass	http://www.ono.es/img/ono_logo.png
+21419::	Simyo ES	Simyo internet móvil	ff6600	ffffff		gprs-service.com::user:pass	http://www.simyo.es/documentos/logos_prensa/simyo_logo_small.jpg
+
+# Hungary
+21601::	pannon HU	pannon internet		0099ff		netx:átalánydíjas:user:pass net:Normál:user:pass snet:Tömörített:user:pass	http://www.pannon.hu/i/site_logo.jpg
+21630::	T-Mobile HU	T-Mobile Mobilinternet		ff00ff		internet:Internet:user:pass mms-westel:MMS:mms:pass	http://www.t-mobile.at/Tico.ico
+21670::	Vodafone HU	Vodafone Internet		ff0000		standardnet.vodafone.net:Előf._Normál:vodawap:vodawap internet.vodafone.net:Előf._töm.:vodawap:vodawap vitamax.snet.vodafone.net:Felt._norm.:user:pass vitamax.internet.vodafone.net:Felt._töm.:user:pass	http://www.vodafone.pt/vodafone/gui09/img/menu/logo.gif
+
+# Bosnia & Herzegovina
+21890::	BH Mobile	BH mobilni internet		ff6600		mms.bhmobile.ba::user:pass	http://www.prepaidgsm.net/loghi/logo_bhtelecom.gif
+
+# Serbia
+22001::	RS Telenor	Telenor Internet		0099ff		internet::telenor:gprs	http://www.telenor.co.yu/images/logo.gif
+22003::	mts RS	mts Surf		ff0000		gprsinternet::mts:064	http://www.prepaidgsm.net/loghi/logo_telekomsrbija.gif
+22005::	RS VIP	VIP Internet		b4516b		vipmobile::vipmobile:vipmobile	http://www.vipmobile.rs/images/basic/logo_trim.png
+
+# Italy
+22201::	I TIM	TIM Internet		0000ff		ibox.tim.it:ibox:user:pass wap.tim.it:WAP:WAPTIM:pass	http://www.tim.it/showimg/55933.gif
+22210::	Vodafone IT	Vodafone Internet		ff0000		web.omnitel.it::user:pass	http://www.vodafone.pt/vodafone/gui09/img/menu/logo.gif
+22288::	I WIND	Wind Internet Mobile		ff6600		internet.wind:Internet:Wind:Wind internet.wind.biz:Business_Internet:Wind:Wind	http://www.wind.com.gr/wind_amea/images/logo_1.gif
+22299::	3 ITA	Tre Internet Mobile	00ffff	ffffff		tre.it:Tre(Ricaricabile):user:pass datacard.tre.it:Tre(Abbonamento):user:pass apn.fastweb.it:Fastweb(Voce/dati):user:pass datacard.fastweb.it:Fastweb(Solo_dati):user:pass	http://www.tre.it/imgs/logo.jpg
+
+# Romania
+22601::	Vodafone RO	Vodafone Internet		ff0000		internet.vodafone.ro::internet.vodafone.ro:vodafone	http://www.vodafone.pt/vodafone/gui09/img/menu/logo.gif
+22603::	COSMOTE RO	Cosmote Connect		8DC919		internet::user:pass	http://www.cosmote.gr/cosmote/resources/images/sm_logo_on_green.gif
+22610::	Orange RO	Orange Internet		ff6600		internet::user:pass	http://www.orange.at/Content.Node/images/orange-logo.gif
+
+# Switzerland
+22801::	SWISS GSM	Swisscom mobile internet	000049	ffffff		gprs.swisscom.ch::gprs:gprs	http://de.swisscom.ch/img/logo_swisscom.gif
+22802::	Sunrise CH	Sunrise Internet		72123d		internet::internet:internet	http://www1.sunrise.ch/is-bin/intershop.static/WFS/Sunrise-Residential-Site/-/de_CH/images/branding.gif
+22803::	Orange CH	Orange Internet Everywhere		ff6600		mobileoffice3g::user:pass	http://www.orange.at/Content.Node/images/orange-logo.gif
+
+# Czech Republic
+23001::	T-Mobile CZ	T-Mobile Internet		ff00ff		internet.t-mobile.cz:T-Mobile_Internet:user:pass internet.click.cz:Paegas_Internet:user:pass profil.click.cz:Paegas_Profil:user:pass	http://www.t-mobile.at/Tico.ico
+23002::	O2 CZ	O2 Internet		177db9		gointernet:Go:user:pass internet:Contract:user:pass internet.open:Open_Contract:user:pass	http://www.o2online.de/nw/assets/header/header-small-o2-logo-bild.gif
+23003::	Vodafone CZ	Vodafone Internet		ff0000		internet:Postpaid:wap:wap ointernet:Prepaid:user:pass	http://www.vodafone.pt/vodafone/gui09/img/menu/logo.gif
+
+# Slovakia
+23101::	Orange SK	Orange mobilný internet		ff6600		internet::user:pass	http://www.orange.at/Content.Node/images/orange-logo.gif
+23102::	T-Mobile SK	T-Mobile mobilný internet		ff00ff		internet::user:pass	http://www.t-mobile.at/Tico.ico
+23104::	T-Mobile SK	T-Mobile mobilný internet		ff00ff		internet::user:pass	http://www.t-mobile.at/Tico.ico
+
+# Austria
+23201::	Mobilkom/A1	A1 Breitband	ff6600			a1.net::ppp@a1plus.at:ppp	http://www.a1.net/final/de/Images/Layout/a1_logo.png
+23203::	T-Mobile AT	T-Mobile SURF		ff00ff		gprsinternet:GPRS_Internet:t-mobile:tm web:Former_tele.ring:web@telering.at:web	http://www.t-mobile.at/Tico.ico
+23205::	Orange AT	Orange Mobiles Internet		ff6600		web.one.at:Orange:web:web web.yesss.at:Yesss!:user:pass	http://www.orange.at/Content.Node/images/orange-logo.gif
+23207::	T-Mobile AT	T-Mobile SURF		ff00ff		gprsinternet:GPRS_Internet:t-mobile:tm web:Former_tele.ring:web@telering.at:web	http://www.t-mobile.at/Tico.ico
+23210::	Drei AT	Drei 3Data	ff6600	ffffff		drei.at::user:pass	http://www.drei.at/portal/media/960/images_1/logo_drei_1.png
+
+# United Kingdom
+23402::	O2 UK	O2 Mobile broadband		1f3365		m-bb.o2.co.uk:Mobile_Broadband:o2web:password mobile.o2.co.uk:Contract:o2web:password mobile.o2.co.uk:Contract_faster:faster:password payandgo.o2.co.uk:Prepaid:payandgo:payandgo	http://www.o2.co.uk/favicon.ico
+23410::	O2 UK	O2 Mobile broadband		1f3365		m-bb.o2.co.uk:Mobile_Broadband:o2web:password mobile.o2.co.uk:Contract:o2web:password mobile.o2.co.uk:Contract_faster:faster:password payandgo.o2.co.uk:Prepaid:payandgo:payandgo	http://www.o2.co.uk/favicon.ico
+23411::	O2 UK	O2 Mobile broadband		1f3365		m-bb.o2.co.uk:Mobile_Broadband:o2web:password mobile.o2.co.uk:Contract:o2web:password mobile.o2.co.uk:Contract_faster:faster:password payandgo.o2.co.uk:Prepaid:payandgo:payandgo	http://www.o2.co.uk/favicon.ico
+23415::	Vodafone UK	Vodafone Mobile broadband		ff0000		internet:Contract:web:web pp.vodafone.co.uk:Prepaid:wap:wap pp.internet:Old_PAYG:user:pass ppbundle.internet:New_PAYG:web:web	http://online.vodafone.co.uk/en_GB/assets/static/logo.gif
+23420::	3 UK	3 Mobile broadband	000000	ffffff		3internet:Mobile_Internet:user:pass three.co.uk:Mobile_Device:user:pass	http://www.three.co.uk/static/images/sitewide/favicon.ico
+23430::	T-Mobile UK	T-Mobile mobile internet		ff00ff		internet:Mobile_Internet:user:pass	http://www.t-mobile.at/Tico.ico
+23430:VIRGIN:	Virgin	Virgin Mobile broadband		ff0000		vdata:Virgin:user:pass	http://www.virginmobile.com/vm/media/images/virginmobilelogo.gif
+23431::	Virgin	Virgin Mobile broadband		ff0000		vdata:Virgin:user:pass	http://www.virginmobile.com/vm/media/images/virginmobilelogo.gif
+23432::	Virgin	Virgin Mobile broadband		ff0000		vdata:Virgin:user:pass	http://www.virginmobile.com/vm/media/images/virginmobilelogo.gif
+23433::	Orange UK	Orange Mobile broadband		ff00ff		orangeinternet:Contract:orange:orange orangewap:Pay_and_Go:orange:multimedia	http://www.orange.co.uk/img/homerefresh/logo.gif
+23434::	Orange UK	Orange Mobile broadband		ff00ff		orangeinternet:Contract:orange:orange orangewap:Pay_and_Go:orange:multimedia	http://www.orange.co.uk/img/homerefresh/logo.gif
+
+# Denmark
+23801::	TDC	TDC Mobilt Bredbånd		006cb8		internet:Internet:user:pass	http://i.c.dk/gfx/grd/common/logo/tdc_logo_48x41.png
+23802::	Telenor DK	Telenor mobilt bredbånd		161616	*99***1#	internet:Telenor_Internet:user:pass internet.bibob.dk:BiBoB_Internet:user:pass	http://www.telenor.dk/Images/logo_tcm69-79084.png
+23802:BIBOB:	BiBoB	BiBoB Mobilt Bredbånd		457a91		internet.bibob.dk:Internet:user:pass	http://www.bibob.dk/data/archive/favicon.ico
+23806::	3 DK	3 mobilt bredbånd	000000	ffffff		bredband.tre.dk:3_Bredbånd:user:pass net.tre.dk:3_Bredbånd_Premium_Kontant:user:pass data.tre.dk:3_Mobil_Abonnement:user:pass bredband.oister.dk:OiSTER_Bredbånd:user:pass	http://www.three.co.uk/static/images/sitewide/favicon.ico
+23806:OISTER:	OISTER	OiSTER mobilt bredbånd		705ea6		bredband.oister.dk:Bredbånd:user:pass	http://www.oister.dk/wp-content/themes/oister/images/oister-logo-new.png
+23820::	Telia DK	Telia mobilt bredbånd	b5006d	ffffff		www.internet.mtelia.dk:Internet:user:pass	http://static.telia.dk/09_facelift/gfx/head/logo_telia_head_fadebg_mirror.png
+23830::	Telia DK	Telia mobilt bredbånd	b5006d	ffffff		www.internet.mtelia.dk:Internet:user:pass	http://static.telia.dk/09_facelift/gfx/head/logo_telia_head_fadebg_mirror.png
+
+# Sweden
+24001::	Telia SE	Telia Mobilt Bredband		cf0566		online.telia.se:Telia:user:pass halebop.telia.se:Halebop:user:pass	http://www.telia.se/img/header/telia_logo.gif
+24002::	3 SE	3Bredband	ff6600	ffffff		data.tre.se:Mobil:user:pass bredband.tre.se:Bredband:user:pass net.tre.se:Bredband_Kontantkort:user:pass	http://www.drei.at/portal/media/960/images_1/logo_drei_1.png
+24004::	Sweden 3G	Sweden 3G internet				internet.telenor.se:Telenor_Mobilt_Bredband:user:pass services.telenor.se:Telenor_Mobilsurf_med_maxtaxa:user:pass data.tre.se:3Mobil:user:pass bredband.tre.se:3Bredband:user:pass net.tre.se:3Bredband_Kontantkort:user:pass internet.se:TDC:user:pass mobileinternet.tele2.se:Tele2:user:pass online.telia.se:Telia:user:pass halebop.telia.se:Halebop:user:pass	
+24005::	Sweden 3G	Sweden 3G internet	000000	ffffff		internet.se:TDC:user:pass mobileinternet.tele2.se:Tele2:user:pass online.telia.se:Telia:user:pass halebop.telia.se:Halebop:user:pass	
+24006::	Telenor SE	Telenor Mobilt Bredband		161616		internet.telenor.se:Telenor_Mobilt_Bredband:user:pass services.telenor.se:Telenor_Mobilsurf_med_maxtaxa:user:pass data.tre.se:3Mobil:user:pass bredband.tre.se:3Bredband:user:pass net.tre.se:3Bredband_Kontantkort:user:pass	http://www.telenor.no/Images/logo_tcm38-4340.png
+24007::	Tele2 SE	Tele2 Mobilt Internet	000000	ffffff		mobileinternet.tele2.se:Tele2:user:pass internet.se:TDC:user:pass	http://www.tele2.lv/images/e220_modems_tele2_logo.png
+24008::	Telenor SE	Telenor Mobilt Bredband		161616		internet.telenor.se:Telenor_Mobilt_Bredband:user:pass services.telenor.se:Telenor_Mobilsurf_med_maxtaxa:user:pass data.tre.se:3Mobil:user:pass bredband.tre.se:3Bredband:user:pass net.tre.se:3Bredband_Kontantkort:user:pass	http://www.telenor.no/Images/logo_tcm38-4340.png
+
+# Norway
+24201::	N Telenor	Telenor Mobilt Bredbånd		161616		internet::user:pass	http://www.telenor.no/Images/logo_tcm38-4340.png
+24202::	N COM	NetCom Mobilt Bredbånd	ff6600	ffffff		internet.netcom.no:NetCom:netcom:netcom internet:Lebara:user:pass internet:OneCall:user:pass	http://mmslss.netcom.no/mms.mnc002.mcc242.gprs/no/webnonsubscriber/img/NetCom-logo3.gif
+24204::	Network NO	NetworkNorway	ff0000	ffffff		internet::user:pass	http://www.networknorway.no/getfile.php/Bilder/Logo/nwn_logo.png
+24205::	Network NO	NetworkNorway	ff0000	ffffff		internet::user:pass	http://www.networknorway.no/getfile.php/Bilder/Logo/nwn_logo.png
+
+# Finland
+24403::	DNA FI	DNA Internet		e20070		internet::user:pass	http://www.dna.fi/Style                   0brary/Images/Dna/dna_logo.gif
+24405::	Elisa FI	Elisa Internet		0e8ad4		internet:Elisa:user:pass internet.saunalahti:Saunalahti:user:pass	http://www.elisa.fi/etusivu/assets/img/global-logo-trans.png
+24421::	Saunalahti FI	Saunalahti Internet		f25822		internet.saunalahti:Saunalahti:user:pass	http://img.saunalahti.fi/pic_gen/logo_saastoa_joka_minuutti.png
+24491::	Sonera FI	Sonera Internet	ff0000	ffffff		internet:Internet:user:pass prointernet:Prointernet:user:pass	http://www.sonera.fi/images/sonera.gif
+
+# Lithuania
+24601::	OMNITEL LT	Omnitel Omniconnect	0000ff	8dc919		internet:Omniconnect:user:omni	http://www.omnitel.lt/media/images/hdr/logo_lt.gif
+
+# Latvia
+24701::	LMT	LMT Internets telefonā	a90031	ffffff		internet.lmt.lv::user:pass	http://www.lmt.lv/images/design/lmt-logo.png
+24702::	TELE2	TELE2 Internets telefonā	000000	ffffff		internet.tele2.lv::gprs:internet	http://www.tele2.lv/images/e220_modems_tele2_logo.png
+
+# Russia
+25001::	MTS RU	MTS Интернет		ff0000		internet.mts.ru::mts:mts	http://www.mts.ru/upload/images/design/i/logo.gif
+25002::	Megafon RU	Мегафон Интернет		00ff00		internet.nw:NW_Северо-Запад:user:pass internet.ugsm:UGSM_Урал:user:pass internet.usi.ru:usi:user:pass internet.dv:DV_Дальний_Восток:user:pass internet.kvk:kvk_Кавказ:user:pass internet.ltmsk:ltmsk:user:pass internet.sib:sib_Сибирь:user:pass internet.volga:volga_Поволжье:user:pass internet.mc:mc_Центр:user:pass internet:Moscow_Москва:gdata:gdata	http://www.prepaidgsm.net/loghi/logo_megafon.gif
+25003::	NCC RU	NCC Интернет		b10042		internet::ncc:pass	http://ncc-volga.ru/bitrix/templates/ncc/img/logo.gif
+25005::	ETK RU	Енисей Телеком Интернет		0066ae		internet.etk.ru:Internet:etk:pass wap.etk.ru:Wap:user:pass	http://www.etk.ru/pictures/etc_pictures/logo.gif
+25012::	BWC RU	БайкалВестКом Интернет	0075ab	ffffff		inet.bwc.ru::bwc:bwc	http://www.bwc.ru/f/1/gsm/bwc_vsegda.jpg
+25016::	NTC RU	NTC Интернет	194493	ffffff		internet.ntc::user:pass	http://www.vntc.ru/images/skin/logo.png
+25020::	Tele2 RU	Теле2 Интернет	00a4ee	ffffff		wap.tele2.ru::gprs:pass	http://novgorod.tele2.ru/system_images/logo_t2.gif
+25028::	Beeline RU	Билайн Интернет	000000	ffffff		internet.beeline.ru::beeline:beeline	http://www.beeline.ru/media/design/beeline_logo_bs.gif
+25035::	Motiv RU	Мотив Интернет		ff6600		inet.ycc.ru::motiv:pass	http://www.ycc.ru/i/ami/logo.gif
+25039::	U-tel RU	U-tel Интернет		d11228		internet.usi.ru::user:pass	http://www.u-tel.ru/images/logo.gif
+25099::	Beeline RU	Билайн Интернет	000000	ffffff		internet.beeline.ru::beeline:beeline	http://www.beeline.ru/media/design/beeline_logo_bs.gif
+
+# Ukraine
+25501::	MTC UA	MTC Мобільний GPRS-Інтернет		ff0000		internet:Internet:internet:pass www.umc.ua:umc:user:pass www.jeans.ua:Jeans:user:pass hyper.net:Hyper:user:pass	http://www.mts.com.ua/img/tmpl/logo_ukr.gif
+25502::	Beeline UA	Beeline Мобільний інтернет	000000	ffffff		internet.beeline.ua::user:pass	http://www.beeline.ua/media/design/ua/beeline_logo.gif
+25503::	UA Kyivstar	Kyivstar Интернет 3G		0295df		www.ab.kyivstar.net:Ace&Base:igprs:internet www.djuice.com.ua:Djuice:user:pass	http://www.prepaidgsm.net/loghi/logo_kyivstar.gif
+25506::	Life UA	life;) Інтернет		ff0000		internet:Standard:user:pass speed:Faster:user:pass	http://www.life.com.ua/i/newh/logo.uk.png
+25507::	Utel UA	Utel Інтернет		ff0000		3g.utel.ua::user:pass	http://utel.ua/img/index/big_logo100.jpg
+
+# Belarus
+25701::	VELCOM BY	Услуги Мобильный Интернет	000000	fff200		wap.velcom.by:GPRS_WAP:wap:wap web.velcom.by:GPRS_WEB:web:web plus.velcom.by:GPRS_WEB_PLUS:plus:plus privet.velcom.by:GPRS_PRIVET:privet:privet web1.velcom.by:WEB_BASIC:web1:web1 web2.velcom.by:WEB_25:web2:web2 web3.velcom.by:WEB_150:web3:web3 vmi.velcom.by:WEB_500:vmi:vmi	http://www.velcom.by/im/logo.gif
+25702::	MTS BY	MTC Интернет +		ff0000		internet.mts.by::mts:mts	http://www.mts.by/f/i/logo.gif
+25703::	BY Life	3G life		ff0000		internet.life.com.by::user:pass	http://www.life.com.ua/i/newh/logo.uk.png
+
+# Moldova
+25901::	Orange MD	Orange Internet Acum		ff6600		internet::user:pass	http://www.orange.at/Content.Node/images/orange-logo.gif
+25902::	MD MOLDCELL	Moldcell Internet mobil		ff6600		internet::gprs:gprs	http://www.prepaidgsm.net/loghi/logo_moldcell.gif
+25904::	MD Eventis	Eventis Internet mobil	92cf2a	339edb		internet.md::user:pass	http://eventis.md/ro/wp-content/uploads/2010/02/0984bc8e-a2de-4054-ae59-a8ee6c5ebbda.jpg
+
+# Poland
+26001::	Plus GSM	iPlus Mobilny Internet		68af23		www.plusgsm.pl::user:pass	http://www.plus.pl/images/nowe_menu_top/plus_logo.gif
+26002::	ERA PL	Era Internet Blueconnect		0097ea		erainternet:ERA:erainternet:erainternet heyah.pl:Heyah:heyah:heyah	http://www.era.pl/repositories/era_pl_repo1/logo/era_logo.gif
+26003::	Orange PL	Orange Mobilny Internet		ff6600		internet::internet:internet	http://www.orange.at/Content.Node/images/orange-logo.gif
+26006::	Play Mobile	Play Internet		7e098f		Internet::user:pass	http://www.playmobile.pl/pl/_img/_top/logo.png
+
+# Germany
+26201::	T-Mobile D1	T-Mobile Internet		ff00ff		internet.t-d1.de::user:t-d1	http://www.t-mobile.at/Tico.ico
+26202::	Vodafone D2	Vodafone Live!		ff0000		web.vodafone.de::Vodafone:vodafone:vodafone event.vodafone.de:Vodafone_WebSessions:vodafone:vodafone mail.partner.de:1und1:D2:Web	http://www.vodafone.pt/vodafone/gui09/img/menu/logo.gif
+26203::	E-Plus	E-Plus Internet	36533d	ffffff		internet.eplus.de:E-Plus:eplus:gprs internet.eplus.de:MedionMobile:eplus:gprs internet.eplus.de:blau.de:eplus:gprs internet.vistream.net:Vistream_reseller:web:vistream	http://www.eplus.de/img/logo.png
+26204::	Vodafone D2	Vodafone Live!		ff0000		web.vodafone.de::Vodafone:vodafone:vodafone event.vodafone.de:Vodafone_WebSessions:vodafone:vodafone mail.partner.de:1und1:D2:Web	http://www.vodafone.pt/vodafone/gui09/img/menu/logo.gif
+26205::	E-Plus	E-Plus Internet	36533d	ffffff		internet.eplus.de:E-Plus:eplus:gprs internet.eplus.de:MedionMobile:eplus:gprs internet.eplus.de:blau.de:eplus:gprs internet.vistream.net:Vistream_reseller:web:vistream	http://www.eplus.de/img/logo.png
+26206::	T-Mobile D1	T-Mobile Internet		ff00ff		internet.t-d1.de::user:t-d1	http://www.t-mobile.at/Tico.ico
+26207::	O2 DE	O2 Mobiles Internet		177db9		internet:O2_Pay_by_MB:user:pass surfo2:O2_Pay_by_time:user:pass pinternet.interkom.de:FONIC:user:pass	http://www.o2online.de/nw/assets/header/header-small-o2-logo-bild.gif
+26208::	O2 DE	O2 Mobiles Internet		177db9		internet:O2_Pay_by_MB:user:pass surfo2:O2_Pay_by_time:user:pass pinternet.interkom.de:FONIC:user:pass	http://www.o2online.de/nw/assets/header/header-small-o2-logo-bild.gif
+26209::	Vodafone D2	Vodafone Live!		ff0000		web.vodafone.de:Vodafone::vodafone:vodafone event.vodafone.de:Vodafone_WebSessions:vodafone:vodafone mail.partner.de:1und1:D2:Web	http://www.vodafone.pt/vodafone/gui09/img/menu/logo.gif
+26211::	O2 DE	O2 Mobiles Internet		177db9		internet:O2_Pay_by_MB:user:pass surfo2:O2_Pay_by_time:user:pass pinternet.interkom.de:FONIC:user:pass	http://www.o2online.de/nw/assets/header/header-small-o2-logo-bild.gif
+26216::	Vistream Network	Vistream Internet				internet.vistream.net:Vistream:user:pass	http://www.o2online.de/nw/assets/header/header-small-o2-logo-bild.gif
+26277::	E-Plus	E-Plus Internet	36533d	ffffff		internet.eplus.de:E-Plus:eplus:gprs internet.eplus.de:MedionMobile:eplus:gprs internet.eplus.de:blau.de:eplus:gprs internet.vistream.net:Vistream_reseller:web:vistream	http://www.eplus.de/img/logo.png
+
+# Luxembourg
+27001::	LUXGSM	LUXGSM Internet Mobile		8cb0ea		webp.pt.lu::user:pass	http://www.luxgsm.lu/assets/templates/luxgsm/images/general/logo_luxgsm.gif
+27077::	L Tango	Tango Mobile ADSL	e8f2fe	2272b9		internet::tango:tango	http://www.tango.lu/style/site/interface/public/tango/logohead.jpg
+27099::	Orange LU	Orange Internet Mobile		ff6600		vox.lu::user:pass	http://www.orange.at/Content.Node/images/orange-logo.gif
+
+# Albania
+27602::	VODAFONE AL	VODAFONE Internet		ff0000		Twa::user:pass	http://www.vodafone.pt/vodafone/gui09/img/menu/logo.gif
+
+# Malta
+27801::	VODAFONE MT	VODAFONE Internet		ff0000		Internet::Internet:Internet	http://www.vodafone.pt/vodafone/gui09/img/menu/logo.gif
+27821::	GO Mobile	GO Internet On The Move	ff6600	ffffff		gosurfing:Postpaid:user:pass rtgsurfing:Prepaid:user:pass	http://www.go.com.mt/Files/Filer/AboutUs/Photos_Images/GO-Logo_250px.jpg
+
+# Cyprus
+28001::	Cytamobile Vodafone CY	VODAFONE Mobile Internet		ff0000		internet::user:pass	http://www.cytamobile-vodafone.com/miPortal/cmImages/header1/dual-logo.jpg
+28010::	MTN CY	MTN 3G Internet	000000	ff6600		internet::wap:wap	http://www.prepaidgsm.net/loghi/logo_mtn.gif
+
+# Portugal
+28601::	VODAFONE PT	VODAFONE Internet		ff0000		internet.vodafone.pt::user:pass	http://www.vodafone.pt/vodafone/gui09/img/menu/logo.gif
+28603::	P Optimus	Optimus Kanguru Internet	ff6600	ffffff		internet:Optimus:user:pass kangurufixo:Fixo:user:pass myconnection:Kanguru:user:pass	http://www.optimus.pt/img/CDP/phone.png
+28606::	P TMN	TMN internetnotelemovel		1299aa		internet::user:pass	http://www.tmn.pt/tmnassets/layout/images/logos/logo_tmn.gif
+26801::	VODAFONE PT	VODAFONE Internet		ff0000		internet.vodafone.pt:Vodafone_Internet:user:pass internet.zon.pt:ZON_Mobile:user:pass	http://www.vodafone.pt/vodafone/gui09/img/menu/logo.gif
+26801:VODAFONE PT:	VODAFONE PT	VODAFONE Internet		ff0000		internet.vodafone.pt:Vodafone_Internet:user:pass	http://www.vodafone.pt/vodafone/gui09/img/menu/logo.gif
+26801:ZON:	ZON PT	ZON Mobile	000000	ffffff		internet.zon.pt:Zon_Mobile:user:pass	http://www.zon.pt/downloadsmobile/Screensaver/MOBILE_128x160.gif
+26803::	P Optimus	Optimus Kanguru Internet	ff6600	ffffff		internet:Optimus:user:pass kangurufixo:Fixo:user:pass myconnection:Kanguru:user:pass clixinternetmovel:Clix:user:pass	http://www.optimus.pt/img/CDP/phone.png
+26806::	P TMN	TMN internetnotelemovel		1299aa		internet::user:pass	http://www.tmn.pt/tmnassets/layout/images/logos/logo_tmn.gif
+
+# Slovenia
+29340::	SI MOBITEL	Mobitel Internet		cb040d		internet:Postpaid:mobitel:internet internetpro::mobitel:internet	http://itm.siol.net/_m/pic/logo.png
+29341::	SI MOBIL	Simobil Mobilni Internet		75c247		internet::simobil:internet	http://www.prepaidgsm.net/loghi/logo_simobil.gif
+
+# Montenegro
+29701::	ProMonte	ProMonte Mobilni Internet	000000	ffffff		gprs.promonte.com::user:pass	http://www.promonte.com/Images/banneri/part-of-telenor-group.gif
+29702::	T-Mobile CG	T-Mobile Mobilni Internet		ff00ff		internet-postpaid::user:pass	http://www.t-mobile.at/Tico.ico
+29703::	m:tel CG	m:tel Mobilni Internet		ff0000		gprsinternet::user:pass	http://www.mtel-cg.com/haloton/images/new/logo.gif
+
+# Mexico
+33402::	TELCEL	Internet Telcel		3c78c3		internet.itelcel.com::webgprs:webgprs2002	http://www.telcel.com/portal/framework/skins/telcel/images/logo.gif
+33403::	Movistar MX	Internet Movistar	0000ff	a9d03f		internet.movistar.mx::movistar:movistar	http://www.movistar.es/flot/terminales_multiidioma/img/logo_movistar_term_multiidioma.jpg
+
+# French Guyana, Martinique and Guadeloupe
+34001::	Orange	Internet Everywhere 3G		ff6600		orangeweb:Internet_3G:orange:orange	http://i5.woopic.com/I/Header/orange.gif
+
+# Australia
+50501::	Telstra AU	Telstra Wireless Broadband		068fc5		telstra.wap:Wap:user:pass telstra.datapack:3G_data_pack:user:Telstra telstra.internet:Next_G:user:pass telstra.pcpack:3G_PC_pack_pay-by-time:user:Telstra	http://www.telstra.com.au/global/themes/v9/images/telstra_logo.gif
+50502::	Optus AU	Optus Internet On Mobile	00708f	ffd006		internet:Optus_Internet:user:pass CONNECT:Optus_3G:user:pass VirginInternet:Virgin_Internet:guest:guest	http://www.optus.com.au/home/images/logo-yes-optus.gif
+50503::	Vodafone AU	Vodafone Mobile Internet		ff0000		vfinternet.au:Postpaid:user:pass vfprepaymbb:Prepaid:user:pass	http://www.vodafone.pt/vodafone/gui09/img/menu/logo.gif
+50506::	3 AUS	3 Mobile Internet		0e9938		3netaccess:Internet:a:a 3services:Prepaid:a:a	http://www.three.com.au/cs/Three/images/logo.png
+
+# Indonesia
+51001:: IndosatM2	IndosatM2 Broom	0000ff	ffffff		indosatm2:IndosatM2_Internet::	http://www.indosatm2.com/files/images/common/logo-im2-default.gif
+51089::	3	3 Internet	000000	ffffff		3data:3_Internet:3data:3data	http://www.three.co.id/ShowDoc/BEA+Repository/data/theme/web/images/logo01.gif
+
+# Thailand
+52015::	ToT Mobile	ToT 3G	2584c8	ffffff		internet:Internet:user:pass	http://www.tot.co.th/templates/tot_detail02/images/tot.jpg
+
+# New Zealand
+53000::	Telecom NZ	Telecom XT mobile		3fc1ed		wap.telecom.co.nz:WAP:user:pass internet.telecom.co.nz:Internet_with_Firewall:user:pass direct.telecom.co.nz:Internet_without_Firewall:user:pass oa.telecom.co.nz:Office:user:pass	http://www.telecom.co.nz/images/5/logo2.gif
+53001::	Vodafone NZ	Vodafone Internet		ff0000		live.vodafone.com:WAP:user:pass www.vodafone.net.nz:Restricted:user:pass internet:Public:user:pass	http://www.vodafone.pt/vodafone/gui09/img/menu/logo.gif
+53005::	Telecom NZ	Telecom XT mobile		3fc1ed		wap.telecom.co.nz:WAP:user:pass internet.telecom.co.nz:Internet_with_Firewall:user:pass direct.telecom.co.nz:Internet_without_Firewall:user:pass oa.telecom.co.nz:Office:user:pass	http://www.telecom.co.nz/images/5/logo2.gif
+
+# Morocco
+60400::	Meditel	Meditel Internet Mobile+		ff0000		wap.meditel.ma::MEDIWAP:MEDIWAP	http://www.meditel.ma/img_refonte/backgrounds/v2_logo.jpg
+60401::	MOR IAM	IAM Internet 3G+		ff0000		iam::wac:1987	http://www.iam.ma/Particuliers/Publishingimages/logoA_MT.gif
+
+# South Africa
+65501::	Vodacom	Vodacom Broadband	fafff9	0573b0		internet:Internet:user:pass unrestricted:Unrestricted:user:pass	http://a0.twimg.com/profile_images/1296308344/VodacomLogo_TwitterRebrand_White_normal.gif
+65502::	8.ta	8ta Mobile Broadband		ffb000		internet::user:pass	http://a2.twimg.com/profile_images/1688589084/8ta_white_logo_jpg_3_normal.png
+65507::	Cell C	Cell C mobile internet		ff0000		internet:Cellcis:user:pass vdata:Virgin_Mobile:user:pass	http://profile.ak.fbcdn.net/hprofile-ak-snc4/373017_124337117264_1371777381_q.jpg
+65510::	MTN SA	MTN broadband	000000	ffb500		internet::user:pass	http://www.prepaidgsm.net/loghi/logo_mtn.gif
+
+# Guatemala
+70401::	Claro GT	Turbonett Móvil Claro		ff0000		internet.ideasclaro	http://www.claro.com.gt/images/LogoClaro.jpg
+70402::	Tigo GT	Internet Móvil Tigo		245597		Wap.tigo.gt:Wap:Wap:Wap broadband.tigo.gt:Broadband:guest:guest	http://www.tigo.com.gt/resources/images/generales/logo.png
+
+# Honduras
+70802::	Tigo HN	Internet Móvil Tigo		245597		internet.tigo.hn::user:pass broadband.tigo.hd::guest:guest	http://www.tigo.com.hn/resources/images/generales/logo.png
+
+# Peru
+71606::	Movistar PE	Speedy Móvil Movistar	0000ff	a9d03f		movistar.pe::movistar@datos:movistar	http://www.movistar.es/flot/terminales_multiidioma/img/logo_movistar_term_multiidioma.jpg
+71610::	Claro PE	Internet Claro		ff0000		tim.pe::tim:tulibertad	http://www.claro.com.gt/images/LogoClaro.jpg
