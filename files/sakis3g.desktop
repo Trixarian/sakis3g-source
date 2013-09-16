@@ -1,0 +1,15 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Type=Application
+Terminal=false
+Name=Sakis3G
+Name[en_US]=Sakis3G
+Exec=/usr/bin/sakis3g clicked
+Comment=Gestire la connessione internet 3G e i modem USB 3G
+Comment[en_US]=Manages 3G internet connection and 3G USB modems
+Icon=/usr/share/icons/sakis3g.png
+Icon[en_US]=/usr/share/icons/sakis3g.png
+GenericName=
+GenericName[en_US]=
+Categories=Network
