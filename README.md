@@ -79,17 +79,22 @@ one of its dependencies mentioned above.
 Compile
 -------
 
-First clone this repo using git.
+First clone this repo using git
+
 `git clone https://github.com/joshluongo/sakis3g-source.git`
 
 Then change to directory when the repo downloaded
+
 `cd sakis3g-source`
 
 Now make a build folder
+
 `mkdir build`
 
 Then compile Sakis3G
+
 `./compile`
 
 Then copy the compiled file to your bin folder
+
 `sudo cp build/sakis3gz /usr/bin/sakis3g`
