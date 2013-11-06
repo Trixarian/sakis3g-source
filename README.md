@@ -81,7 +81,7 @@ Compile
 
 First clone this repo using git
 
-`git clone https://github.com/joshluongo/sakis3g-source.git`
+`git clone https://github.com/trixarian/sakis3g-source.git`
 
 Then change to directory when the repo downloaded
 
