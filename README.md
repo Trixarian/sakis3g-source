@@ -79,9 +79,11 @@ one of its dependencies mentioned above.
 Compile
 -------
 
+Required dependencies: libusb-dev, ppp
+
 First clone this repo using git
 
-`git clone https://github.com/trixarian/sakis3g-source.git`
+`git clone https://github.com/Trixarian/sakis3g-source.git`
 
 Then change to directory when the repo downloaded
 
