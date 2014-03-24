@@ -1,3 +1,16 @@
+0.2.0e 2014/03/24
+
+    * New functionality:
+          o Italian translation is now available for those using a unicode  it_IT.UTF-8 
+            locale (Thanks mortaromarcello!) .
+           o Added an example sakis3g.conf for reference.
+   * Fixed the following issues:
+           o Added the build directory with an .empty file in it to avoid having to
+              take an extra step when compiling.
+    * Operators' database:
+            o Added the following networks:
+                   + 52015:QUB (Cambodia).
+
 0.2.0e	2013/07/03
 
     * Modified functionality:

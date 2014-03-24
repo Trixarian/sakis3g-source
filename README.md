@@ -89,10 +89,6 @@ Then change to directory when the repo downloaded
 
 `cd sakis3g-source`
 
-Now make a build folder
-
-`mkdir build`
-
 Then compile Sakis3G
 
 `./compile`

@@ -266,6 +266,9 @@
 # Thailand
 52015::	ToT Mobile	ToT 3G	2584c8	ffffff		internet:Internet:user:pass	http://www.tot.co.th/templates/tot_detail02/images/tot.jpg
 
+# Cambodia
+52015::	QUB	QUB	2584c8	ffffff		internet:WAP:user:pass
+
 # New Zealand
 53000::	Telecom NZ	Telecom XT mobile		3fc1ed		wap.telecom.co.nz:WAP:user:pass internet.telecom.co.nz:Internet_with_Firewall:user:pass direct.telecom.co.nz:Internet_without_Firewall:user:pass oa.telecom.co.nz:Office:user:pass	http://www.telecom.co.nz/images/5/logo2.gif
 53001::	Vodafone NZ	Vodafone Internet		ff0000		live.vodafone.com:WAP:user:pass www.vodafone.net.nz:Restricted:user:pass internet:Public:user:pass	http://www.vodafone.pt/vodafone/gui09/img/menu/logo.gif
@@ -276,10 +279,10 @@
 60401::	MOR IAM	IAM Internet 3G+		ff0000		iam::wac:1987	http://www.iam.ma/Particuliers/Publishingimages/logoA_MT.gif
 
 # South Africa
-65501::	Vodacom	Vodacom Broadband	fafff9	0573b0		internet:Internet:user:pass unrestricted:Unrestricted:user:pass	http://a0.twimg.com/profile_images/1296308344/VodacomLogo_TwitterRebrand_White_normal.gif
-65502::	8.ta	8ta Mobile Broadband		ffb000		internet::user:pass	http://a2.twimg.com/profile_images/1688589084/8ta_white_logo_jpg_3_normal.png
+65501::	Vodacom	Vodacom Broadband	fafff9	0573b0		internet:Internet:user:pass unrestricted:Unrestricted:user:pass	http://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/1457718_10152144867739047_46436277_t.jpg
+65502::	8.ta	8ta Mobile Broadband		ffb000		internet::user:pass	http://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc1/382266_541369932561091_565766232_s.jpg
 65507::	Cell C	Cell C mobile internet		ff0000		internet:Cellcis:user:pass vdata:Virgin_Mobile:user:pass	http://profile.ak.fbcdn.net/hprofile-ak-snc4/373017_124337117264_1371777381_q.jpg
-65510::	MTN SA	MTN broadband	000000	ffb500		internet::user:pass	http://www.prepaidgsm.net/loghi/logo_mtn.gif
+65510::	MTN SA	MTN broadband	000000	ffb500		internet::user:pass	http://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/1495428_10150343789489987_132729468_t.jpgif
 
 # Guatemala
 70401::	Claro GT	Turbonett Móvil Claro		ff0000		internet.ideasclaro	http://www.claro.com.gt/images/LogoClaro.jpg
