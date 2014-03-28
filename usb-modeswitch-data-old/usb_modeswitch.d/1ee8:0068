@@ -1,0 +1,12 @@
+########################################################
+# Onda WM301
+
+DefaultVendor= 0x1ee8
+DefaultProduct=0x0068
+
+TargetVendor=  0x1ee8
+TargetProduct= 0x0069
+
+MessageContent="5553424312345678000000000000061b000000020000000000000000000000"
+
+CheckSuccess=20

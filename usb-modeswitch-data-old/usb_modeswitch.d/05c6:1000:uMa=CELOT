@@ -1,0 +1,13 @@
+#######################################################
+# Celot K-300
+
+DefaultVendor= 0x05c6
+DefaultProduct=0x1000
+
+TargetVendor=  0x211f
+TargetProduct= 0x6801
+
+CheckSuccess=20
+
+MessageContent="5553424312345678000000000000061b000000020000000000000000000000"
+

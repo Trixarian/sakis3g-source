@@ -1,0 +1,12 @@
+########################################################
+# Alcatel OT-X080C
+
+DefaultVendor= 0x1bbb
+DefaultProduct=0x00ca
+
+TargetClass=0xff
+
+MessageContent="55534243123456788000000080000606f50402527000000000000000000000"
+
+CheckSuccess=20
+

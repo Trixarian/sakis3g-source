@@ -1,0 +1,12 @@
+########################################### 
+# Changhong CH690
+
+DefaultVendor= 0x2077
+DefaultProduct=0x1000
+
+TargetVendor=  0x2077
+TargetProduct= 0x7001
+
+MessageContent="5553424312345678000000000000061b000000020000000000000000000000"
+
+CheckSuccess=20

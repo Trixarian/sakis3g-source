@@ -64,7 +64,7 @@ fi
 
 if [ "a${mode}" = "afull" ]; then
 	rm -f "build/usb_modeswitch.compiled"
-	gcc -Wall -l usb -o build/usb_modeswitch.compiled dependencies/usb-modeswitch/usb_modeswitch.c -I dependencies/usb-modeswitch
+	gcc -Wall -l usb-1.0 -o build/usb_modeswitch.compiled dependencies/usb-modeswitch/usb_modeswitch.c -I dependencies/usb-modeswitch -lusb-1.0
 	[ ! -f "build/usb_modeswitch.compiled" ] && echo "Failed to compile usb-modeswitch." && exit 6
 	[ "`which strip 2> /dev/null`" ] && strip "build/usb_modeswitch.compiled"
 	rm -f "build/usb_modeswitch" ; mv "build/usb_modeswitch.compiled" "build/usb_modeswitch"

@@ -1,0 +1,13 @@
+########################################################
+# LG L-02C LTE
+
+DefaultVendor= 0x1004
+DefaultProduct=0x61dd
+
+TargetVendor=  0x1004
+TargetProduct= 0x618f
+
+MessageContent="5553424312345678000000000000061b000000020000000000000000000000"
+NeedResponse=1
+CheckSuccess=20
+

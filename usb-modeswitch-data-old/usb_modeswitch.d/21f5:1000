@@ -1,0 +1,13 @@
+########################################### 
+# StrongRising (China Telcom), Air FlexiNet
+
+DefaultVendor= 0x21f5
+DefaultProduct=0x1000
+
+TargetVendor=  0x21f5
+TargetProduct= 0x2008
+
+MessageContent="5553424312345678c000000080000671010000000000000000000000000000"
+
+CheckSuccess=20
+

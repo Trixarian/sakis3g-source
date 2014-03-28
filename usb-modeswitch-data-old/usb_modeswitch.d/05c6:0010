@@ -1,0 +1,12 @@
+#######################################################
+# Axesstel Modems (w/ initial idProduct 0x0010)
+
+DefaultVendor= 0x05c6
+DefaultProduct=0x0010
+
+TargetVendor=  0x05c6
+TargetProduct= 0x00a0
+
+CheckSuccess=20
+
+MessageContent="5553424312345678000000000000061b000000020000000000000000000000"

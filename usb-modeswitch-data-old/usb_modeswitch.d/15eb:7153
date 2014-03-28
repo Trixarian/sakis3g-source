@@ -1,0 +1,13 @@
+########################################################
+# China TeleCom CBP7.0
+
+DefaultVendor= 0x15eb
+DefaultProduct=0x7153
+
+TargetVendor=  0x15eb
+TargetProduct= 0x7152
+
+MessageContent="5553424312345678000000000000061b000000020000000000000000000000"
+
+CheckSuccess=20
+

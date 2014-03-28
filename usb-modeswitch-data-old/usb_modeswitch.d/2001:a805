@@ -1,0 +1,12 @@
+####################################################### 
+# D-Link DWR-510
+
+DefaultVendor= 0x2001
+DefaultProduct=0xa805
+
+TargetVendor=  0x2001
+TargetProduct= 0x7e12
+
+MessageContent="5553424308407086000000000000061b000000020000000000000000000000"
+
+CheckSuccess=20

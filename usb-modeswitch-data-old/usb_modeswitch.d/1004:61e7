@@ -1,0 +1,12 @@
+########################################################
+# LG SD711
+
+DefaultVendor= 0x1004
+DefaultProduct=0x61e7
+
+TargetVendor=  0x1004
+TargetProduct= 0x61e6
+
+MessageContent="5553424312345678000000000000061b000000020000000000000000000000"
+CheckSuccess=20
+

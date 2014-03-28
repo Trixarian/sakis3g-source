@@ -1,15 +1,24 @@
+0.2.0e	2014/03/28
+
+    * Fixed the following issues:
+          o Usb_ModeSwitch is now compile against libusb-1.0.
+          o Usb_ModeSwitch will now compile on the newer versions of Ubuntu.
+    * Embedded Usb-ModeSwitch:
+          o Upgraded to version 2.1.0.
+          o Device database upgraded to 2013-06-10 version.
+
 0.2.0e 2014/03/24
 
     * New functionality:
           o Italian translation is now available for those using a unicode  it_IT.UTF-8 
-            locale (Thanks mortaromarcello!) .
-           o Added an example sakis3g.conf for reference.
+            locale. (Thanks mortaromarcello!)
+          o Added an example sakis3g.conf for reference.
    * Fixed the following issues:
-           o Added the build directory with an .empty file in it to avoid having to
-              take an extra step when compiling.
+          o Added the build directory with an .empty file in it to avoid having to
+            take an extra step when compiling.
     * Operators' database:
-            o Added the following networks:
-                   + 52015:QUB (Cambodia).
+          o Added the following networks:
+                + 52015:QUB (Cambodia).
 
 0.2.0e	2013/07/03
 

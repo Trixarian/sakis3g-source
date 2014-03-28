@@ -1,0 +1,12 @@
+########################################################
+# Axesstel MU130
+
+DefaultVendor= 0x1726
+DefaultProduct=0xf00e
+
+TargetVendor=  0x1726
+TargetProduct= 0xa000
+
+CheckSuccess=20
+
+MessageContent="5553424312345678000000000000061b000000020000000000000000000000"

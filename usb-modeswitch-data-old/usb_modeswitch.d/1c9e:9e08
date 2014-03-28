@@ -1,0 +1,13 @@
+########################################################
+# Explay Slim
+
+DefaultVendor= 0x1c9e
+DefaultProduct=0x9e08
+
+TargetVendor=  0x1c9e
+TargetProduct= 0x9e18
+
+SierraMode=1
+NoDriverLoading=1
+
+CheckSuccess=20
