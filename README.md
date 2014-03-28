@@ -66,7 +66,7 @@ Package Contents
 
 This package contains Sakis3G sources, along with:
   - Unmodified Usb-ModeSwitch sources.
-  - Modified Usb-ModeSwitch device database.
+  - Unmodified Usb-ModeSwitch device database.
 
 You can replace contents of their respective directories with
 more recent -suitable- versions, as long as you mention version
