@@ -222,7 +222,7 @@ if $scsiNeeded {
 	Log "SCSI attributes not needed, move on"
 }
 
-# General wait - some devices need this
+# General wait - is it needed anymore?
 after 500
 
 # Now check for a matching config file. Matching is done
