@@ -81,12 +81,12 @@ Compile
 
 Required dependencies: libusb-dev, ppp
 
-Ubuntu requires additional steps:
-1. Install libusb-1.0-0-dev
-2a. Change `#include <libusb.h>` in dependencies/usb-modeswitch.h 
+Ubuntu requires additional steps:  
+1. Install libusb-1.0-0-dev  
+2a. Change `#include <libusb.h>` in dependencies/usb-modeswitch.h  
 to `#include <libusb-1.0/libusb.h>` 
-or
-2b. `cp /usr/include/libusb-1.0/libusb.h /usr/include`
+or  
+2b. `cp /usr/include/libusb-1.0/libusb.h /usr/include`  
 
 Now clone the repo using git
 
