@@ -1,4 +1,11 @@
+########################################################
 # Huawei E180
+
+DefaultVendor= 0x12d1
+DefaultProduct=0x1414
+
 TargetClass=0xff
+
+CheckSuccess=20
+
 HuaweiMode=1
-MessageContent="55534243123456780000000000000011062000000101000100000000000000"

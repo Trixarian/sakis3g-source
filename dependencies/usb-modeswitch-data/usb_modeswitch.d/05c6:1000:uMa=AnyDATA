@@ -1,4 +1,14 @@
+########################################################
 # AnyDATA devices, Bless UC165
-TargetVendor= 0x16d5
-TargetProduct=0x6502
-StandardEject=1
+
+DefaultVendor=  0x05c6
+DefaultProduct= 0x1000
+
+TargetVendor=   0x16d5
+TargetProduct=  0x6502
+
+CheckSuccess=20
+
+MessageContent="5553424312345678000000000000061b000000020000000000000000000000"
+
+

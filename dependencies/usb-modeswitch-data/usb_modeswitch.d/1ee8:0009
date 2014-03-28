@@ -1,5 +1,14 @@
+########################################################
 # Onda MW833UP
-TargetVendor=0x1ee8
-TargetProduct=0x000b
+
+DefaultVendor= 0x1ee8
+DefaultProduct=0x0009
+
+TargetVendor=  0x1ee8
+TargetProduct= 0x000b
+
 MessageContent="555342431234567800000000000010ff000000000000000000000000000000"
 NeedResponse=1
+
+CheckSuccess=20
+

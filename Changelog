@@ -5,7 +5,7 @@
           o Usb_ModeSwitch will now compile on the newer versions of Ubuntu.
     * Embedded Usb-ModeSwitch:
           o Upgraded to version 2.1.1.
-          o Device database upgraded to 2014-03-27 version.
+          o Reverted to database from 2013-06-10.
 
 0.2.0e 2014/03/24
 

@@ -1,4 +1,12 @@
+########################################################
 # Huawei E630
-TargetVendor=0x12d1
-TargetProduct=0x1003
+
+DefaultVendor= 0x1033
+DefaultProduct=0x0035
+
+TargetVendor=  0x12d1
+TargetProduct= 0x1003
+
+CheckSuccess=20
+
 HuaweiMode=1
