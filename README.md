@@ -1,7 +1,7 @@
 Compiling
 ---------
 
-Required dependencies: libusb-dev, ppp
+Required dependencies: libusb-dev (needs to be libusb-1.0.x [or libusbx] and up), ppp
 
 Ubuntu requires additional steps:  
 1. Install libusb-1.0-0-dev  
