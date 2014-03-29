@@ -1,4 +1,12 @@
+########################################################
 # Pantech LTE Modem
-TargetVendor=0x10a9
-TargetProduct=0x6085
+
+DefaultVendor= 0x10a9
+DefaultProduct=0x6080
+
+TargetVendor=  0x10a9
+TargetProduct= 0x6085
+
+CheckSuccess=20
+
 PantechMode=1

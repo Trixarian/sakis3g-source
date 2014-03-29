@@ -66,7 +66,7 @@ Package Contents
 
 This package contains Sakis3G sources, along with:
   - Unmodified Usb-ModeSwitch sources.
-  - Unmodified Usb-ModeSwitch device database.
+  - Modified Usb-ModeSwitch device database.
 
 You can replace contents of their respective directories with
 more recent -suitable- versions, as long as you mention version
@@ -74,32 +74,3 @@ and origin of your own supplied versions wherever/whenever you
 redistribute Sakis3G, either "compiled" or in "source" form and
 as long as you respect license requirements of Sakis3G and any
 one of its dependencies mentioned above.
-
-
-Compile
--------
-
-Required dependencies: libusb-dev, ppp
-
-Ubuntu requires additional steps:
-1. Install libusb-1.0-0-dev
-2a. Change #include <libusb.h> in dependencies/usb-modeswitch.h 
-to #include <libusb-1.0/libusb.h> 
-or
-2b. cp /usr/include/libusb-1.0/libusb.h /usr/include
-
-Clone the repo using git
-
-git clone https://github.com/Trixarian/sakis3g-source.git
-
-Then change to directory when the repo downloaded
-
-cd sakis3g-source
-
-Then compile Sakis3G
-
-./compile
-
-Then copy the compiled file to your bin folder
-
-sudo cp build/sakis3gz /usr/bin/sakis3g

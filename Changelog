@@ -1,5 +1,12 @@
+0.2.0e  2014/03/29
+
+    * Embedded Usb-ModeSwitch:
+          o Updated to custom database based on 2013-11-13 release.
+
 0.2.0e	2014/03/28
 
+    * New functionality:
+          o Experimental YAD interface added. 
     * Fixed the following issues:
           o Usb_ModeSwitch is now compile against libusb-1.0.
           o Usb_ModeSwitch will now compile on the newer versions of Ubuntu.
@@ -7,18 +14,19 @@
           o Upgraded to version 2.1.1.
           o Reverted to database from 2013-06-10.
 
-0.2.0e 2014/03/24
+0.2.0e  2014/03/24
 
     * New functionality:
           o Italian translation is now available for those using a unicode  it_IT.UTF-8 
             locale. (Thanks mortaromarcello!)
           o Added an example sakis3g.conf for reference.
-   * Fixed the following issues:
+    * Fixed the following issues:
           o Added the build directory with an .empty file in it to avoid having to
             take an extra step when compiling.
     * Operators' database:
           o Added the following networks:
                 + 52015:QUB (Cambodia).
+          o Updated South African icons for Mobile Networks.
 
 0.2.0e	2013/07/03
 

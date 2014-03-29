@@ -1,4 +1,12 @@
+########################################################
 # Haier EVDO Rev. A
-TargetVendor=0x1bbb
+
+DefaultVendor= 0x1bbb
+DefaultProduct=0x011f
+
+TargetVendor= 0x1bbb
 TargetProduct=0x011f
-StandardEject=1
+
+MessageContent="5553424312345678000000000000061b000000020000000000000000000000"
+
+CheckSuccess=20

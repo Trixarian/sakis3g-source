@@ -1,5 +1,14 @@
+########################################################
 # AVM Fritz!Wlan USB Stick N v2
-TargetVendor=0x057c
+
+DefaultVendor= 0x057c
+DefaultProduct=0x62ff
+
+TargetVendor= 0x057c
 TargetProduct=0x8501
+
+CheckSuccess=20
+
 MessageContent="5553424312345678000000000000061b000000ff0000000000000000000000"
+
 NoDriverLoading=1

@@ -810,6 +810,9 @@ dialog_error() {
 	elif [ "a${SGUI}" = "aXdialog" ]; then
 		! find_binary "Xdialog" && return 1
 		${Xdialogbin} --backtitle `translate_text "Error occured"` --title "Sakis3G ${MYVERSION}" --ok-label `translate_text "OK"` --msgbox "$@ " 0 0
+	elif [ "a${SGUI}" = "ayad" ]; then
+		! find_binary "yad" && return 1
+		${yadbin} --title "`translate_text "Error occured"`" --error --image=gtk-dialog-error --text "$@ "
 	elif [ "a${SGUI}" = "azenity" ]; then
 		! find_binary "zenity" && return 1
 		${zenitybin} --title "`translate_text "Error occured"`" --error --text "$@ "
@@ -830,6 +833,9 @@ dialog_notify() {
 	elif [ "a${SGUI}" = "aXdialog" ]; then
 		! find_binary "Xdialog" && return 1
 		${Xdialogbin} --title "Sakis3G ${MYVERSION}" --ok-label `translate_text "OK"` --msgbox "$@" 0 0
+	elif [ "a${SGUI}" = "ayad" ]; then
+		! find_binary "yad" && return 1
+		${yadbin} --title "Sakis3G ${MYVERSION}" --info --image=gtk-dialog-info --text "$@ "
 	elif [ "a${SGUI}" = "azenity" ]; then
 		! find_binary "zenity" && return 1
 		${zenitybin} --title "Sakis3G ${MYVERSION}" --info --text "$@ "
@@ -849,6 +855,12 @@ dialog_cleanscreen() {
 			unset XdialogVerbose
 		fi
 		unset currentlyverbosing
+	elif [ "a${SGUI}" = "ayad" ]; then
+		[ -f "/tmp/sakis3g.yad.pipe" ] && ${printfbin} "\n100\n" >> "/tmp/sakis3g.yad.pipe"
+		[ -f "/tmp/sakis3g.yad.pipe" ] && debug run_command "${rmbin} -f /tmp/sakis3g.yad.pipe"
+		[ "a${yadverbosepid}" != "a" ] && ! notrunning "${yadverbosepid}"	&& ${killbin} -1 "${yadverbosepid}" 2> /dev/null
+		[ "a${yadverbosepid}" != "a" ] && ! notrunning "${yadverbosepid}"	&& ${killbin} -9 "${yadverbosepid}" 2> /dev/null
+		unset yadverbosepid
 	elif [ "a${SGUI}" = "azenity" ]; then
 		[ -f "/tmp/sakis3g.zenity.pipe" ] && ${printfbin} "\n100\n" >> "/tmp/sakis3g.zenity.pipe"
 		[ -f "/tmp/sakis3g.zenity.pipe" ] && debug run_command "${rmbin} -f /tmp/sakis3g.zenity.pipe"
@@ -924,6 +936,26 @@ dialog_verbose() {
 		else
 			term_verbose "$@"
 		fi
+	elif [ "a${SGUI}" = "ayad" ]; then
+		! find_binary "yad" && return 1
+		[ "a${yadverbosepid}" != "a" ] && notrunning "${yadverbosepid}" && unset yadverbosepid
+		[ ! -f "/tmp/sakis3g.yad.pipe" ] && unset yadverbosepid
+		if [ "a${yadverbosepid}" = "a" ] && find_binary "rm" && find_binary "tail" && find_binary "kill" && find_binary "printf" && find_binary "touch" && find_binary "chmod" && find_binary "setsid"; then
+			debug "Establishing yad verbose helper.\n"
+			[ -f "/tmp/sakis3g.yad.pipe" ] && ${printfbin} "\n100\n" >> "/tmp/sakis3g.yad.pipe"
+			[ -f "/tmp/sakis3g.yad.pipe" ] && debug run_command "${rmbin} -f /tmp/sakis3g.yad.pipe"
+			debug run_command "${touchbin} /tmp/sakis3g.yad.pipe"
+			debug run_command "${chmodbin} 666 /tmp/sakis3g.yad.pipe"
+			if [ -f "/tmp/sakis3g.yad.pipe" ]; then
+				eval ${tailbin} -f "/tmp/sakis3g.yad.pipe" "2> /dev/null" | ${yadbin} --title="Sakis3G ${MYVERSION}" --text="`translate_text Working...`" --progress --percentage=0 --auto-close --auto-kill "> /dev/null 2> /dev/null" &
+				yadverbosepid=$!
+				eval "disown -a" > /dev/null 2> /dev/null
+				export yadverbosepid
+			fi
+		fi
+		[ "a${yadverbosepid}" != "a" ] && notrunning "${yadverbosepid}" && unset yadverbosepid 
+		[ "a${yadverbosepid}" = "a" ] && term_verbose "$@" && return 1
+		${printfbin} "\n%d\n# $@...\n\n" "${verbosecurrentcount}" >> "/tmp/sakis3g.yad.pipe"
 	elif [ "a${SGUI}" = "azenity" ]; then
 		! find_binary "zenity" && return 1
 		[ "a${zenityverbosepid}" != "a" ] && notrunning "${zenityverbosepid}" && unset zenityverbosepid
@@ -935,7 +967,7 @@ dialog_verbose() {
 			debug run_command "${touchbin} /tmp/sakis3g.zenity.pipe"
 			debug run_command "${chmodbin} 666 /tmp/sakis3g.zenity.pipe"
 			if [ -f "/tmp/sakis3g.zenity.pipe" ]; then
-				eval ${tailbin} -f "/tmp/sakis3g.zenity.pipe" "2> /dev/null" | ${zenitybin} --title="Sakis3G ${MYVERSION}" --text="`translate_text Working...`" --progress --percentage=0 --auto-close "> /dev/null 2> /dev/null" &
+				eval ${tailbin} -f "/tmp/sakis3g.zenity.pipe" "2> /dev/null" | ${zenitybin} --title="Sakis3G ${MYVERSION}" --text="`translate_text Working...`" --progress --percentage=0 --auto-close --auto-kill "> /dev/null 2> /dev/null" &
 				zenityverbosepid=$!
 				eval "disown -a" > /dev/null 2> /dev/null
 				export zenityverbosepid
@@ -955,6 +987,8 @@ dialog_confirm() {
 		! find_binary "dialog" && return 1
 	elif [ "a${SGUI}" = "aXdialog" ]; then
 		! find_binary "Xdialog" && return 1
+	elif [ "a${SGUI}" = "ayad" ]; then
+		! find_binary "yad" && return 1
 	elif [ "a${SGUI}" = "azenity" ]; then
 		! find_binary "zenity" && return 1
 	elif [ "a${SGUI}" = "akdialog" ]; then
@@ -979,6 +1013,17 @@ dialog_confirm() {
 	elif [ "a${SGUI}" = "akdialog" ]; then
 		[ "a${text}" != "a" ] && localtext=`${printfbin} "%s\\\\\\n\\\\\\n%s\n" "${text}" "${localtext}"`
 		${kdialogbin} --title " ${title} " --yesno "${text}" 2> /dev/null
+		buttonselection=$?
+	elif [ "a${SGUI}" = "ayad" ]; then
+		need_arg "foldwrapping"
+		text=`echo "${text}" | ${sedbin} -e "s/_/__/g"`
+		localtext=`echo "${localtext}" | ${sedbin} -e "s/_/__/g"`
+#		if find_binary "fold"; then
+#			localtext=`echo "${localtext}" | ${foldbin} -s -w ${foldwrapping}`
+#			text=`echo "${text}" | ${foldbin} -s -w ${foldwrapping}`
+#		fi
+		[ "a${text}" != "a" ] && localtext=`${printfbin} "%s\\\\\\n\\\\\\n%s\n" "${text}" "${localtext}"`
+		${yadbin} --title " ${title} " --question --image=gtk-dialog-question --text "${localtext}" 2> /dev/null
 		buttonselection=$?
 	elif [ "a${SGUI}" = "azenity" ]; then
 		need_arg "foldwrapping"
@@ -1011,6 +1056,8 @@ dialog_select() {
 		! find_binary "dialog" && return 1
 	elif [ "a${SGUI}" = "aXdialog" ]; then
 		! find_binary "Xdialog" && return 1
+	elif [ "a${SGUI}" = "ayad" ]; then
+		! find_binary "yad" && return 1
 	elif [ "a${SGUI}" = "azenity" ]; then
 		! find_binary "zenity" && return 1
 	elif [ "a${SGUI}" = "akdialog" ]; then
@@ -1037,6 +1084,13 @@ dialog_select() {
 	elif [ "a${SGUI}" = "akdialog" ]; then
 		localarguments=`selection_argument options "$@" | ${grepbin} -n "." | ${sedbin} -e "s/^\([0-9]*\):\(.*\)	\(.*\)$/\"\1.\" \"\3\"/g"`
 		eval ${kdialogbin} --title \" ${title} \" --menu \""${text}"\" ${localarguments} \"AUTOMATE\" \"`translate_text "Help with this question"`\" > "/tmp/sakis3g.dialog.$$" 2> /dev/null
+		buttonselection=$?
+	elif [ "a${SGUI}" = "ayad" ]; then
+		need_arg "foldwrapping"
+		localarguments=`selection_argument options "$@" | ${grepbin} -n "." | ${sedbin} -e "s/^\([0-9]*\):\(.*\)	\(.*\)$/\"\1.\" \"\3\"/g"`
+		localtext=`echo "${text}" | ${sedbin} -e "s/_/__/g"`
+		find_binary "fold" && localtext=`echo "${localtext}" | ${foldbin} -s -w ${foldwrapping}`
+		eval ${yadbin} --title \" ${title} \" --list --text \""${localtext}"\" --hide-column 1 --column Index --column `translate_text "Option"` ${localarguments} \"AUTOMATE\" \"`translate_text "Help with this question"`\" > "/tmp/sakis3g.dialog.$$"
 		buttonselection=$?
 	elif [ "a${SGUI}" = "azenity" ]; then
 		need_arg "foldwrapping"
@@ -1080,6 +1134,8 @@ dialog_prompt() {
 		! find_binary "dialog" && return 1
 	elif [ "a${SGUI}" = "aXdialog" ]; then
 		! find_binary "Xdialog" && return 1
+	elif [ "a${SGUI}" = "ayad" ]; then
+		! find_binary "yad" && return 1
 	elif [ "a${SGUI}" = "azenity" ]; then
 		! find_binary "zenity" && return 1
 	elif [ "a${SGUI}" = "akdialog" ]; then
@@ -1102,6 +1158,12 @@ dialog_prompt() {
 		buttonselection=$?
 	elif [ "a${SGUI}" = "akdialog" ]; then
 		${kdialogbin} --title " ${title} " --inputbox "${localtext}" "" > "/tmp/sakis3g.dialog.$$" 2> /dev/null
+		buttonselection=$?
+	elif [ "a${SGUI}" = "ayad" ]; then
+		need_arg "foldwrapping"
+		localtext=`echo "${localtext}" | ${sedbin} -e "s/_/__/g"`
+		find_binary "fold" && localtext=`echo "${localtext}" | ${foldbin} -s -w ${foldwrapping}`
+		${yadbin} --title " ${title} " --entry --text "${localtext}" > "/tmp/sakis3g.dialog.$$"
 		buttonselection=$?
 	elif [ "a${SGUI}" = "azenity" ]; then
 		need_arg "foldwrapping"
@@ -1306,7 +1368,7 @@ show_fmt_error() {
 	fi
 	guruplug_error
 	case "${SGUI}" in
-		whiptail|dialog|Xdialog|zenity|kdialog)
+		whiptail|dialog|Xdialog|yad|zenity|kdialog)
 			dialog_error "${errortext}"
 			;;
 		"9menu")
@@ -1328,7 +1390,7 @@ show_fmt_error() {
 cleanscreen() {
 	osd_cleanscreen
 	case "${SGUI}" in
-		whiptail|dialog|Xdialog|zenity|kdialog)
+		whiptail|dialog|Xdialog|yad|zenity|kdialog)
 			dialog_cleanscreen
 			term_clearline
 			;;
@@ -1423,7 +1485,7 @@ verbose() {
 		unset osdtext
 	else
 		case "${SGUI}" in
-			whiptail|dialog|Xdialog|zenity|kdialog)
+			whiptail|dialog|Xdialog|yad|zenity|kdialog)
 				dialog_verbose "${verbosetext}"
 				;;
 			"9menu")
@@ -1452,7 +1514,7 @@ notify() {
 		return 0
 	fi
 	case "${SGUI}" in
-		whiptail|dialog|Xdialog|zenity|kdialog)
+		whiptail|dialog|Xdialog|yad|zenity|kdialog)
 			dialog_notify "${notificationtext}"
 			;;
 		"9menu")
@@ -1627,7 +1689,7 @@ user_confirm() {
 		return 0
 	fi
 	case "${SGUI}" in
-		whiptail|dialog|Xdialog|zenity|kdialog)
+		whiptail|dialog|Xdialog|yad|zenity|kdialog)
 			dialog_confirm "$@"
 			selection=$?
 			;;
@@ -1748,7 +1810,7 @@ user_select() {
 		unset selectioncount; unset variable
 	fi
 	case "${SGUI}" in
-		whiptail|dialog|Xdialog|zenity|kdialog)
+		whiptail|dialog|Xdialog|yad|zenity|kdialog)
 			dialog_select "$@"
 			selection=$?
 			;;
@@ -1800,7 +1862,7 @@ user_prompt() {
 		unset alreadyset; unset promptvariable
 	fi
 	case "${SGUI}" in
-		whiptail|dialog|Xdialog|zenity|kdialog)
+		whiptail|dialog|Xdialog|yad|zenity|kdialog)
 			dialog_prompt "$@"
 			selection=$?
 			;;
@@ -2332,6 +2394,7 @@ find_gui() {
 	debug "Selecting GUI.\n"
 	if [ -n "${stick_to_console}" -a -n "$SGUI" ]; then
 		debug "Validating pre-selected GUI: %s\n" "${SGUI}"
+		[ "a$SGUI" = "ayad" ] && unset SGUI		
 		[ "a$SGUI" = "azenity" ] && unset SGUI
 		[ "a$SGUI" = "agdialog" ] && unset SGUI
 		[ "a$SGUI" = "akdialog" ] && unset SGUI
@@ -2350,6 +2413,7 @@ find_gui() {
 		[ "a${SGUI}" = "a9menu" ] && ! find_binary "9menu" && unset SGUI
 		[ "a${SGUI}" = "a9menu" ] && ! find_binary "xterm" && unset SGUI
 		[ -z "${SGUI}" ] && find_binary "kdialog" && SGUI="kdialog"
+		[ -z "${SGUI}" ] && find_binary "yad" && SGUI="yad"
 		[ -z "${SGUI}" ] && find_binary "zenity" && SGUI="zenity"
 		[ -z "${SGUI}" ] && find_binary "Xdialog" && SGUI="Xdialog"
 		[ -z "${SGUI}" ] && find_binary "gnome-terminal" && SGUI="gnome-terminal"
@@ -2370,7 +2434,7 @@ find_gui() {
 	[ "a${SGUI}" = "adialog" ] && addexittrap "dialog_clearscreen"
 	[ "a${SGUI}" = "aXdialog" -o "a${SGUI}" = "a9menu" ] && export notranslate=yes && unset foldwrapping && need_arg "foldwrapping"
 	[ "a${SGUI}" = "adialog" -o "a${SGUI}" = "awhiptail" -o "a${SGUI}" = "aterminal" -o "a${SGUI}" = "ainteractive terminal" ] && export stick_to_console=yes
-	[ "a${SGUI}" = "adialog" -o "a${SGUI}" = "awhiptail" -o "a${SGUI}" = "ainteractive terminal" -o "a${SGUI}" = "aXdialog" -o "a${SGUI}" = "azenity" -o "a${SGUI}" = "akdialog" -o "a${SGUI}" = "a9menu" ] && export interactive=yes
+	[ "a${SGUI}" = "adialog" -o "a${SGUI}" = "awhiptail" -o "a${SGUI}" = "ainteractive terminal" -o "a${SGUI}" = "aXdialog" -o "a${SGUI}" = "yad" -o "a${SGUI}" = "azenity" -o "a${SGUI}" = "akdialog" -o "a${SGUI}" = "a9menu" ] && export interactive=yes
 	debug "%s selected as GUI.\n" "${SGUI}"
 	# Forward to terminal if have to do so
 	case "${SGUI}" in
@@ -6585,6 +6649,7 @@ action_info() {
 			[ "a${localtext}" != "a" ] && infotext=`${printfbin} "%s\n%s\n" "${infotext}" "${localtext}"`; unset localtext
 			unset localpeer
 		fi
+		[ "a${SGUI}" != "ayad" ] && infotext=`echo "${infotext}" | ${sedbin} -e "s/\(		*\)/ /g"`
 		[ "a${SGUI}" != "azenity" ] && infotext=`echo "${infotext}" | ${sedbin} -e "s/\(		*\)/ /g"`
 		notify "%s\n" "${infotext}"
 	else
@@ -6887,7 +6952,7 @@ action_clicked() {
 	unset ret; unset tester
 	tester="${SGUI}"; [ "a${tester}" = "a" ] && tester="terminal"
 	case "${SGUI}" in
-		zenity|dialog|Xdialog|whiptail|kdialog)
+		yad|zenity|dialog|Xdialog|whiptail|kdialog)
 			action_menu "$@"
 			ret=$?
 			;;
@@ -7615,7 +7680,7 @@ default_actor() {
 		fi
 	fi
 	case "${SGUI}" in
-		whiptail|dialog|Xdialog|zenity|kdialog)
+		whiptail|dialog|Xdialog|yad|zenity|kdialog)
 			action_menu "$@"
 			return $?
 			;;
@@ -8326,6 +8391,7 @@ parse_switches() {
 	parse_switch "${1}" "dialog" && export SGUI="dialog"
 	parse_switch "${1}" "Xdialog" && export SGUI="Xdialog"
 	parse_switch "${1}" "xdialog" && export SGUI="Xdialog"
+	parse_switch "${1}" "yad" && export SGUI="yad"
 	parse_switch "${1}" "zenity" && export SGUI="zenity"
 	parse_switch "${1}" "kdialog" && export SGUI="kdialog"
 	parse_switch "${1}" "9menu" && export SGUI="9menu"

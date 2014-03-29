@@ -1,4 +1,12 @@
+#######################################################
 # Quanta MobileGenie 4G lte
-TargetVendor=0x0408
+
+DefaultVendor= 0x0408
+DefaultProduct=0xea43
+
+TargetVendor= 0x0408
 TargetProduct=0xea47
-StandardEject=1
+
+MessageContent="5553424312345678000000000000061b000000020000000000000000000000"
+
+CheckSuccess=20

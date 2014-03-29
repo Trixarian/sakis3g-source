@@ -1,4 +1,12 @@
+#######################################################
 # Huawei E3276s-151 and E3251
-TargetVendor=0x12d1
+
+DefaultVendor= 0x12d1
+DefaultProduct=0x156a
+
+TargetVendor=  0x12d1
 TargetProductList="156b,156c"
-MessageContent="55534243123456780000000000000011062000000101000100000000000000"
+
+CheckSuccess=20
+
+MessageContent="55534243123456780000000000000011062000000100000000000000000000"

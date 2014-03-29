@@ -1,2 +1,9 @@
+#######################################################
 # Teracom LW272
+
+DefaultVendor= 0x230d
+DefaultProduct=0x0103
+
 Configuration=2
+
+CheckSuccess=20

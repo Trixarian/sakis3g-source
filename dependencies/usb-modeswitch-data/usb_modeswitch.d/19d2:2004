@@ -1,4 +1,12 @@
+########################################################
 # ZTE MF60
-TargetVendor=0x19d2
+
+DefaultVendor=  0x19d2
+DefaultProduct= 0x2004
+
+TargetVendor= 0x19d2
 TargetProduct=0x1402
-StandardEject=1
+
+MessageContent="5553424312345678000000000000061b000000020000000000000000000000"
+
+CheckSuccess=20
