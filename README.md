@@ -11,13 +11,13 @@ or
 or  
 2c. `sudo ln -s /usr/include/libusb-1.0/libusb.h /usr/include/libusb.h`
 
-Now clone the repo using git:
+Now clone the repo using git:  
 `git clone https://github.com/Trixarian/sakis3g-source.git`
 
-Then change to directory when the repo has downloaded
+Then change to directory when the repo has downloaded:  
 `cd sakis3g-source`
 
-Then compile Sakis3G
+Then compile Sakis3G:  
 `./compile`
 
 Finally copy the compiled file to your bin folder
