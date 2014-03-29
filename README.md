@@ -20,7 +20,7 @@ Then change to directory when the repo has downloaded:
 Then compile Sakis3G:  
 `./compile`
 
-Finally copy the compiled file to your bin folder
+Finally copy the compiled file to your bin folder:  
 `sudo cp build/sakis3gz /usr/bin/sakis3g`
 
 
