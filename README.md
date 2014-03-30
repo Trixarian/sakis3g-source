@@ -20,11 +20,11 @@ Then change to directory when the repo has downloaded:
 Then compile Sakis3G:  
 `./compile`
 
-Use the following to create the stripped version (smallest, but strips docs, man & recompile tools):  
-`./compile stripped`
-
-And the embedded version (complete, but lacks usb_modeswitch and it's sources):  
+And the embedded version (complete, but lacks usb_modeswitch & it's sources):  
 `./compile embedded`
+
+Use the following to create the stripped version (like embedded, but strips docs, man & recompile tools too):  
+`./compile stripped`
 
 Finally copy the compiled file to your bin folder:  
 `sudo cp build/sakis3gz /usr/bin/sakis3g`
