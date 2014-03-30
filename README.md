@@ -20,10 +20,10 @@ Then change to directory when the repo has downloaded:
 Then compile Sakis3G:  
 `./compile`
 
-And the embedded version (complete, but lacks usb_modeswitch & it's sources):  
+Use the following to create the embedded version (complete, but lacks usb_modeswitch & it's sources):  
 `./compile embedded`
 
-Use the following to create the stripped version (like embedded, but strips docs, man & recompile tools too):  
+And the stripped version (like embedded, but strips docs, man pages & recompile tools too):  
 `./compile stripped`
 
 Finally copy the compiled file to your bin folder:  
