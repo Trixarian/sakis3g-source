@@ -27,7 +27,7 @@ Finally copy the compiled file to your bin folder:
 Running
 -------
 
-Once install you can run the program simply by typing sakis3g from the terminal.
+Once installed you can run the program simply by typing sakis3g from the terminal.
 See `sakis3g help` and `sakis3g man` for a complete list of commands.
 
 Use the sakis3g.conf in the files directory as a basis to automated your 3G connection. This will allow the use of the `sakis3g connect` command to connect. Just `sudo cp files/sakis3g.conf /etc` when you're done configuring it.
