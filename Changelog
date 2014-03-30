@@ -8,7 +8,7 @@
     * New functionality:
           o Experimental YAD interface added. 
     * Fixed the following issues:
-          o Usb_ModeSwitch is now compile against libusb-1.0.
+          o Usb_ModeSwitch is now compiled against libusb-1.0.
           o Usb_ModeSwitch will now compile on the newer versions of Ubuntu.
     * Embedded Usb-ModeSwitch:
           o Upgraded to version 2.1.1.
