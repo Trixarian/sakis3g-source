@@ -5,7 +5,7 @@ Required dependencies: libusb-dev (needs to be libusb-1.0.x [or libusbx] and up)
 
 Ubuntu requires additional steps:  
 1. Install libusb-1.0-0-dev  
-2a. Change `#include <libusb.h>` in dependencies/usb-modeswitch.h to `#include <libusb-1.0/libusb.h>`  
+2a. Change `#include <libusb.h>` in dependencies/usb-modeswitch/usb_modeswitch.h to `#include <libusb-1.0/libusb.h>`  
 or  
 2b. `sudo cp /usr/include/libusb-1.0/libusb.h /usr/include`  
 or  
@@ -23,7 +23,7 @@ Then compile Sakis3G:
 Use the following to create the embedded version (complete, but lacks usb_modeswitch & it's sources):  
 `./compile embedded`
 
-And the stripped version (like embedded, but strips docs, man pages & recompile tools too):  
+And the stripped version (smalled & like embedded, but strips docs, man pages & recompile tools):  
 `./compile stripped`
 
 Finally copy the compiled file to your bin folder:  
