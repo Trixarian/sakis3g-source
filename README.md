@@ -1,18 +1,10 @@
 Compiling
 ---------
 
-Required dependencies: libusb-dev (needs to be libusb-1.0.x [or libusbx] and up), ppp
+Required dependencies: libusb-dev, ppp
 
-Ubuntu requires additional steps:  
-1. Install libusb-1.0-0-dev  
-2a. Change `#include <libusb.h>` in dependencies/usb-modeswitch/usb_modeswitch.h to `#include <libusb-1.0/libusb.h>`  
-or  
-2b. `sudo cp /usr/include/libusb-1.0/libusb.h /usr/include`  
-or  
-2c. `sudo ln -s /usr/include/libusb-1.0/libusb.h /usr/include/libusb.h`
-
-Now clone the repo using git:  
-`git clone https://github.com/Trixarian/sakis3g-source.git`
+Now clone the repo branch using git:  
+`git clone https://github.com/Trixarian/sakis3g-source.git -b pre-libusb-1.x`
 
 Then change to directory when the repo has downloaded:  
 `cd sakis3g-source`

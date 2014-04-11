@@ -9,8 +9,8 @@
 # the mode switching program with the matching parameter
 # file from /usr/share/usb_modeswitch
 #
-# Part of usb-modeswitch-2.1.1 package
-# (C) Josua Dietze 2009-2014
+# Part of usb-modeswitch-1.2.7 package
+# (C) Josua Dietze 2009-2013
 
 set arg0 [lindex $argv 0]
 if [regexp {\.tcl$} $arg0] {
@@ -32,10 +32,9 @@ set flags(stordelay) 0
 
 proc {Main} {argv argc} {
 
-global scsi usb config match device flags setup devdir loginit
+global scsi usb config match device flags setup devdir
 
-set flags(logwrite) 0
-Log "[ParseGlobalConfig]"
+set loginit [ParseGlobalConfig]
 
 # The facility to add a symbolic link pointing to the
 # ttyUSB port which provides interrupt transfer, i.e.
@@ -52,35 +51,25 @@ if {[lindex $argv 0] == "--symlink-name"} {
 	SafeExit
 }
 
-if {[lindex $argv 0] == "--switch-systemd"} {
-	set device [string trim [lindex $argv 1] "/-"]
-	set device [regsub {/} $device "-"]
-	set argList [list "" $device]
-	Log "\nStarted via systemd"
+set argList [split [lindex $argv 1] /]
+if [string length [lindex $argList 1]] {
+	set device [lindex $argList 1]
 } else {
-	if {[lindex $argv 0] == "--switch-upstart"} {
-		Log "\nStarted via upstart"
-	}
-	set argList [split [lindex $argv 1] /]
-	if [string length [lindex $argList 1]] {
-		set device [lindex $argList 1]
-	} else {
-		set device "noname"
-	}
+	set device "noname"
 }
+
 if {$flags(stordelay) > 0} {
 	SetStorageDelay $flags(stordelay)
 }
 
-Log "Raw args from udev: [lindex $argv 1]\n"
-
+Log "Raw args from udev: [lindex $argv 1]\n\n$loginit"
 if {$device == "noname"} {
-	Log "\nNo data from udev. Exit"
+	Log "No data from udev. Exiting"
 	SafeExit
 }
 
-if {![regexp -- {--switch-} [lindex $argv 0]]} {
-	Log "\nNo command given. Exit"
+if {[lindex $argv 0] != "--switch-mode"} {
+	Log "No command given. Exiting"
 	SafeExit
 }
 
@@ -89,7 +78,7 @@ set setup(dbdir_etc) /etc/usb_modeswitch.d
 
 
 if {![file exists $setup(dbdir)] && ![file exists $setup(dbdir_etc)]} {
-	Log "\nError: no config database found in /usr/share or /etc. Exit"
+	Log "Error: no config database found in /usr/share or /etc. Exiting"
 	SafeExit
 }
 set bindir /usr/sbin
@@ -98,7 +87,7 @@ set devList1 {}
 set devList2 {}
 
 
-# arg 0: the bus id for the device (udev: %b), often ommitted
+# arg 0: the bus id for the device (udev: %b)
 # arg 1: the "kernel name" for the device (udev: %k)
 #
 # Used to determine the top directory for the device in sysfs
@@ -106,15 +95,16 @@ set devList2 {}
 set ifChk 0
 if {[string length [lindex $argList 0]] == 0} {
 	if {[string length [lindex $argList 1]] == 0} {
-		Log "No device number values given from udev! Exit"
+		Log "No device number values given from udev! Exiting"
 		SafeExit
 	} else {
 		if {![regexp {(.*?):} [lindex $argList 1] d dev_top]} {
 			if [regexp {([0-9]+-[0-9]+\.?[0-9]*.*)} [lindex $argList 1] d dev_top] {
 				# new udev rules file, got to check class of first interface
+				Log "Called by new rules file - remember to check class of first interface ..."
 				set ifChk 1
 			} else {
-				Log "Could not determine device dir from udev values! Exit"
+				Log "Could not determine device dir from udev values! Exiting"
 				SafeExit
 			}
 		}
@@ -124,32 +114,17 @@ if {[string length [lindex $argList 0]] == 0} {
 	regexp {(.*?):} $dev_top d dev_top
 }
 
+# NC
+#set dev_top [lindex $argList 1]
+#
+
 set devdir /sys/bus/usb/devices/$dev_top
 if {![file isdirectory $devdir]} {
-	Log "Top device directory not found ($devdir)! Exit"
+	Log "Top device directory not found ($devdir)! Exiting"
 	SafeExit
 }
-Log "Use top device dir $devdir"
+Log "Using top device dir $devdir"
 
-set iface 0
-if $ifChk {
-	Log "Check class of first interface ..."
-	set iclass [IfClass 0]
-	if {$iface < 0} {
-		Log " No access to interface 0. Exit"
-		SafeExit
-	}
-	Log " Interface class is $iclass."
-	if {$iclass == 8 || $iclass == 3} {
-	} else {
-		Log "No install mode found. Aborting"
-		exit
-	}
-}
-set ifdir [file tail [IfDir $iface]]
-regexp {:([0-9]+\.[0-9]+)$} $ifdir d iface
-
-set flags(logwrite) 1
 
 # Mapping of the short string identifiers (in the config
 # file names) to the long name used here
@@ -166,12 +141,41 @@ set match(uSe) usb(serial)
 
 # Now reading the USB attributes
 if {![ReadUSBAttrs $devdir]} {
-	Log "USB attributes not found in sysfs tree. Exit"
+	Log "USB attributes not found in sysfs tree. Exiting"
 	SafeExit
 }
 
+set iface 0
+if $ifChk {
+	Log "Check class of first interface ..."
+	set iface [ChkIface 0]
+	if {$iface < 0} {
+		set iface [ChkIface 9]
+	}
+	if {$iface < 0} {
+		if {$usb(idVendor)=="19d2" && $usb(idProduct)=="2000"} {
+			set iface [ChkIface 3]
+		}
+# Corrected, was wrongly reported
+#		if {$usb(idVendor)=="16d8" && $usb(idProduct)=="6803"} {
+#			set iface [ChkIface 3]
+#		}
+	}
+	if {$iface < 0} {
+		Log " Device is not in install mode. Exiting"
+		SafeExit
+	} else {
+		Log " Device is in install mode."
+	}
+}
+set ifdir [file tail [IfDir $iface]]
+regexp {:([0-9]+\.[0-9]+)$} $ifdir d iface
+
+Log "Using interface $iface"
+
+
 if $flags(logging) {
-	Log "\n----------------\nUSB values from sysfs:"
+	Log "----------------\nUSB values from sysfs:"
 	foreach attr {manufacturer product serial} {
 		Log "  $attr\t$usb($attr)"
 	}
@@ -179,8 +183,8 @@ if $flags(logging) {
 }
 
 if $flags(noswitching) {
+	Log "\nSwitching globally disabled. Exiting\n"
 	SysLog "usb_modeswitch: switching disabled, no action for $usb(idVendor):$usb(idProduct)"
-	Log "\nSwitching globally disabled. Exit"
 	SafeExit
 }
 
@@ -198,7 +202,7 @@ if {$usb(bNumConfigurations) == "1"} {
 set configList [ConfigGet conflist $usb(idVendor):$usb(idProduct)]
 
 if {[llength $configList] == 0} {
-	Log "Aargh! Config file missing for $usb(idVendor):$usb(idProduct)! Exit"
+	Log "Aargh! Config file missing for $usb(idVendor):$usb(idProduct)! Exiting"
 	SafeExit
 }
 
@@ -219,10 +223,10 @@ if $scsiNeeded {
 		Log "Could not get SCSI attributes, exclude devices with SCSI match"
 	}
 } else {
-	Log "SCSI attributes not needed, move on"
+	Log "SCSI attributes not needed, moving on"
 }
 
-# General wait - some devices need this
+# General wait - this is important
 after 500
 
 # Now check for a matching config file. Matching is done
@@ -234,9 +238,9 @@ foreach configuration $configList {
 	# skipping installer leftovers
 	if [regexp {\.(dpkg|rpm)} $configuration] {continue}
 
-	Log "Check config: $configuration"
+	Log "checking config: $configuration"
 	if [MatchDevice $configuration] {
-		Log "! matched. Read config data"
+		Log "! matched. Reading config data"
 		if [string length $usb(busnum)] {
 			set busParam "-b [string trimleft $usb(busnum) 0]"
 			set devParam "-g [string trimleft $usb(devnum) 0]"
@@ -248,16 +252,16 @@ foreach configuration $configList {
 		ParseDeviceConfig $configBuffer
 		if {$config(waitBefore) == ""} {
 		} else {
-			Log "Delay time of $config(waitBefore) seconds"
+			Log " waiting time set to $config(waitBefore) seconds"
 			append config(waitBefore) "000"
 			after $config(waitBefore)
-			Log " wait is over, start mode switch"
+			Log " waiting is over, switching starts now"
 		}
 		if {$config(noMBIMCheck)==0 && $usb(bNumConfigurations) > 1} {
-			Log "Device may have an MBIM configuration, check driver ..."
+			Log "Device may have an MBIM configuration, checking driver ..."
 			if [CheckMBIM] {
 				Log " driver for MBIM devices is available"
-				Log "Find MBIM configuration number ..."
+				Log "Finding MBIM configuration number ..."
 				if [catch {set cfgno [exec /usr/sbin/usb_modeswitch -j -Q $busParam $devParam -v $usb(idVendor) -p $usb(idProduct)]} err] {
 					Log "Error when trying to find MBIM configuration, switch to legacy modem mode"
 				} else {
@@ -278,7 +282,7 @@ foreach configuration $configList {
 		# Now we are actually switching
 		if $flags(logging) {
 			Log "Command to be run:\nusb_modeswitch -W -D -s 20 $configParam $busParam $devParam -v $usb(idVendor) -p $usb(idProduct) -f \$configBuffer"
-			set report [exec /usr/sbin/usb_modeswitch -W -D -s 20 $configParam $busParam $devParam -v $usb(idVendor) -p $usb(idProduct) -f "$configBuffer" 2>@1]
+			set report [exec /usr/sbin/usb_modeswitch -W -D -s 20 $configParam $busParam $devParam -v $usb(idVendor) -p $usb(idProduct) -f "$configBuffer" 2>@ stdout]
 			Log "\nVerbose debug output of usb_modeswitch and libusb follows"
 			Log "(Note that some USB errors are to be expected in the process)"
 			Log "--------------------------------"
@@ -286,7 +290,7 @@ foreach configuration $configList {
 			Log "--------------------------------"
 			Log "(end of usb_modeswitch output)\n"
 		} else {
-			set report [exec /usr/sbin/usb_modeswitch -Q -D -s 20 $configParam $busParam $devParam -v $usb(idVendor) -p $usb(idProduct) -f "$configBuffer" 2>@1]
+			set report [exec /usr/sbin/usb_modeswitch -Q -D -s 20 $configParam $busParam $devParam -v $usb(idVendor) -p $usb(idProduct) -f "$configBuffer" 2>@ stdout]
 		}
 		break
 	} else {
@@ -308,16 +312,16 @@ if [regexp {ok:busdev} $report] {
 		foreach attr [lsort [array names usb]] {
 			Log "    [format %-26s $attr:] $usb($attr)"
 		}
-		Log "\nMode switching may have failed. Exit"
+		Log "\nMode switching may have failed. Exiting\n"
 		SafeExit
 	}
 } else {
 	if {![file isdirectory $devdir]} {
-		Log "Device directory in sysfs is gone! Something went wrong, abort"
+		Log "Device directory in sysfs is gone! Something went wrong, aborting"
 		SafeExit
 	}
 	if {![regexp {ok:} $report]} {
-		Log "\nCore program reported switching failure. Exit"
+		Log "\nCore program reported switching failure. Exiting\n"
 		SafeExit
 	}
 	# Give the device another second if it's not fully back yet
@@ -332,7 +336,7 @@ if [regexp {ok:busdev} $report] {
 if {$config(driverModule) != "" && $usb($ifdir/bInterfaceClass) != "" && [regexp {ok:} $report]} {
 	if {$usb($ifdir/bInterfaceClass) != "ff"} {
 		set config(driverModule) ""
-		Log " No vendor-specific class found, skip driver check"
+		Log " No vendor-specific class found, skip driver checking"
 	}
 }
 
@@ -342,13 +346,13 @@ if {$config(driverModule) != "" && $usb($ifdir/bInterfaceClass) != "" && [regexp
 if {$config(driverModule) != ""} {
 	if {[string length "$usb(idVendor)$usb(idProduct)"] < 8} {
 		if {![regexp {ok:(\w{4}):(\w{4})} $report d usb(idVendor) usb(idProduct)]} {
-			Log "No target vendor/product ID found or given, can't continue. Abort"
+			Log "No target vendor/product ID found or given, can't continue. Aborting"
 			SafeExit
 		}
 	}
 	# wait for any drivers to bind automatically
 	after 1000
-	Log "Now check for bound driver ..."
+	Log "Now checking for bound driver ..."
 	if {![file exists $devdir/$ifdir/driver]} {
 		Log " no driver has bound to interface 0 yet"
 		AddToList link_list $usb(idVendor):$usb(idProduct)
@@ -387,14 +391,14 @@ if {$config(driverModule) != ""} {
 
 if [regexp {ok:$} $report] {
 	# "NoDriverLoading" was set
-	Log "No driver check or bind for this device"
+	Log "Doing no driver checking or binding for this device"
 }
 
 # In newer kernels there is a switch to avoid the use of a device
 # reset (e.g. from usb-storage) which would possibly switch back
 # a mode-switching device to initial mode
 if [regexp {ok:} $report] {
-	Log "Check for AVOID_RESET_QUIRK kernel attribute"
+	Log "Checking for AVOID_RESET_QUIRK kernel attribute"
 	if [file exists $devdir/avoid_reset_quirk] {
 		if [catch {exec echo "1" >$devdir/avoid_reset_quirk 2>/dev/null} err] {
 			Log " Error setting the attribute: $err"
@@ -406,7 +410,7 @@ if [regexp {ok:} $report] {
 	}
 }
 
-Log "\nAll done, exit\n"
+Log "\nAll done, exiting\n"
 SafeExit
 
 }
@@ -418,7 +422,7 @@ proc {ReadSCSIAttrs} {topdir} {
 global scsi
 set counter 0
 set sysdir $topdir
-Log "Check storage tree in sysfs ..."
+Log "Checking storage tree in sysfs ..."
 while {$counter < 20} {
 	Log " loop $counter/20"
 	if {![file isdirectory $sysdir]} {
@@ -450,7 +454,7 @@ if {$counter == 20} {
 	return 0
 }
 
-Log "Read SCSI values ..."
+Log "Reading SCSI values ..."
 foreach attr {vendor model rev} {
 	if [file exists $sysdir/$attr] {
 		set rc [open $sysdir/$attr r]
@@ -514,9 +518,9 @@ foreach teststring $stringList {
 	set matchstring [lindex $tokenList 1]
 	set blankstring ""
 	regsub -all {_} $matchstring { } blankstring
-	Log "match $match($id)"
-	Log "  string1 (exact):  $matchstring"
-	Log "  string2 (blanks): $blankstring"
+	Log "matching $match($id)"
+	Log "  match string1 (exact):  $matchstring"
+	Log "  match string2 (blanks): $blankstring"
 	Log " device string: [set $match($id)]"
 	if {!([string match *$matchstring* [set $match($id)]] || [string match *$blankstring* [set $match($id)]])} {
 		return 0
@@ -562,7 +566,7 @@ while {![eof $rc]} {
 	}
 
 }
-return "Use global config file: $configFile"
+return "Using global config file: $configFile"
 
 }
 # end of proc {ParseGlobalConfig}
@@ -667,12 +671,12 @@ switch $command {
 	conffile {
 		if [regexp {^pack/} $config] {
 			set config [regsub {pack/} $config {}]
-			Log "Extract config $config from collection $setup(dbdir)/configPack.tar.gz"
+			Log "Extracting config $config from collection $setup(dbdir)/configPack.tar.gz"
 			set configContent [exec tar -xzOf $setup(dbdir)/configPack.tar.gz $config 2>/dev/null]
 		} else {
 			if [regexp [list $setup(dbdir_etc)] $config] {
-				Log "Use config file from override folder $setup(dbdir_etc)"
-				SysLog "usb_modeswitch: use overriding config file $config; make sure this is intended"
+				Log "Using config file from override folder $setup(dbdir_etc)"
+				SysLog "usb_modeswitch: using overriding config file $config; make sure this is intended"
 				SysLog "usb_modeswitch: please report any new or corrected settings; otherwise, check for outdated files"
 			}
 			set rc [open $config r]
@@ -688,31 +692,34 @@ switch $command {
 
 proc {Log} {msg} {
 
-global flags device loginit
+global flags device
 
 if {$flags(logging) == 0} {return}
-
-if $flags(logwrite) {
-	if [string length $loginit] {
-		exec echo "\nUSB_ModeSwitch log from [clock format [clock seconds]]" >/var/log/usb_modeswitch_$device
-		exec echo "$loginit" >>/var/log/usb_modeswitch_$device
-		set loginit ""
+if {![info exists flags(wc)]} {
+	if [catch {set flags(wc) [open /var/log/usb_modeswitch_$device w]} err] {
+		if [catch {set flags(wc) [open /dev/console w]} err] {
+			set flags(wc) "error"
+			return
+		} else {
+			puts $flags(wc) "Error opening log file ($err), redirect to console"
+		}
 	}
-	exec echo $msg >>/var/log/usb_modeswitch_$device
-} else {
-	append loginit "\n$msg"
+	puts $flags(wc) "\n\nUSB_ModeSwitch log from [clock format [clock seconds]]\n"
 }
+if {$flags(wc) == "error"} {return}
+puts $flags(wc) $msg
 
 }
 # end of proc {Log}
 
 
-# Writing the log file and exit
+# Closing the log file if open and exit
 proc {SafeExit} {} {
 
 global flags
-set $flags(logwrite) 1
-Log ""
+if [info exists flags(wc)] {
+	catch {close $flags(wc)}
+}
 exit
 
 }
@@ -724,12 +731,12 @@ global device
 
 proc {hasInterrupt} {ifDir} {
 	if {[llength [glob -nocomplain $ifDir/ttyUSB*]] == 0} {
-		Log "  no ttyUSB interface - skip endpoint check"
+		Log "  no ttyUSB interface - skip checking endpoints"
 		return 0
 	}
 	foreach epDir [glob -nocomplain $ifDir/ep_*] {
 		set e [file tail $epDir]
-		Log "  check $e ..."
+		Log "  checking $e ..."
 		if [file exists $epDir/type] {
 			set rc [open $epDir/type r]
 			set type [read $rc]
@@ -753,7 +760,7 @@ if [file exists $linkpath] {
 		set rawpath [file readlink $linkpath]
 		set trimpath [regsub -all {\.\./} $rawpath {}]
  		if [file isdirectory /sys/$trimpath] {
-			append loginit "\n Use path $path\n"
+			append loginit "\n Using path $path\n"
 			set path /$trimpath
 		}
 	}
@@ -762,7 +769,7 @@ if [file exists $linkpath] {
 if {![regexp {ttyUSB[0-9]+} $path myPort]} {
 	if $flags(logging) {
 		set device [clock clicks]
-		Log "$loginit\nThis is not a ttyUSB port. Abort"
+		Log "$loginit\nThis is not a ttyUSB port. Aborting"
 	}
 	return ""
 }
@@ -771,13 +778,13 @@ set device $myPort
 Log "$loginit\nMy name is $myPort\n"
 
 if {![regexp {(.*?[0-9]+)\.([0-9]+)/ttyUSB} /sys$path d ifRoot ifNum]} {
-	Log "Could not find interface in path\n $path. Abort"
+	Log "Could not find interface in path\n $path. Aborting"
 	return ""
 }
 
 set ifDir $ifRoot.$ifNum
 
-Log "Check my endpoints ...\n in $ifDir"
+Log "Checking my endpoints ...\n in $ifDir"
 if [hasInterrupt $ifDir] {
 	Log "\n--> I am an interrupt port"
 	set rightPort 1
@@ -791,7 +798,7 @@ if [hasInterrupt $ifDir] {
 # possible lower interfaces
 
 if { $rightPort && ($ifNum > 0) } {
-	Log "\nLook for lower ports with interrupt endpoints"
+	Log "\nLooking for lower ports with interrupt endpoints"
 	for {set i 0} {$i < $ifNum} {incr i} {
 		set ifDir $ifRoot.$i
 		Log " in ifDir $ifDir ..."
@@ -848,7 +855,7 @@ if {![file exists $idfile]} {
 		Log "Can't do anymore without module loader; get \"modtools\"!"
 		return
 	}
-	Log "\nTry to load module \"$config(driverModule)\""
+	Log "\nTrying to load module \"$config(driverModule)\""
 	if [catch {set result [exec $loader -v $config(driverModule)]} err] {
 		Log " Running \"$loader $config(driverModule)\" gave an error:\n  $err"
 	} else {
@@ -866,8 +873,8 @@ while {$i < 50} {
 	incr i
 }
 if {$i < 50} {
-	Log "Try to add ID to driver \"$config(driverModule)\""
-	SysLog "usb_modeswitch: add device ID $vid:$pid to driver \"$config(driverModule)\""
+	Log "Trying to add ID to driver \"$config(driverModule)\""
+	SysLog "usb_modeswitch: adding device ID $vid:$pid to driver \"$config(driverModule)\""
 	SysLog "usb_modeswitch: please report the device ID to the Linux USB developers!"
 	if [catch {exec echo "$vid $pid ff" >$idfile} err] {
 		Log " Error adding ID to driver:\n  $err"
@@ -876,16 +883,16 @@ if {$i < 50} {
 	}
 } else {
 	Log " \"$idfile\" not found, check if kernel version is at least 2.6.27"
-	Log "Fall back to \"usbserial\""
+	Log "Falling back to \"usbserial\""
 	set config(driverModule) usbserial
-	Log "\nTry to unload driver \"usbserial\""
+	Log "\nTrying to unload driver \"usbserial\""
 	if [catch {exec $loader -r usbserial} err] {
 		Log " Running \"$loader -r usbserial\" gave an error:\n  $err"
 		Log "No more fallbacks"
 		return
 	}
 	after 50
-	Log "\nTry to load driver \"usbserial\" with device IDs"
+	Log "\nTrying to load driver \"usbserial\" with device IDs"
 	if [catch {set result [exec $loader -v usbserial vendor=0x$vid product=0x$pid]} err] {
 		Log " Running \"$loader usbserial\" gave an error:\n  $err"
 	} else {
@@ -988,15 +995,15 @@ if {[string length $config(targetClass)] || [string length $config(Configuration
 	set config(targetVendor) $usb(idVendor)
 	set config(targetProduct) $usb(idProduct)
 }
-Log "Check success of mode switch for max. $config(checkSuccess) seconds ..."
+Log "Checking success of mode switch for max. $config(checkSuccess) seconds ..."
 
 for {set i 1} {$i <= $config(checkSuccess)} {incr i} {
 	after 1000
 	if {![file isdirectory $devdir]} {
-		Log " Wait for device file system ($i sec.) ..."
+		Log " Waiting for device file system ($i sec.) ..."
 		continue
 	} else {
-		Log " Read attributes ..."
+		Log " Reading attributes ..."
 	}
 	set ifdir [IfDir 0]
 	if {$ifdir == ""} {continue}
@@ -1024,6 +1031,17 @@ return 1
 }
 # end of proc {CheckSuccess}
 
+
+proc {ChkIface} {iface} {
+
+if {[IfClass $iface] == 8} {
+	return $iface
+} else {
+	return -1
+}
+
+}
+# end of proc {ChkIface}
 
 proc {IfDir} {iface} {
 
@@ -1081,7 +1099,7 @@ catch {exec $flags(logger) -p syslog.notice "$msg" 2>/dev/null}
 
 proc {SetStorageDelay} {secs} {
 
-Log "Adjust delay for USB storage devices ..."
+Log "Adjusting delay for USB storage devices ..."
 set attrib /sys/module/usb_storage/parameters/delay_use
 if {![file exists $attrib]} {
 	Log "Error: could not find delay_use attribute"
