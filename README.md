@@ -3,7 +3,7 @@ Compiling
 
 Required dependencies: libusb-dev, ppp
 
-Now clone the repo branch using git:  
+Clone the repo branch using git:  
 `git clone https://github.com/Trixarian/sakis3g-source.git -b pre-libusb-1.x`
 
 Then change to directory when the repo has downloaded:  
