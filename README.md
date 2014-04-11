@@ -3,7 +3,7 @@ Compiling
 
 Required dependencies: libusb-dev (needs to be libusb-1.0.x [or libusbx] and up), ppp
 
-Ubuntu requires additional steps:  
+Debian/Ubuntu requires additional steps:  
 1. Install libusb-1.0-0-dev  
 2a. Change `#include <libusb.h>` in dependencies/usb-modeswitch/usb_modeswitch.h to `#include <libusb-1.0/libusb.h>`  
 or  
