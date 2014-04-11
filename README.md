@@ -23,7 +23,7 @@ Then compile Sakis3G:
 Use the following to create the embedded version (complete, but lacks usb_modeswitch & it's sources):  
 `./compile embedded`
 
-And the stripped version (smalled & like embedded, but strips docs, man pages & recompile tools):  
+And the stripped version (smallest & like embedded, but strips docs, man pages & recompile tools):  
 `./compile stripped`
 
 Finally copy the compiled file to your bin folder:  
