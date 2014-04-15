@@ -1,3 +1,8 @@
+0.2.0e  2014/04/15
+    * Fixed the following issues:
+          o Removed experimental YAD interface since it broke Zenity.
+          o The internal (re)compile command has been fixed.
+
 0.2.0e  2014/03/29
 
     * Embedded Usb-ModeSwitch:
@@ -8,10 +13,9 @@
     * New functionality:
           o Experimental YAD interface added. 
     * Fixed the following issues:
-          o Usb_ModeSwitch is now compiled against libusb-1.0.
           o Usb_ModeSwitch will now compile on the newer versions of Ubuntu.
     * Embedded Usb-ModeSwitch:
-          o Upgraded to version 2.1.1.
+          o Upgraded to version 1.2.7.
           o Reverted to database from 2013-06-10.
 
 0.2.0e  2014/03/24
