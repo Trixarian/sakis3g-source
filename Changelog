@@ -1,3 +1,8 @@
+0.2.0e  2014/04/15
+    * Fixed the following issues:
+          o Removed experimental YAD interface since it broke Zenity.
+          o The internal (re)compile command has been fixed.
+
 0.2.0e  2014/03/29
 
     * Embedded Usb-ModeSwitch:
