@@ -1,4 +1,10 @@
+0.2.0e  2014/09/05
+
+    * Embedded Usb-ModeSwitch:
+          o Upgraded to version 2.1.1.
+
 0.2.0e  2014/04/15
+
     * Fixed the following issues:
           o Removed experimental YAD interface since it broke Zenity.
           o The internal (re)compile command has been fixed.
@@ -6,6 +12,7 @@
 0.2.0e  2014/03/29
 
     * Embedded Usb-ModeSwitch:
+          o Upgraded to version 2.1.0.
           o Updated to custom database based on 2013-11-13 release.
 
 0.2.0e	2014/03/28

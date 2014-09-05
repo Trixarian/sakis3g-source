@@ -9,7 +9,7 @@
 # the mode switching program with the matching parameter
 # file from /usr/share/usb_modeswitch
 #
-# Part of usb-modeswitch-2.1.1 package
+# Part of usb-modeswitch-2.2.0 package
 # (C) Josua Dietze 2009-2014
 
 set arg0 [lindex $argv 0]
@@ -34,6 +34,7 @@ proc {Main} {argv argc} {
 
 global scsi usb config match device flags setup devdir loginit
 
+set flags(config) ""
 set flags(logwrite) 0
 Log "[ParseGlobalConfig]"
 
@@ -134,13 +135,13 @@ Log "Use top device dir $devdir"
 set iface 0
 if $ifChk {
 	Log "Check class of first interface ..."
-	set iclass [IfClass 0]
+	set config(class) [IfClass 0]
 	if {$iface < 0} {
 		Log " No access to interface 0. Exit"
 		SafeExit
 	}
-	Log " Interface class is $iclass."
-	if {$iclass == 8 || $iclass == 3} {
+	Log " Interface class is $config(class)."
+	if {$config(class) == "08" || $config(class) == "03"} {
 	} else {
 		Log "No install mode found. Aborting"
 		exit
@@ -169,6 +170,9 @@ if {![ReadUSBAttrs $devdir]} {
 	Log "USB attributes not found in sysfs tree. Exit"
 	SafeExit
 }
+set config(vendor) $usb(idVendor)
+set config(product) $usb(idProduct)
+
 
 if $flags(logging) {
 	Log "\n----------------\nUSB values from sysfs:"
@@ -191,16 +195,27 @@ if {$usb(bNumConfigurations) == "1"} {
 	set configParam ""
 }
 
-# Check if there is more than one config file for this USB ID,
-# which would make an attribute test necessary. If so, check if
-# SCSI values are needed
+# Check (and switch) for operating system if Huawei device present
 
-set configList [ConfigGet conflist $usb(idVendor):$usb(idProduct)]
+set flags(os) "linux"
+if {$usb(idVendor) == "12d1" && [regexp -nocase {android} [exec cat /proc/version]]} {
+	set flags(os) "android"
+}
+if {$flags(os) == "android"} {
+	set configList [ConfigGet conflist $usb(idVendor):#android]
+} else {
+	set configList [ConfigGet conflist $usb(idVendor):$usb(idProduct)]
+}
 
 if {[llength $configList] == 0} {
 	Log "Aargh! Config file missing for $usb(idVendor):$usb(idProduct)! Exit"
 	SafeExit
 }
+Log "ConfigList: $configList"
+
+# Check if there is more than one config file for this USB ID,
+# which would make an attribute test necessary. If so, check if
+# SCSI values are needed
 
 set scsiNeeded 0
 if {[llength $configList] > 1} {
@@ -229,14 +244,15 @@ after 500
 # by MatchDevice
 
 set report {}
-foreach configuration $configList {
+foreach mconfig $configList {
 
-	# skipping installer leftovers
-	if [regexp {\.(dpkg|rpm)} $configuration] {continue}
+	# skipping installer leftovers like "*.rpmnew"
+	if [regexp {\.(dpkg|rpm)} $mconfig] {continue}
 
-	Log "Check config: $configuration"
-	if [MatchDevice $configuration] {
+	Log "Check config: $mconfig"
+	if [MatchDevice $mconfig] {
 		Log "! matched. Read config data"
+		set flags(config) $mconfig
 		if [string length $usb(busnum)] {
 			set busParam "-b [string trimleft $usb(busnum) 0]"
 			set devParam "-g [string trimleft $usb(devnum) 0]"
@@ -244,10 +260,12 @@ foreach configuration $configList {
 			set busParam ""
 			set devParam ""
 		}
-		set configBuffer [ConfigGet conffile $configuration]
+		set configBuffer [ConfigGet conffile $mconfig]
 		ParseDeviceConfig $configBuffer
-		if {$config(waitBefore) == ""} {
-		} else {
+		if [regexp -nocase {/[0-9a-f]+:#} $flags(config)] {
+			Log "Note: Using generic manufacturer configuration for \"$flags(os)\""
+		}
+		if {$config(waitBefore) != ""} {
 			Log "Delay time of $config(waitBefore) seconds"
 			append config(waitBefore) "000"
 			after $config(waitBefore)
@@ -290,7 +308,7 @@ foreach configuration $configList {
 		}
 		break
 	} else {
-		Log "* no match, not switching with this config"
+		Log "* no match, don't use this config"
 	}
 }
 
@@ -304,10 +322,7 @@ if [regexp {ok:busdev} $report] {
 		SysLog "usb_modeswitch: switched to $usb(idVendor):$usb(idProduct) on [format %03d $usb(busnum)]/[format %03d $usb(devnum)]"
 	} else {
 		Log "\nTarget config not matching - current values are"
-		set attrList {idVendor idProduct bConfigurationValue manufacturer product serial}
-		foreach attr [lsort [array names usb]] {
-			Log "    [format %-26s $attr:] $usb($attr)"
-		}
+		LogAttributes
 		Log "\nMode switching may have failed. Exit"
 		SafeExit
 	}
@@ -640,7 +655,7 @@ set config(waitBefore) [string trimleft $config(waitBefore) 0]
 
 proc ConfigGet {command config} {
 
-global setup
+global setup usb flags
 
 switch $command {
 
@@ -648,6 +663,7 @@ switch $command {
 		# Unpackaged configs first; sorting is essential for priority
 		set configList [lsort -decreasing [glob -nocomplain $setup(dbdir_etc)/$config*]]
 		set configList [concat $configList [lsort -decreasing [glob -nocomplain $setup(dbdir)/$config*]]]
+		eval lappend configList [glob -nocomplain $setup(dbdir)/$usb(idVendor):#$flags(os)]
 		if [file exists $setup(dbdir)/configPack.tar.gz] {
 			Log "Found packed config collection $setup(dbdir)/configPack.tar.gz"
 			if [catch {set packedList [exec tar -tzf $setup(dbdir)/configPack.tar.gz 2>/dev/null]} err] {
@@ -656,12 +672,12 @@ switch $command {
 			}
 			set packedList [split $packedList \n]
 			set packedConfigList [lsort -decreasing [lsearch -glob -all -inline $packedList $config*]]
+			lappend packedConfigList [lsearch -inline $packedList $usb(idVendor):#$flags(os)]
 			# Now add packaged configs with a mark, again sorted for priority
 			foreach packedConfig $packedConfigList {
 				lappend configList "pack/$packedConfig"
 			}
 		}
-
 		return $configList
 	}
 	conffile {
@@ -981,7 +997,7 @@ close $lc
 
 proc {CheckSuccess} {devdir} {
 
-global config usb
+global config usb flags
 set ifdir [file tail [IfDir 0]]
 
 if {[string length $config(targetClass)] || [string length $config(Configuration)]} {
@@ -990,6 +1006,7 @@ if {[string length $config(targetClass)] || [string length $config(Configuration
 }
 Log "Check success of mode switch for max. $config(checkSuccess) seconds ..."
 
+set expected 1
 for {set i 1} {$i <= $config(checkSuccess)} {incr i} {
 	after 1000
 	if {![file isdirectory $devdir]} {
@@ -1005,15 +1022,36 @@ for {set i 1} {$i <= $config(checkSuccess)} {incr i} {
 		Log " Essential attributes are missing, continue wait ..."
 		continue
 	}
-	if [string length $config(targetClass)] {
-		if {![regexp $usb($ifdir/bInterfaceClass) $config(targetClass)]} {continue}
-	}
 	if [string length $config(Configuration)] {
 		if {$usb(bConfigurationValue) != $config(Configuration)} {continue}
 	}
-	if {![regexp $usb(idVendor) $config(targetVendor)]} {continue}
-	if {![regexp $usb(idProduct) $config(targetProduct)]} {continue}
-	Log " All attributes matched"
+	if [string length $config(targetClass)] {
+		if {![regexp $usb($ifdir/bInterfaceClass) $config(targetClass)]} {
+			if {$config(class) != $usb($ifdir/bInterfaceClass} {
+				set expected 0
+			} else {continue}
+		}
+	}
+	if {![regexp $usb(idVendor) $config(targetVendor)]} {
+		if {![regexp $usb(idVendor) $config(vendor)]} {
+			set expected 0
+		} else {continue}
+	}
+	if {![regexp $usb(idProduct) $config(targetProduct)]} {
+		if {![regexp $usb(idProduct) $config(product)]} {
+			set expected 0
+		} else {continue}
+	}
+	if $expected {
+		Log " All attributes matched"
+	} else {
+		if [regexp -nocase {/[0-9a-f]+:#} $flags(config)] {
+			Log " idProduct has changed after generic mode-switch, assume success"
+		} else {
+			Log " Attributes are different but target values are unexpected:"
+			LogAttributes
+		}
+	}
 	break
 }
 if {$i > 20} {
@@ -1052,7 +1090,7 @@ if {![file exists $ifdir/bInterfaceClass]} {
 set rc [open $ifdir/bInterfaceClass r]
 set c [read $rc]
 close $rc
-return [string trimleft [string trim $c] 0]
+return [string trim $c]
 
 }
 # end of proc {IfClass}
@@ -1112,6 +1150,17 @@ return 0
 
 }
 
+proc {LogAttributes} {} {
+
+global flags usb
+if $flags(logging) {
+	set attrList {idVendor idProduct bConfigurationValue manufacturer product serial}
+	foreach attr [lsort [array names usb]] {
+		Log "    [format %-26s $attr:] $usb($attr)"
+	}
+}
+
+}
 
 # The actual entry point
 Main $argv $argc
