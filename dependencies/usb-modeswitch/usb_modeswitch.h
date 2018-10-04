@@ -23,7 +23,7 @@
 */
 
 #include <stdlib.h>
-#include <libusb.h>
+#include <libusb-1.0/libusb.h>
 
 void readConfigFile(const char *configFilename);
 void printConfig();
